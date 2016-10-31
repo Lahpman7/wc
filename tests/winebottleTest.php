@@ -1,7 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-//include_once("../lib/wineBottle.php");
-include "../lib/wineBottle.php";
+include_once("lib/wineBottle.php");
 
 class BottleTest extends TestCase
 {
@@ -18,7 +17,7 @@ class BottleTest extends TestCase
     public function testDelete(){
         $bottleObject = new RegBottle();
         $tester = $bottleObject::deleteBottle("TestProducer","TestWineName","1970", "WineStyleTest",
-        "grapesTest","countryTest", "stateTest","regionTest",89);
+        "grapesTest","countryTest","cityTest", "stateTest","regionTest",89);
         $this->assertTrue($tester);
     }
     public function testRetrieveOne(){
