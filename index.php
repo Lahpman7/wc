@@ -86,9 +86,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
-          <a data-route="users" href="{{baseUrl}}users">
+          <a data-route="white-assessment" href="{{baseUrl}}white-assessment">
             <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
+            <span>White Assesment</span>
           </a>
 
           <a data-route="red-assessment" href="{{baseUrl}}red-assessment">
@@ -176,7 +176,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 
-            <section data-route="users">
+            <section data-route="white-assesment">
               <paper-material elevation="1">
                 <h2 class="page-title">Users</h2>
                 <p>This is the users section</p>
