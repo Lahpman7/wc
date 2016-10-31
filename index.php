@@ -1,8 +1,3 @@
-<?php
-include "./lib/Boo.php";
-$mon = new Boo();
-echo "test: ". $mon->pop();
-?>
 <!doctype html>
 <!--
 @license
@@ -15,7 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <html lang="en">
-<?php session_start();?>
+<?php session_start();
+//require_once('vendor/autoload.php');
+?> 
 <head>
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -89,10 +86,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
-
-          <a data-route="white-assessment" href="{{baseUrl}}white-assessment">
+          <a data-route="users" href="{{baseUrl}}users">
             <iron-icon icon="info"></iron-icon>
-            <span>White Assessment</span>
+            <span>Users</span>
           </a>
 
           <a data-route="red-assessment" href="{{baseUrl}}red-assessment">
@@ -103,8 +99,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="register-wine" href="{{baseUrl}}register-wine">
             <iron-icon icon="assignment"></iron-icon>
             <span>Register Wine</span>
-
-          </a><!--Login declared here -->
+            </a>
+            <!--Register Account Routing --> 
+          <a data-route="register-account" href="{{baseUrl}}register-account">
+            <iron-icon icon="info"></iron-icon>
+            <span>Register Account</span>
+          </a>
+          
+          <!--Login declared here -->
           <a data-route="login-form" href = "{{baseUrl}}login-form">
             <iron-icon icon "mail"></iron-icon>
             <span>Login</span>
@@ -140,318 +142,61 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home">
               <paper-material elevation="1">
-                <wc-search></wc-search>
-                  <p><br>           
-                  <!-- custom element -->  
+                <div>
                   
-                  </p>
+                        <?php 
+                        //echo "<h1>HI!</h1>";
+                        
+                        if(isset($_SESSION['email'])){
+                        $fbPhoto = $_SESSION['image'];
+                        echo '<h1>Welcome, '. $_SESSION['name'] . '</h1>'.'<br>';
+                    	  echo "<img src='$fbPhoto' /><br>";
+                    	  //Logout
+                      }
+                      else{
+                        echo "<h1>Welcome!</h1>";
+                      }
+                      
+                  ?>
+                </div>
+                
               </paper-material>
 
+              <paper-material elevation="1">
+                <p>This is another card.</p>
+                
+
+                
+
+              </paper-material>
+
+              <paper-material elevation="1">
+                <h1 id="license">License</h1>
+                <div>Hi</div>
+              </paper-material>
             </section>
 
-            <section data-route="white-assessment">
+            <section data-route="users">
               <paper-material elevation="1">
-                <h2 class="page-title">White Wine Assessment</h2>
-                 <div right >
-                             <form id="wc-white-assess"  method="post" action="/wc/api/assess.php">
+                <h2 class="page-title">Users</h2>
+                <p>This is the users section</p>
+                <a href$="{{baseUrl}}users/Addy">Addy</a><br>
+                <a href$="{{baseUrl}}users/Rob">Rob</a><br>
+                <a href$="{{baseUrl}}users/Chuck">Chuck</a><br>
+                <a href$="{{baseUrl}}users/Sam">Sam</a>
+              </paper-material>
+            </section>
 
-
-                                 <div class="assess-section" id="white-asses-overview">
-
-
-                                     <wc-button-select-input name="primary_color">
-                                         <paper-button raised noink>Straw</paper-button>
-                                         <paper-button raised noink>Yellow</paper-button>
-                                         <paper-button raised noink>Gold</paper-button>
-
-                                     </wc-button-select-input>
-
-                                     <wc-button-select-input name="secondary_color">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Silver</paper-button>
-                                         <paper-button raised noink>Green</paper-button>
-                                         <paper-button raised noink>Copper</paper-button>
-                                     </wc-button-select-input>
-
-
-                                     <wc-button-select-input name="apple_pear_level" selected="{{pearBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[pearBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="apple_pear"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-                                     <wc-button-select-input name="citrus_fruit" selected="{{citrusBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[citrusBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="citrus_fruit"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-                                     <wc-button-select-input name="stone_fruit" selected="{{stoneBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[stoneBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="stone_fruit"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-                                     <wc-button-select-input name="tropical_melon" selected="{{melonBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[melonBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="tropical_melon"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="fruit_type" selected="{{typeTBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[typeTBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="fruit_type"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-
-                                     <wc-button-select-input name="flowers" selected="{{flowersTBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[flowersTBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="flowers"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-                                     <wc-button-select-input name="herbs" selected="{{herbsTBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[herbsTBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="herbs"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-
-                                     <wc-button-select-input name="vegetal" selected="{{vegetalTBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[vegetalTBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="vegetal"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-                                     <wc-button-select-input name="oxidative" selected="{{oxidativeBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[oxidativeTBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="oxidative"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="yeast_bread_dough" selected="{{yeastBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[yeastBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="yeast_bread_dough"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="ml_butter_cream" selected="{{creamBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[creamBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="ml_butter_cream"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="earth_leaves_mushrooms" selected="{{leavesBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[leavesBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="earth_leaves_mushrooms"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="mineral_stone_sulfur"selected="{{sulferBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[sulferBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="mineral_stone_sulfur"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-                                     <wc-button-select-input name="oak_vanilla_toast_smoke_coconut" selected="{{toastBool}}">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-multi-select-input makevisible="[[toastBool]]"
-                                                            label="Choose all that apply"
-                                                            from="api/white-aroma-values.php"
-                                                            link="oak_vanilla_toast_smoke_coconut"
-                                                            style="width: 100%">
-                                     </wc-multi-select-input>
-
-
-
-
-                                     <wc-button-select-input name="sweetness">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-
-                                     <wc-button-select-input name="acid">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-button-select-input name="alcohol">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-
-                                     <wc-button-select-input name="bitter">
-                                         <paper-button raised noink>None</paper-button>
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>High</paper-button>
-                                     </wc-button-select-input>
-
-
-                                     <wc-button-select-input name="balanced">
-                                         <paper-button raised noink>Yes</paper-button>
-                                         <paper-button raised noink>No</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-button-select-input name="length">
-                                         <paper-button raised noink>Short</paper-button>
-                                         <paper-button raised noink>Medium</paper-button>
-                                         <paper-button raised noink>Medium Plus</paper-button>
-                                         <paper-button raised noink>Long</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-button-select-input name="complexity">
-                                         <paper-button raised noink>Low</paper-button>
-                                         <paper-button raised noink>Moderate</paper-button>
-                                         <paper-button raised noink>Medium Plus</paper-button>
-                                     </wc-button-select-input>
-
-                                     <wc-button-select-input name="quality_for_value">
-                                         <paper-button raised noink>Yes</paper-button>
-                                         <paper-button raised noink>No</paper-button>
-
-                                     </wc-button-select-input>
-
-                                     <input hidden$="{{true}}" type="text" value="{{user.user_name}}" name="user_name">
-                                     <input hidden$="{{true}}" type="text" value="{{params.name}}" name="wine_name">
-                                     <input hidden$="{{true}}" type="text" value="{{params.producer}}" name="wine_producer">
-                                     <input hidden$="{{true}}" type="text" value="{{params.vintage}}" name="wine_vintage">
-                                 </div>
-
-                                <input type="submit" value="Submit">
-
-                             </form>
+            <section data-route="user-info">
+              <paper-material elevation="1">
+                <h2 class="page-title">User: {{params.name}}</h2>
+                <div>This is {{params.name}}'s section</div>
               </paper-material>
             </section>
 
             <section data-route="red-assessment">
               <paper-material elevation="1">
-                <!-- Anita's -->
+                <!-- Anita's --> 
                 <wc-assess id="wc-red-assess"  method="post" action="api/assess.php">
                  <div class="assess-section" id="asses-overview">
 
@@ -738,7 +483,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      <input hidden$="{{true}}" type="text" value="{{params.vintage}}" name="wine_vintage">
                  </div>
                  <button class="btn" name="redAssessReturn" type="submit">Submit</button>
-             </wc-assess>
+             </wc-assess> -->
             </paper-material>
           </section>
           <section data-route="register-wine">
@@ -759,7 +504,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <input is="iron-input" id = "inputGrape" name ="grape" type ="text" placeholder = "Grape (Optional)">
 
                   </paper-input-container>
-
+                    
                     <select name="wine_styles">
                       <option value = "Sparkling White">Sparkling White</option>
                         <option value = "Sparkling Rose">Sparkling Rose</option>
@@ -769,11 +514,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <option value = "Fortified White">Fortified White</option>
                         <option value = "Fortified Red">Fortified Red</option>
                     </select>
-
+                    
                   <paper-input-container>
                       <input is="iron-input" id = "inputCountry" name ="country" type ="text" placeholder = "Country" required>
                   </paper-input-container>
-
+                  
                   <paper-input-container>
                       <input is="iron-input" id = "inputState" name ="state" type ="text" placeholder = "State/Province" required>
                   </paper-input-container>
@@ -789,30 +534,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <paper-input-container>
                       <input is="iron-input" id = "inputAlcohol" name ="alcohol" type ="number" placeholder = "Alcohol Percentage (##)" required>
                   </paper-input-container>
-                    <button name="regWine" type="submit">Register Wine</button>
+                    <button name="regWine" onclick="comparison()" type="submit">Register Wine</button>
                 </form>
               </paper-material>
             </section>
-            <!-- Register Account Form -->
+             <!-- Register Account Form -->
             <section data-route="register-account">
               <paper-material elevation="1">
-                <!--Masons Section-->
-                <form id="register-account-form" method="post" action="api/register-account.php">
-                  <h3>Insert Wine Data! </h3>
+                <form id="register-account-form" method="post"  onsubit= "return comparison();"action="api/register-user.php">
+                  <h3>Create an Account</h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
                   </paper-input-container>
                   <paper-input-container>
-                      <input is="iron-input" id = "inputProducer" name ="password" type ="text" placeholder = "Password" required>
+                      <input is="iron-input" type = "password" id = "pass1" name ="password" type ="text" placeholder = "Password" required>
                   </paper-input-container>
                   <paper-input-container>
-                      <input is="iron-input" id = "inputProducer" name ="confirm_password" type ="text" placeholder = "Confirm Password" required>
+                      <input is="iron-input" type = "password" id = "pass2" onkeyup="checkPass()" name ="confirm_password" type ="text" placeholder = "Confirm Password" required>
+                      <span id="confirmMessage" class="confirmMessage"></span>
                   </paper-input-container>
                   <paper-input-container>
-                      <input is="iron-input" id = "inputProducer" name ="email" type ="text" placeholder = "E-mail" required>
+                      <input is="iron-input" id = "email1" name ="email" type ="text" placeholder = "E-mail" required>
                   </paper-input-container>
                   <paper-input-container>
-                      <input is="iron-input" id = "inputProducer" name ="confirm-email" type ="text" placeholder = "Confirm Email" required>
+                      <input is="iron-input" id = "email2" name ="confirm-email" onkeyup="checkEmail()" type ="text" placeholder = "Confirm Email" required>
+                      <span id = "confirmMessage2" class="confirmMessage2"></span>
                   </paper-input-container>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="firstname" type ="text" placeholder = "First name" required>
@@ -821,6 +567,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <input is="iron-input" id = "inputProducer" name ="lastname" type ="text" placeholder = "Last name" required>
                   </paper-input-container>
 
+                  <label>Age</label><br><br>
                    <select name="age">
                       <option value = "0"> Prefer not to answer</option>
                         <option value = "1"> 20 - 25 </option>
@@ -836,76 +583,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <input is="iron-input" id = "inputProducer" name ="zipcode" type ="text" placeholder = "Zip code" required>
                   </paper-input-container>
                    <select name="employment">
-                      <option value = "consumer"> Consumer </option>
-                        <option value = "producer"> Producer </option>
-                        <option value = "service"> Service/Sales </option>
-                        <option value = "buyer"> Buyer </option>    
+                        <option value = "consumer">Consumer</option>
+                        <option value = "producer">Producer</option>
+                        <option value = "service">Service/Sales</option>
+                        <option value = "buyer">Buyer</option>    
                     </select>
                    <select name="cert_body">
                         <option value = "none"> None </option>
-                        <option value = "">Court of Master Sommeliers Intro Certificate</option>
-                        <option value = "Still White"> Court of Master Sommeliers Certified Sommelier </option>
-                        <option value = "Still Red"> Court of Master Sommeliers Advanced Level </option>
-                        <option value = "Dessert">Dessert </option>
-                        <option value = "Fortified White">Fortified White</option>
-                        <option value = "Fortified Red">Fortified Red</option>
+                        <option value = "Court of Master Sommeliers Intro Certificate">Court of Master Sommeliers Intro Certificate</option>
+                        <option value = "Court of Master Sommeliers Certified Sommelier">Court of Master Sommeliers Certified Sommelier</option>
+                        <option value = "Court of Master Sommeliers Advanced Level">Court of Master Sommeliers Advanced Level</option>
                     </select>
                   <paper-input-container>
-                      <input is="iron-input" id = "inputProducer" name ="producer" type ="text" placeholder = "Producer" required>
+                      <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
                   </paper-input-container>
 
-                    <select name="wine_styles">
-                      <option value = "Sparkling White">Sparkling White</option>
-                        <option value = "Sparkling Rose">Sparkling Rose</option>
-                        <option value = "Still White">Still White</option>
-                        <option value = "Still Red">Still Red</option>
-                        <option value = "Dessert">Dessert </option>
-                        <option value = "Fortified White">Fortified White</option>
-                        <option value = "Fortified Red">Fortified Red</option>
-                    </select>
-
-                  <paper-input-container>
-                      <input is="iron-input" id = "inputCountry" name ="country" type ="text" placeholder = "Country" required>
-                  </paper-input-container>
-
-                  <paper-input-container>
-                      <input is="iron-input" id = "inputState" name ="state" type ="text" placeholder = "State/Province" required>
-                  </paper-input-container>
-
-                  <paper-input-container>
-                      <input is="iron-input" id = "inputRegion" name ="region" type ="text" placeholder = "Region (Optional)">
-                  </paper-input-container>
-
-                  <paper-input-container>
-                      <input is="iron-input" id = "inputSubRegion" name ="sRegion" type ="text" placeholder = "Sub-Region (Optional)">
-                  </paper-input-container>
-
-                  <paper-input-container>
-                      <input is="iron-input" id = "inputAlcohol" name ="alcohol" type ="number" placeholder = "Alcohol Percentage (##)" required>
-                  </paper-input-container>
-                    <button name="regWine" type="submit">Register Wine</button>
+                
+                    <button name="regAccount" type="submit">Register Account</button>
                 </form>
+                
+                <!---facebook-->
               </paper-material>
             </section>
-
             <section data-route="login-form">
               <paper-material elevation="1">
-<<<<<<< Updated upstream
-               
-            
-=======
-                <p>Hello, World!</p>
                 <div>
                   <?php 
-                      require_once ('vendor/autoload.php');
+                  //echo "hi";
+                      echo "ALLOO";
+                      //require_once ('vendor/autoload.php');
                       
-                      //start session above because cache error 
+                      //start session above because cache error
+                      /*
                       $fb = new Facebook\Facebook([
                           'app_id'=>'1773451242931017',
                           'app_secret'=> '5a2fd5013528d9551880d8bf247a661e',
                           'default_graph_version'=>'v2.5'
                       ]);
-                  
+                        
                       $redirecTo = 'https://winarycode-masloph.c9users.io/wc/api/login.php';
                       //will need to change redirect above when migrating to AWS 
                       $helper = $fb->getRedirectLoginHelper();
@@ -956,9 +671,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   		echo '<a href="' . $loginUrl . '">';
                   		echo '<img src="https://i.imgsafe.org/2ae8e6aefa.png"></a>';
                   	}
+                  	*/
+                  	
             ?>
                 </div>
->>>>>>> Stashed changes
               </paper-material>
             </section>
           </iron-pages>
@@ -974,7 +690,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
-
+  <script src ="scripts/validation.js"></script>
+ 
   <!-- endbuild-->
 </body>
 

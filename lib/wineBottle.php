@@ -19,11 +19,11 @@ class RegBottle{
         //can add name and email field(and others when we see Anita's reg user form)
     }   
     public static function insertBottle($producer, $wine_name, $vintage, $wine_style, 
-            $grapes, $country, $state, $city, $region, $alcohol){
-            $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, city, region, alcohol) 
+            $grapes, $country, $state, $region, $alcohol){
+            $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, region, alcohol) 
             VALUES('$producer', '$wine_name','$vintage', '$wine_style', '$grapes', '$country',
-                '$state', '$city','$region','$alcohol');";
-                //need to add city into form in html
+                '$state','$region','$alcohol');";
+          
             $db = Database::getInstance();
             $val = $db->prepare($sql);
             if($val->execute()){
