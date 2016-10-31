@@ -1,7 +1,7 @@
 <?PHP
 use PHPUnit\Framework\TestCase;
-include_once("../lib/user.php");
-
+//include_once("../lib/user.php");
+include "../lib/user.php";
 class UserTest extends TestCase
 {
     public function testUser(){
