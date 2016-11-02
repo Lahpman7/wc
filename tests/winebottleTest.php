@@ -4,8 +4,7 @@ include_once("lib/wineBottle.php");
 
 class BottleTest extends TestCase
 {
-    
-    public function testInsert(){
+   public function testInsert(){
         $bottleObject = new RegBottle();
         
         $tester = $bottleObject::insertBottle("TestProducer","TestWineName","1970", "WineStyleTest",

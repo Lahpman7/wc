@@ -14,5 +14,4 @@
     //print_r($record);
      echo json_encode($record);
      //essentially returns data back to caller for var retrieval
-
 ?>

@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!doctype html>
 <!--
 @license
@@ -10,9 +13,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <html lang="en">
-<?php session_start();
-//require_once('vendor/autoload.php');
-?> 
 <head>
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -86,6 +86,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
+          <a data-route="user-profile" href="{{baseUrl}}user-profile">
+            <iron-icon icon="perm-identity"></iron-icon>
+            <span>Profile</span>
+          </a>
           <a data-route="white-assessment" href="{{baseUrl}}white-assessment">
             <iron-icon icon="info"></iron-icon>
             <span>White Assesment</span>
@@ -100,12 +104,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="assignment"></iron-icon>
             <span>Register Wine</span>
             </a>
-            <!--Register Account Routing --> 
+            <!--Register Account Routing -->
           <a data-route="register-account" href="{{baseUrl}}register-account">
             <iron-icon icon="info"></iron-icon>
             <span>Register Account</span>
           </a>
-          
+
           <!--Login declared here -->
           <a data-route="login-form" href = "{{baseUrl}}login-form">
             <iron-icon icon "mail"></iron-icon>
@@ -143,353 +147,726 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="home">
               <paper-material elevation="1">
                 <div>
-                  
-                        <?php 
-                        //echo "<h1>HI!</h1>";
-                        
-                        if(isset($_SESSION['email'])){
-                        $fbPhoto = $_SESSION['image'];
-                        echo '<h1>Welcome, '. $_SESSION['name'] . '</h1>'.'<br>';
-                    	  echo "<img src='$fbPhoto' /><br>";
-                    	  //Logout
-                      }
-                      else{
-                        echo "<h1>Welcome!</h1>";
-                      }
-                      
-                  ?>
+                     <wc-search></wc-search>
                 </div>
-                
-              </paper-material>
-
-              <paper-material elevation="1">
-                <p>This is another card.</p>
-                
-
-                
-
-              </paper-material>
-
-              <paper-material elevation="1">
-                <h1 id="license">License</h1>
-                <div>Hi</div>
               </paper-material>
             </section>
 
-            <section data-route="white-assesment">
+            <section data-route="user-profile">
               <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href$="{{baseUrl}}users/Addy">Addy</a><br>
-                <a href$="{{baseUrl}}users/Rob">Rob</a><br>
-                <a href$="{{baseUrl}}users/Chuck">Chuck</a><br>
-                <a href$="{{baseUrl}}users/Sam">Sam</a>
-              </paper-material>
+              Update Profile
+                  <form is="iron-form" id="profile-form" method="post" action="api/updateProfile.php">
+                        <paper-input-container>
+                            <input is="iron-input" id = "inputUsername" name ="username" type ="text" placeholder = "Enter new username" required>
+                        </paper-input-container>
+
+                        <paper-input-container>
+                            <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
+                        </paper-input-container>
+                      <button name="updateProfile" type="submit">Update data</button>
+                  </form>
+                </paper-material>
             </section>
 
-            <section data-route="user-info">
+            <!-- White Wine Assessment Form-->
+            <section data-route="white-assessment">
               <paper-material elevation="1">
-                <h2 class="page-title">User: {{params.name}}</h2>
-                <div>This is {{params.name}}'s section</div>
-              </paper-material>
-            </section>
+
+              <h2 class="page-title">White Wine Assessment</h2>
+                <form id="wc-white-assess" method="post" action="api/assess.php">
+                    <h3> Primary Color </h3><br>
+                    <input type="radio" name="primary_color" value=1>Straw
+                    <input type="radio" name="primary_color" value=2>Yellow
+                    <input type="radio" name="primary_color" value=3>Gold
+
+                    <h3> Secondary Color </h3><br>
+                    <input type="radio" name="secondary_color" value=1>None
+                    <input type="radio" name="secondary_color" value=2>Silver
+                    <input type="radio" name="secondary_color" value=3>Green
+                    <input type="radio" name="secondary_color" value=4>Copper
+
+                    <h3> Apple Pear </h3><br>
+                    <input type="radio" name="apple_pear_level" value="0">None
+                    <input type="radio" name="apple_pear_level" value="1">Low
+                    <input type="radio" name="apple_pear_level" value="2">Medium
+                    <input type="radio" name="apple_pear_level" value="3">High
+                    <br>
+
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"apple_pear"}'
+                     handle-as="json"
+                     last-response='{{applePearResponse}}'>
+                    </iron-ajax>
+                    <select name="apple_pear_aromas">
+                        <template is="dom-repeat" items="{{applePearResponse}}">
+                          <option value="{{item.apple_pear}}"> {{item.apple_pear}}</option>
+                        </template>
+                    </select>
+
+                    <h3> Citrus Fruit </h3><br>
+                    <input type="radio" name="citrus_level" value="0">None
+                    <input type="radio" name="citrus_level" value="1">Low
+                    <input type="radio" name="citrus_level" value="2">Medium
+                    <input type="radio" name="citrus_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"citrus_fruit"}'
+                     handle-as="json"
+                     last-response='{{citrusResponse}}'>
+                    </iron-ajax>
+                    <select name="citrus_aromas">
+                      <template is="dom-repeat" items="{{citrusResponse}}">
+                        <option value="{{item.citrus_fruit}}"> {{item.citrus_fruit}}
+                        </option>
+                      </template>
+                    </select>
+
+                    <h3> Stone Fruit </h3><br>
+                    <input type="radio" name="stone_level" value="0">None
+                    <input type="radio" name="stone_level" value="1">Low
+                    <input type="radio" name="stone_level" value="2">Medium
+                    <input type="radio" name="stone_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"stone_fruit"}'
+                     handle-as="json"
+                     last-response='{{stoneResponse}}'>
+                    </iron-ajax>
+                    <select name="stone_aromas">
+                        <template is="dom-repeat" items="{{stoneResponse}}">
+                        <option value="{{item.stone_fruit}}"> {{item.stone_fruit}}</option>
+                      </template>
+                    </select>
+
+                   <h3> Tropical Melon </h3>
+                    <input type="radio" name="tropical_melon_level" value="0">None
+                    <input type="radio" name="tropical_melon_level" value="1">Low
+                    <input type="radio" name="tropical_melon_level" value="2">Medium
+                    <input type="radio" name="tropical_melon_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"tropical_melon"}'
+                     handle-as="json"
+                     last-response='{{tropicalResponse}}'>
+                    </iron-ajax>
+                    <select name="tropical_melon_aromas">
+                        <template is="dom-repeat" items="{{tropicalResponse}}">
+                        <option value="{{item.tropical_melon}}"> {{item.tropical_melon}}</option>
+                      </template>
+                    </select>
+                     <h3> Fruit Type </h3>
+                    <input type="radio" name="fruit_type" value="1">Under Ripe
+                    <input type="radio" name="fruit_type" value="2">Ripe
+                    <input type="radio" name="fruit_type" value="3">Over Ripe Stem Jam
+                    <input type="radio" name="fruit_type" value="4">Dried Baked
+
+                    <h3> Flowers </h3>
+                    <input type="radio" name="flower_level" value="0">None
+                    <input type="radio" name="flower_level" value="1">Low
+                    <input type="radio" name="flower_level" value="2">Medium
+                    <input type="radio" name="flower_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"flowers"}'
+                     handle-as="json"
+                     last-response='{{flowerResponse}}'>
+                    </iron-ajax>
+                    <select name="flowers_aromas">
+                        <template is="dom-repeat" items="{{flowerResponse}}">
+                        <option value="{{item.flowers}}"> {{item.flowers}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Herbs </h3>
+                    <input type="radio" name="herb_level" value="0">None
+                    <input type="radio" name="herb_level" value="1">Low
+                    <input type="radio" name="herb_level" value="2">Medium
+                    <input type="radio" name="herb_level" value="3">High
+                     <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"herbs"}'
+                     handle-as="json"
+                     last-response='{{herbsResponse}}'>
+                    </iron-ajax>
+                    <select name="herbs_aromas">
+                      <template is="dom-repeat" items="{{herbsResponse}}">
+                        <option value="{{item.herbs}}"> {{item.herbs}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Vegetal </h3>
+                    <input type="radio" name="vegetal_level" value="0">None
+                    <input type="radio" name="vegetal_level" value="1">Low
+                    <input type="radio" name="vegetal_level" value="2">Medium
+                    <input type="radio" name="vegetal_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"vegetal"}'
+                     handle-as="json"
+                     last-response='{{vegetalResponse}}'>
+                    </iron-ajax>
+                    <select name="vegetal_aromas">
+                      <template is="dom-repeat" items="{{vegetalResponse}}">
+                        <option value="{{item.vegetal}}"> {{item.vegetal}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Oxidative </h3>
+                    <input type="radio" name="oxidative_level" value="0">None
+                    <input type="radio" name="oxidative_level" value="1">Low
+                    <input type="radio" name="oxidative_level" value="2">Medium
+                    <input type="radio" name="oxidative_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"oxidative"}'
+                     handle-as="json"
+                     last-response='{{oxResponse}}'>
+                    </iron-ajax>
+                    <select name="oxidative_aromas">
+                      <template is="dom-repeat" items="{{oxResponse}}">
+                        <option value="{{item.oxidative}}"> {{item.oxidative}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Yeast Bread Dough  </h3>
+                    <input type="radio" name="yeast_bread_dough_level" value="0">None
+                    <input type="radio" name="yeast_bread_dough_level" value="1">Low
+                    <input type="radio" name="yeast_bread_dough_level" value="2">Medium
+                    <input type="radio" name="yeast_bread_dough_level" value="3">High
+                    <br>
+                     <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"yeast_bread_dough"}'
+                     handle-as="json"
+                     last-response='{{breadResponse}}'>
+                    </iron-ajax>
+                    <select name="yeast_bread_dough_aromas">
+                        <template is="dom-repeat" items="{{breadResponse}}">
+                        <option value="{{item.yeast_bread_dough}}"> {{item.yeast_bread_dough}}</option>
+                      </template>
+                    </select>
+
+                    <h3> ML Butter Cream  </h3>
+                    <input type="radio" name="ml_butter_cream_level" value="0">None
+                    <input type="radio" name="ml_butter_cream_level" value="1">Low
+                    <input type="radio" name="ml_butter_cream_level" value="2">Medium
+                    <input type="radio" name="ml_butter_cream_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"ml_butter_cream"}'
+                     handle-as="json"
+                     last-response='{{mlResponse}}'>
+                    </iron-ajax>
+                    <select name="ml_butter_cream_aromas">
+                      <template is="dom-repeat" items="{{mlResponse}}">
+                        <option value="{{item.ml_butter_cream}}"> {{item.ml_butter_cream}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Earth Leaves Mushroom   </h3>
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="0">None
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="1">Low
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="2">Medium
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"earth_leaves_mushrooms"}'
+                     handle-as="json"
+                     last-response='{{earthResponse}}'>
+                    </iron-ajax>
+                    <select name="earth_leaves_mushrooms_aromas">
+                      <template is="dom-repeat" items="{{earthResponse}}">
+                        <option value="{{item.earth_leaves_mushrooms}}"> {{item.earth_leaves_mushrooms}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Mineral Stone  </h3>
+                    <input type="radio" name="mineral_stone_sulfur_level" value="0">None
+                    <input type="radio" name="mineral_stone_sulfur_level" value="1">Low
+                    <input type="radio" name="mineral_stone_sulfur_level" value="2">Medium
+                    <input type="radio" name="mineral_stone_sulfur_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"mineral_stone_sulfur"}'
+                     handle-as="json"
+                     last-response='{{mineralResponse}}'>
+                    </iron-ajax>
+                    <select name="mineral_stone_sulfur_aromas">
+                      <template is="dom-repeat" items="{{mineralResponse}}">
+                        <option value="{{item.mineral_stone_sulfur}}"> {{item.mineral_stone_sulfur}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Oak Vanilla Smoke Coconut </h3>
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="0">None
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="1">Low
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="2">Medium
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="3">High
+                    <br>
+
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/white-aroma-values.php"
+                     params='{"var" :"oak_vanilla_toast_smoke_coconut"}'
+                     handle-as="json"
+                     last-response='{{oakResponse}}'>
+                    </iron-ajax>
+                    <select name="oak_vanilla_smoke_coconut_aromas">
+                         <template is="dom-repeat" items="{{oakResponse}}">
+                        <option value="{{item.oak_vanilla_toast_smoke_coconut}}"> {{item.oak_vanilla_toast_smoke_coconut}}</option>
+                      </template>
+                    </select>
+
+                    <h3> Sweetness </h3><br>
+                    <input type="radio" name="sweetness" value="1">Bone Dry
+                    <input type="radio" name="sweetness" value="2">Dry
+                    <input type="radio" name="sweetness" value="3">Off Dry
+                    <input type="radio" name="sweetness" value="4">Med. Sweet
+
+                    <h3> Acid </h3><br>
+                    <input type="radio" name="acid" value="1"> Low 
+                    <input type="radio" name="acid" value="2"> Med. -
+                    <input type="radio" name="acid" value="3"> Med. +
+                    <input type="radio" name="acid" value="4"> High
+
+                    <h3> Alcohol </h3><br>
+                    <input type="radio" name="alcohol" value="1"> Low
+                    <input type="radio" name="alcohol" value="2"> Med. -
+                    <input type="radio" name="alcohol" value="3"> Med. +
+                    <input type="radio" name="alcohol" value="4"> High
+
+                    <h3> Bitter </h3><br>
+                    <input type="radio" name="bitter" value="1"> Low
+                    <input type="radio" name="bitter" value="2"> Med. -
+                    <input type="radio" name="bitter" value="3"> Med. +
+                    <input type="radio" name="bitter" value="4"> High
+
+                    <h3> Balanced </h3><br>
+                    <input type="radio" name="balanced" value="1">Yes
+                    <input type="radio" name="balanced" value="2">No
+
+                    <h3> Length </h3><br>
+                    <input type="radio" name="length" value="1">Short
+                    <input type="radio" name="length" value="2">Medium
+                    <input type="radio" name="length" value="3">Medium Plus
+                    <input type="radio" name="length" value="4">Long
+
+                    <h3> Complexity </h3><br>
+                    <input type="radio" name="complexity" value="1">Low
+                    <input type="radio" name="complexity" value="2">Moderate
+                    <input type="radio" name="complexity" value="3">Complex
+
+                    <h3> Quality for price </h3><br>
+                    <input type="radio" name="quality_for_price" value="1">Yes
+                    <input type="radio" name="quality_for_price" value="2">No
+
+                    <h3> Quality for price rate</h3><br>
+                    <input type="radio" name="quality_for_price_rate" value="1">0
+                    <input type="radio" name="quality_for_price_rate" value="2">1
+                    <input type="radio" name="quality_for_price_rate" value="3">2
+                    <input type="radio" name="quality_for_price_rate" value="4">3
+
+                    <button class="btn" name="whiteAssessReturn" type="submit">Submit</button>
+            </form>
+                </paper-material>
+              </section>
 
             <section data-route="red-assessment">
               <paper-material elevation="1">
-                <!-- Anita's --> 
-                <wc-assess id="wc-red-assess"  method="post" action="api/assess.php">
-                 <div class="assess-section" id="asses-overview">
+                <form id="red-wine-assessment" method="post" action="api/assess.php">
+                    <h3> Primary Color </h3><br>
+                    <input type="radio" name="primary_color" value=1>Orange
+                    <input type="radio" name="primary_color" value=2>Garnet
+                    <input type="radio" name="primary_color" value=3>Ruby
+                    <input type="radio" name="primary_color" value=4>Purple
 
-                     <wc-button-select-input name="primary_color">
-                         <paper-button raised noink>Orange</paper-button>
-                         <paper-button raised noink>Garnet</paper-button>
-                         <paper-button raised noink>Ruby</paper-button>
-                         <paper-button raised noink>Purple</paper-button>
-                     </wc-button-select-input>
+                    <h3> Secondary Color </h3><br>
+                    <input type="radio" name="secondary_color" value=1>Brown
+                    <input type="radio" name="secondary_color" value=2>Black/blue
 
-                     <wc-button-select-input name="secondary_color">
-                         <paper-button raised noink>Brown</paper-button>
-                         <paper-button raised noink>Black/Blue</paper-button>
-                     </wc-button-select-input>
+                    <h3> Red Fruit </h3><br>
+                    <input type="radio" name="red_fruits_level" value=0>None
+                    <input type="radio" name="red_fruits_level" value=1>Low
+                    <input type="radio" name="red_fruits_level" value=2>Medium
+                    <input type="radio" name="red_fruits_level" value=3>High
+                    <br>
 
-                     <wc-button-select-input name="red_fruit" selected="{{redBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"red_fruit"}'
+                     handle-as="json"
+                     last-response='{{redFruitResponse}}'>
+                    </iron-ajax>
+                    <select name="red_aromas">
+                        <template is="dom-repeat" items="{{redFruitResponse}}">
 
-                     <wc-multi-select-input makevisible="[[redBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="red_fruit"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                          <option value="{{item.red_fruit}}"> {{item.red_fruit}}</option>
 
-                     <wc-button-select-input name="black_fruit" selected="{{blackBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                        </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[blackBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="black_fruit"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Black Fruit </h3><br>
+                    <input type="radio" name="black_fruit_level" value="0">None
+                    <input type="radio" name="black_fruit_level" value="1">Low
+                    <input type="radio" name="black_fruit_level" value="2">Medium
+                    <input type="radio" name="black_fruit_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"black_fruit"}'
+                     handle-as="json"
+                     last-response='{{blackFruitResponse}}'>
+                    </iron-ajax>
+                    <select name="black_aromas">
+                      <template is="dom-repeat" items="{{blackFruitResponse}}">
+                        <option value="{{item.black_fruit}}"> {{item.black_fruit}}</option>
+                      </template>
+                    </select>
 
-                     <wc-button-select-input name="blue_fruit" selected="{{blueBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Blue Fruit </h3><br>
+                    <input type="radio" name="blue_fruit_level" value="0">None
+                    <input type="radio" name="blue_fruit_level" value="1">Low
+                    <input type="radio" name="blue_fruit_level" value="2">Medium
+                    <input type="radio" name="blue_fruit_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"blue_fruit"}'
+                     handle-as="json"
+                     last-response='{{blueFruitResponse}}'>
+                    </iron-ajax>
+                    <select name="blue_aromas">
+                        <template is="dom-repeat" items="{{blueFruitResponse}}">
+                        <option value="{{item.blue_fruit}}"> {{item.blue_fruit}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[blueBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="blue_fruit"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Fruit Type </h3>
+                    <input type="radio" name="fruit_type" value="1">Under Ripe
+                    <input type="radio" name="fruit_type" value="2">Ripe
+                    <input type="radio" name="fruit_type" value="3">Over Ripe Stem Jam
+                    <input type="radio" name="fruit_type" value="4">Dried Baked
 
-                     <wc-button-select-input name="fruit_type" selected="{{typeBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Flowers </h3>
+                    <input type="radio" name="flowers_level" value="0">None
+                    <input type="radio" name="flowers_level" value="1">Low
+                    <input type="radio" name="flowers_level" value="2">Medium
+                    <input type="radio" name="flowers_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"flowers"}'
+                     handle-as="json"
+                     last-response='{{flowerResponse}}'>
+                    </iron-ajax>
+                    <select name="flowers_aromas">
+                        <template is="dom-repeat" items="{{flowerResponse}}">
+                        <option value="{{item.flowers}}"> {{item.flowers}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[typeBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="fruit_type"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Herbs </h3>
+                    <input type="radio" name="herbs_level" value="0">None
+                    <input type="radio" name="herbs_level" value="1">Low
+                    <input type="radio" name="herbs_level" value="2">Medium
+                    <input type="radio" name="herbs_level" value="3">High
+                     <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"herbs"}'
+                     handle-as="json"
+                     last-response='{{herbsResponse}}'>
+                    </iron-ajax>
+                    <select name="herbs_aromas">
+                      <template is="dom-repeat" items="{{herbsResponse}}">
+                        <option value="{{item.herbs}}"> {{item.herbs}}</option>
+                      </template>
+                    </select>
 
-                     <wc-button-select-input name="flowers" selected="{{flowersBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Vegetal </h3>
+                    <input type="radio" name="vegetal_level" value="0">None
+                    <input type="radio" name="vegetal_level" value="1">Low
+                    <input type="radio" name="vegetal_level" value="2">Medium
+                    <input type="radio" name="vegetal_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"vegetal"}'
+                     handle-as="json"
+                     last-response='{{vegetalResponse}}'>
+                    </iron-ajax>
+                    <select name="vegetal_aromas">
+                      <template is="dom-repeat" items="{{vegetalResponse}}">
+                        <option value="{{item.vegetal}}"> {{item.vegetal}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[flowersBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="flowers"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Mint Eucalyptus  </h3>
+                    <input type="radio" name="mint_eucalyptus_level" value="0">None
+                    <input type="radio" name="mint_eucalyptus_level" value="1">Low
+                    <input type="radio" name="mint_eucalyptus_level" value="2">Medium
+                    <input type="radio" name="mint_eucalyptus_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"mint_eucalyptus"}'
+                     handle-as="json"
+                     last-response='{{mintEucalyptusResponse}}'>
+                    </iron-ajax>
+                    <select name="mint_eucalyptus_aromas">
+                      <template is="dom-repeat" items="{{mintEucalyptusResponse}}">
+                        <option value="{{item.mint_eucalyptus}}"> {{item.mint_eucalyptus}}</option>
+                      </template>
+                    </select>
 
-                     <wc-button-select-input name="herbs" selected="{{herbsBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Pepper Spice  </h3>
+                    <input type="radio" name="pepper_spice_level" value="0">None
+                    <input type="radio" name="pepper_spice_level" value="1">Low
+                    <input type="radio" name="pepper_spice_level" value="2">Medium
+                    <input type="radio" name="pepper_spice_level" value="3">High
+                    <br>
+                     <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"pepper_spice"}'
+                     handle-as="json"
+                     last-response='{{pepperResponse}}'>
+                    </iron-ajax>
+                    <select name="pepper_spice_aromas">
+                        <template is="dom-repeat" items="{{pepperResponse}}">
+                        <option value="{{item.pepper_spice}}"> {{item.pepper_spice}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[herbsBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="herbs"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Cocoa Coffee  </h3>
+                    <input type="radio" name="cocoa_coffee_level" value="0">None
+                    <input type="radio" name="cocoa_coffee_level" value="1">Low
+                    <input type="radio" name="cocoa_coffee_level" value="2">Medium
+                    <input type="radio" name="cocoa_coffee_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"cocoa_coffee"}'
+                     handle-as="json"
+                     last-response='{{cocoaResponse}}'>
+                    </iron-ajax>
+                    <select name="cocoa_coffee_aromas">
+                      <template is="dom-repeat" items="{{cocoaResponse}}">
+                        <option value="{{item.cocoa_coffee}}"> {{item.cocoa_coffee}}</option>
+                      </template>
+                    </select>
 
-                     <wc-button-select-input name="vegetal" selected="{{vegetalBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Meat Leather  </h3>
+                    <input type="radio" name="meat_leather_level" value="0">None
+                    <input type="radio" name="meat_leather_level" value="1">Low
+                    <input type="radio" name="meat_leather_level" value="2">Medium
+                    <input type="radio" name="meat_leather_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"meat_leather"}'
+                     handle-as="json"
+                     last-response='{{meatResponse}}'>
+                    </iron-ajax>
+                    <select name="meat_leather_aromas">
+                      <template is="dom-repeat" items="{{meatResponse}}">
+                        <option value="{{item.meat_leather}}"> {{item.meat_leather}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[vegetalBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="vegetal"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Tobacco Tar  </h3>
+                    <input type="radio" name="tobacco_tar_level" value="0">None
+                    <input type="radio" name="tobacco_tar_level" value="1">Low
+                    <input type="radio" name="tobacco_tar_level" value="2">Medium
+                    <input type="radio" name="tobacco_tar_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"tobacco_tar"}'
+                     handle-as="json"
+                     last-response='{{tobaccoResponse}}'>
+                    </iron-ajax>
+                    <select name="tobacco_tar_aromas">
+                      <template is="dom-repeat" items="{{tobaccoResponse}}">
+                        <option value="{{item.tobacco_tar}}"> {{item.tobacco_tar}}</option>
+                      </template>
+                    </select>
 
+                    <h3> Earth Leaves Mushroom   </h3>
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="0">None
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="1">Low
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="2">Medium
+                    <input type="radio" name="earth_leaves_mushrooms_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"earth_leaves_mushrooms"}'
+                     handle-as="json"
+                     last-response='{{earthResponse}}'>
+                    </iron-ajax>
+                    <select name="earth_leaves_mushrooms_aromas">
+                      <template is="dom-repeat" items="{{earthResponse}}">
+                        <option value="{{item.earth_leaves_mushrooms}}"> {{item.earth_leaves_mushrooms}}</option>
+                      </template>
+                    </select>
 
-                     <wc-button-select-input name="mint_eucalyptus" selected="{{mintBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Mineral Stone  </h3>
+                    <input type="radio" name="mineral_stone_sulfur_level" value="0">None
+                    <input type="radio" name="mineral_stone_sulfur_level" value="1">Low
+                    <input type="radio" name="mineral_stone_sulfur_level" value="2">Medium
+                    <input type="radio" name="mineral_stone_sulfur_level" value="3">High
+                    <br>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"mineral_stone_sulfur"}'
+                     handle-as="json"
+                     last-response='{{mineralResponse}}'>
+                    </iron-ajax>
+                    <select name="mineral_stone_sulfur_aromas">
+                      <template is="dom-repeat" items="{{mineralResponse}}">
+                        <option value="{{item.mineral_stone_sulfur}}"> {{item.mineral_stone_sulfur}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[mintBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="mint_eucalyptus"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Oak Vanilla Smoke Coconut </h3>
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="0">None
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="1">Low
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="2">Medium
+                    <input type="radio" name="oak_vanilla_smoke_coconut_level" value="3">High
+                    <br>
 
-                     <wc-button-select-input name="pepper_spice" selected="{{pepperBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <iron-ajax auto
+                     id="ajax"
+                     method="GET"
+                     url="api/red-aroma-values.php"
+                     params='{"var" :"oak_vanilla_toast_smoke_coconut"}'
+                     handle-as="json"
+                     last-response='{{oakResponse}}'>
+                    </iron-ajax>
+                    <select name="oak_vanilla_smoke_coconut_aromas">
+                         <template is="dom-repeat" items="{{oakResponse}}">
+                        <option value="{{item.oak_vanilla_toast_smoke_coconut}}"> {{item.oak_vanilla_toast_smoke_coconut}}</option>
+                      </template>
+                    </select>
 
-                     <wc-multi-select-input makevisible="[[pepperBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="pepper_spice"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Sweetness </h3><br>
+                    <input type="radio" name="sweetness" value="1">Bone Dry
+                    <input type="radio" name="sweetness" value="2">Dry
+                    <input type="radio" name="sweetness" value="3">Off Dry
+                    <input type="radio" name="sweetness" value="4">Med. Sweet
 
-                     <wc-button-select-input name="cocoa_coffee" selected="{{cocoaBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Alcohol </h3><br>
+                    <input type="radio" name="alcohol" value="1"> Low
+                    <input type="radio" name="alcohol" value="2"> Med. -
+                    <input type="radio" name="alcohol" value="3"> Med. +
+                    <input type="radio" name="alcohol" value="4"> High
 
-                     <wc-multi-select-input makevisible="[[cocoaBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="cocoa_coffee"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Tannin </h3><br>
+                    <input type="radio" name="tannin" value="1"> Low
+                    <input type="radio" name="tannin" value="2"> Med. -
+                    <input type="radio" name="tannin" value="3"> Med. +
+                    <input type="radio" name="tannin" value="4"> High
 
-                     <wc-button-select-input name="meat_leather" selected="{{meatBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Bitter </h3><br>
+                    <input type="radio" name="bitter" value="1"> Low
+                    <input type="radio" name="bitter" value="2"> Med. -
+                    <input type="radio" name="bitter" value="3"> Med. +
+                    <input type="radio" name="bitter" value="4"> High
 
-                     <wc-multi-select-input makevisible="[[meatBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="meat_leather"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Balanced </h3><br>
+                    <input type="radio" name="balanced" value="1">Yes
+                    <input type="radio" name="balanced" value="2">No
 
-                     <wc-button-select-input name="tobacco_tar"selected="{{tabaccoBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Length </h3><br>
+                    <input type="radio" name="length" value="1">Short
+                    <input type="radio" name="length" value="2">Medium
+                    <input type="radio" name="length" value="3">Medium Plus
+                    <input type="radio" name="length" value="4">Long
 
-                     <wc-multi-select-input makevisible="[[tabaccoBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="tobacco_tar"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Complexity </h3><br>
+                    <input type="radio" name="complexity" value="1">Low
+                    <input type="radio" name="complexity" value="2">Moderate
+                    <input type="radio" name="complexity" value="3">Complex
 
-                     <wc-button-select-input name="earth_leaves_mushrooms" selected="{{earthBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
+                    <h3> Quality for price </h3><br>
+                    <input type="radio" name="quality_for_price" value="1">Yes
+                    <input type="radio" name="quality_for_price" value="2">No
 
-                     <wc-multi-select-input makevisible="[[earthBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="earth_leaves_mushrooms"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
+                    <h3> Quality for price rate</h3><br>
+                    <input type="radio" name="quality_for_price_rate" value="1">0
+                    <input type="radio" name="quality_for_price_rate" value="2">1
+                    <input type="radio" name="quality_for_price_rate" value="3">2
+                    <input type="radio" name="quality_for_price_rate" value="4">3
 
-                     <wc-button-select-input name="mineral_stone_sulfur" selected="{{mineralBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-multi-select-input makevisible="[[mineralBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="mineral_stone_sulfur"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
-
-                     <wc-button-select-input name="oak_vanilla_toast_smoke_coconut" selected="{{oakBool}}">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-multi-select-input makevisible="[[oakBool]]"
-                                            label="Choose all that apply"
-                                            from="api/red-aroma-values.php"
-                                            link="oak_vanilla_toast_smoke_coconut"
-                                            style="width: 100%">
-                     </wc-multi-select-input>
-
-                     <wc-button-select-input name="sweetness">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="acid">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="alcohol">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="tannin">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                      <wc-button-select-input name="bitter">
-                         <paper-button raised noink>None</paper-button>
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>High</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="balanced">
-                         <paper-button raised noink>Yes</paper-button>
-                         <paper-button raised noink>No</paper-button>
-
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="length">
-                         <paper-button raised noink>Short</paper-button>
-                         <paper-button raised noink>Medium</paper-button>
-                         <paper-button raised noink>Medium Plus</paper-button>
-                         <paper-button raised noink>Long</paper-button>
-                     </wc-button-select-input>
-
-                     <wc-button-select-input name="complexity">
-                         <paper-button raised noink>Low</paper-button>
-                         <paper-button raised noink>Moderate</paper-button>
-                         <paper-button raised noink>Medium Plus</paper-button>
-                     </wc-button-select-input>
-
-                     <!--<input hidden$="{{true}}" type="text" value="{{user.user_name}}" name="user_name">-->
-                     <input hidden$="{{true}}" type="text" value="{{params.name}}" name="wine_name">
-                     <input hidden$="{{true}}" type="text" value="{{params.producer}}" name="wine_producer">
-                     <input hidden$="{{true}}" type="text" value="{{params.vintage}}" name="wine_vintage">
-                 </div>
-                 <button class="btn" name="redAssessReturn" type="submit">Submit</button>
-             </wc-assess> -->
+                    <button class="btn" name="redAssessReturn" type="submit">Submit</button>
+              </form>
             </paper-material>
           </section>
           <section data-route="register-wine">
               <paper-material elevation="1">
                 <!--Masons Section-->
-                <form id="register-wine-form" method="post" action="api/register-wine.php">
+                <form is="iron-form" id="register-wine-form" method="post" action="api/register-wine.php">
                   <h3>Insert Wine Data! </h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="producer" type ="text" placeholder = "Producer" required>
@@ -504,7 +881,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <input is="iron-input" id = "inputGrape" name ="grape" type ="text" placeholder = "Grape (Optional)">
 
                   </paper-input-container>
-                    
+
                     <select name="wine_styles">
                       <option value = "Sparkling White">Sparkling White</option>
                         <option value = "Sparkling Rose">Sparkling Rose</option>
@@ -514,11 +891,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <option value = "Fortified White">Fortified White</option>
                         <option value = "Fortified Red">Fortified Red</option>
                     </select>
-                    
+
                   <paper-input-container>
                       <input is="iron-input" id = "inputCountry" name ="country" type ="text" placeholder = "Country" required>
                   </paper-input-container>
-                  
+
                   <paper-input-container>
                       <input is="iron-input" id = "inputState" name ="state" type ="text" placeholder = "State/Province" required>
                   </paper-input-container>
@@ -586,7 +963,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <option value = "consumer">Consumer</option>
                         <option value = "producer">Producer</option>
                         <option value = "service">Service/Sales</option>
-                        <option value = "buyer">Buyer</option>    
+                        <option value = "buyer">Buyer</option>
                     </select>
                    <select name="cert_body">
                         <option value = "none"> None </option>
@@ -597,91 +974,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
                   </paper-input-container>
-
-                
                     <button name="regAccount" type="submit">Register Account</button>
                 </form>
-                
-                <!---facebook-->
               </paper-material>
             </section>
-            <section data-route="login-form">
+
+             <section data-route="login-form">
               <paper-material elevation="1">
                 <div>
-                  <?php 
-                  //echo "hi";
-                      echo "ALLOO";
-                      //require_once ('vendor/autoload.php');
-                      
-                      //start session above because cache error
-                      /*
-                      $fb = new Facebook\Facebook([
-                          'app_id'=>'1773451242931017',
-                          'app_secret'=> '5a2fd5013528d9551880d8bf247a661e',
-                          'default_graph_version'=>'v2.5'
-                      ]);
-                        
-                      $redirecTo = 'https://winarycode-masloph.c9users.io/wc/api/login.php';
-                      //will need to change redirect above when migrating to AWS 
-                      $helper = $fb->getRedirectLoginHelper();
-                      try{
-                          $accessToken = $helper->getAccessToken();
-                      }
-                      catch(Facebooks\Exceptions\FacebookResponseException $e){
-                          echo "Error" . $e->getMessage();
-                          exit;
-                      }
-                      catch(Facebook\Exceptions\FacebookSDKException $e){
-                          echo " FB SDK ERR". $e->getMessage();
-                          exit;
-                      }
-                      if (isset($accessToken)) {
-                  	  	//logged in
-                  	  	$fb->setDefaultAccessToken($accessToken);
-                  		try {
-                  		  $response = $fb->get('/me?fields=email,name');
-                  		  $userNode = $response->getGraphUser();
-                  		}catch(Facebook\Exceptions\FacebookResponseException $e) {
-                  		  echo 'error: ' . $e->getMessage();
-                  		  exit;
-                  		} catch(Facebook\Exceptions\FacebookSDKException $e) {
-                  		  echo 'SDK error: ' . $e->getMessage();
-                  		  exit;
-                  		}
-                  		// Payload, where we could see if its in database, if not insert.
-                  		echo 'Name: ' . $userNode->getName().'<br>';
-                  		echo 'User ID: ' . $userNode->getId().'<br>';
-                  		echo 'Email: ' . $userNode->getProperty('email').'<br><br>';
-                  		$fbPhoto = 'https://graph.facebook.com/'.$userNode->getId().'/picture?width=400';
-                  		echo "<img src='$fbPhoto' /><br>";
-                  		
-                  	  
-                	    }else{
-                	    //may be ugly, but I can add the basic login form here as well. DONE
-                	    echo '<form action = " " method = "POST">';
-                	    echo 'Login<br>Username<input type="text" name = "uName"> <br>';
-                	    echo 'Password <input type = "password" name = "passWord"><br>';
-                	    echo '<button name="signIn" type="submit">Login</button>';
-                	    echo '</form>';
-                	    echo '<br>Alternative Log in Methods<br>';
-                	    
-                  		$permissions  = ['email'];
-                  		$loginUrl = $helper->getLoginUrl($redirecTo,$permissions);
-                  	
-                  		echo '<a href="' . $loginUrl . '">';
-                  		echo '<img src="https://i.imgsafe.org/2ae8e6aefa.png"></a>';
-                  	}
-                  	*/
-                  	
-            ?>
+                 <form class="" action="api/local-login.php" method="post">
+                   <h1>Please Login</h1>
+                   <input type="text" name="username" placeholder="Username" value="">
+                   <input type="email" name="password" placeholder="Password" value="">
+                   <button type="submit" name="login-submit">Submit</button>
+                 </form>
                 </div>
               </paper-material>
             </section>
+
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
-
     <paper-toast id="toast">
       <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
     </paper-toast>
@@ -691,8 +1005,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <script src ="scripts/validation.js"></script>
- 
   <!-- endbuild-->
 </body>
-
 </html>

@@ -1,13 +1,14 @@
 <?php 
-    include_once('database.php');
-    
+include_once('database.php');
+session_start();
 class RegUser {
     public static $name;
     public static $email;
     public function __construct(){
         
     }
-    //function if the user exits 
+
+   //function if the user exits 
    public static function isUser($uname){
         //select statement for pulling user name
         $db = Database::getInstance();
@@ -26,9 +27,10 @@ class RegUser {
             return false;
         }
     }
+
     public static function insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date){
         
-      $db = Database::getInstance();
+       $db = Database::getInstance();
        $sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES 
         ('$username','$password','$email','$firstname','$lastname',$age,$zipcode,'$employment','$cert_body',$date)";
        $val = $db->prepare($sql);
@@ -53,5 +55,35 @@ class RegUser {
             }
     }
     
+    public static function updateUser($oldUserName,$newUserName){
+        $db = Database::getInstance();
+        $sql = "UPDATE user
+			SET username = '$newUserName' 
+			WHERE username = '$currentUsername'";
+			
+		$val = $db->prepare($sql);
+	    if($val->execute()){
+	        $_SESSION('username') = $newUserName;
+            return true;
+        }
+         else{
+             return false;
+        }
+
+    }
+    public static function updatePass($oldPassword,$newPassword,$currentUsername){
+        $db = Database::getInstance();
+        $sql = "UPDATE user
+			SET password = '$newPassword' 
+			WHERE username = '$currentUsername'";
+			
+		$val = $db->prepare($sql);
+	    if($val->execute()){
+            return true;
+        }
+         else{
+             return false;
+        }
+    }
 }
 ?>

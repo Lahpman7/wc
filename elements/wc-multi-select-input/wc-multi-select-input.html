@@ -64,7 +64,7 @@
         <paper-input hidden$="[[!otherFieldSelected]]" name="[[_setOtherName(link)]]" value="" label="Other..." > </paper-input>
 
 
-      
+
 
     </template>
     <script>
@@ -78,7 +78,7 @@
             ],
 
             properties:{
-                openAnimationConfig: {
+               /** openAnimationConfig: {
                     type: Array,
                     value: function() {
                         return [{
@@ -100,7 +100,7 @@
                             }
                         }];
                     }
-                },
+                },**/
                 label: {
                     type: String,
                     value: "label"
@@ -220,7 +220,7 @@
                 for (var key in item) {
                     var arrOfWords = item[key].split(" ");
                     var lowercaseArrOfWords = arrOfWords.map(function(str) {
-                        
+
                         return str.toLowerCase()
                     });
                     var name  = lowercaseArrOfWords.join("_");

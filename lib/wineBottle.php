@@ -1,6 +1,11 @@
 <?php 
+<<<<<<< HEAD
     
     include_once('database.php');
+=======
+include_once('database.php');
+
+>>>>>>> fa3845c1f472dcc8cf1c025de920120cc63cc8d6
 class RegBottle{
     public static $producer;
     public static $wine_name;
@@ -17,7 +22,8 @@ class RegBottle{
         //$this->email = "Email";
         //removed, it was suggested we add these above instead of in constructor
         //can add name and email field(and others when we see Anita's reg user form)
-    }   
+    } 
+
     public static function insertBottle($producer, $wine_name, $vintage, $wine_style, 
             $grapes, $country, $state, $region, $alcohol){
             $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, region, alcohol) 
@@ -32,8 +38,8 @@ class RegBottle{
             else{
                 return false;
             }
-    
     }
+
     public static function deleteBottle($producer, $wine_name, $vintage, $wine_style,
             $grapes, $country, $state, $city, $region, $alcohol){
                 $sql = "DELETE FROM wine_bottle WHERE producer = '$producer'";
@@ -46,6 +52,7 @@ class RegBottle{
                     return false;
                 }
     }
+
     public static function retrieveBottle($wine_name){
         $db = Database::getInstance();
        
@@ -63,6 +70,7 @@ class RegBottle{
             return "";
         }
     }
+    
     public static function retrieveAll(){
         $db = Database::getInstance();
         // NEED TO INSTALL +json 
@@ -76,6 +84,4 @@ class RegBottle{
         return json_encode($retrieval);
     }
 }
-
-
 ?>
