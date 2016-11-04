@@ -6,9 +6,13 @@ class Database {
            
 public static function getInstance() {
         //hardcoded values need to change later 
+        $host = "localhost";
+        $dbname = "wc_db";
+        $username = "masloph";
+        $password = "";
         if(!isset(self::$instance)){
             $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-            self::$instance = new PDO("mysql:host=wc-database.cvuylrrqda7p.us-west-1.rds.amazonaws.com;dbname=wc_db", "wc_user", "wc4tw!123");
+            self::$instance = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
         }
     return self::$instance;
     }

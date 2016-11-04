@@ -1,6 +1,6 @@
 <?php 
 require_once("../lib/user.php");
-if(isset($_POST[regAccount])){
+if(isset($_POST["regAccount"])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];

@@ -155,16 +155,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="user-profile">
               <paper-material elevation="1">
               Update Profile
-                  <form is="iron-form" id="profile-form" method="post" action="api/updateProfile.php">
-                        <paper-input-container>
-                            <input is="iron-input" id = "inputUsername" name ="username" type ="text" placeholder = "Enter new username" required>
-                        </paper-input-container>
-
+              <?php 
+                     if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+                         echo "User logged: " . $_SESSION['username'];
+                     }
+    
+              ?>
+                  <?php if (isset($_SESSION['username'])){ ?>
+                  <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
                         </paper-input-container>
+                        
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
+                  <?php } else{ echo "<h2> Please Log in to alter profile </h2>"; }?>
+                  
                 </paper-material>
             </section>
 
@@ -982,12 +988,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
              <section data-route="login-form">
               <paper-material elevation="1">
                 <div>
-                 <form class="" action="api/local-login.php" method="post">
+                    <?php if(!isset($_SESSION['username'])) { ?>
+                 <form action="api/local-login.php" method="POST">
                    <h1>Please Login</h1>
-                   <input type="text" name="username" placeholder="Username" value="">
-                   <input type="email" name="password" placeholder="Password" value="">
-                   <button type="submit" name="login-submit">Submit</button>
+                   <input type="text" name="username" placeholder = "Username" value="">
+                   <input type="password" name="password" placeholder = "Password" value="">
+                     <!--<button type="submit" name="login-submit">Submit</button>-->
+                   <button name="loginForm" type="submit">Login</button>
                  </form>
+                 <?php } else { ?>
+                 <form action="api/local-login.php" method="POST">
+                   <h1>Logout</h1>
+                   <button name="logoutForm" type="submit">Logout</button>
+                 </form>
+                 <?php } ?>
                 </div>
               </paper-material>
             </section>

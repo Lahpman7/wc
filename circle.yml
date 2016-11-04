@@ -9,10 +9,6 @@ test:
 notify:
   webhooks:
     - url: http://csumbse.net/harbormaster/hook/circleci/
-<<<<<<< HEAD
-    
-    
-=======
 dependencies:
   pre:
     - sudo apt-get install python-dev
@@ -22,4 +18,4 @@ deployment:
     branch: master
     commands:
       - eb deploy --staged
->>>>>>> fa3845c1f472dcc8cf1c025de920120cc63cc8d6
+

@@ -1,11 +1,7 @@
 <?php 
-<<<<<<< HEAD
-    
-    include_once('database.php');
-=======
-include_once('database.php');
 
->>>>>>> fa3845c1f472dcc8cf1c025de920120cc63cc8d6
+    include_once('database.php');
+
 class RegBottle{
     public static $producer;
     public static $wine_name;

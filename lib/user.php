@@ -55,23 +55,23 @@ class RegUser {
             }
     }
     
-    public static function updateUser($oldUserName,$newUserName){
+   /* public static function updateUser($oldUserName,$newUserName){
         $db = Database::getInstance();
         $sql = "UPDATE user
 			SET username = '$newUserName' 
-			WHERE username = '$currentUsername'";
-			
+			WHERE username = '$oldUsername'";
+		//is this an admin tool? if not we should check to see if session is equal to old username
 		$val = $db->prepare($sql);
 	    if($val->execute()){
-	        $_SESSION('username') = $newUserName;
+	        $_SESSION['username'] = $newUserName;
             return true;
         }
-         else{
-             return false;
+        else{
+            return false;
         }
-
     }
-    public static function updatePass($oldPassword,$newPassword,$currentUsername){
+    */
+    public static function updatePass($newPassword,$currentUsername){
         $db = Database::getInstance();
         $sql = "UPDATE user
 			SET password = '$newPassword' 
