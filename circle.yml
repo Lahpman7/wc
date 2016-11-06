@@ -1,3 +1,6 @@
+machine: 
+  php: 5.7.10
+
 dependencies:
   pre:
     - sudo apt-get install python-dev
