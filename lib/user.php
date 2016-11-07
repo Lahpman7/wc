@@ -54,23 +54,7 @@ class RegUser {
                 return false;
             }
     }
-    
-   /* public static function updateUser($oldUserName,$newUserName){
-        $db = Database::getInstance();
-        $sql = "UPDATE user
-			SET username = '$newUserName' 
-			WHERE username = '$oldUsername'";
-		//is this an admin tool? if not we should check to see if session is equal to old username
-		$val = $db->prepare($sql);
-	    if($val->execute()){
-	        $_SESSION['username'] = $newUserName;
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    */
+
     public static function updatePass($newPassword,$currentUsername){
         $db = Database::getInstance();
         $sql = "UPDATE user
@@ -84,6 +68,21 @@ class RegUser {
          else{
              return false;
         }
+    }
+
+    public static function updateZip($newZip,$currentUsername){
+        $db = Database::getInstance();
+        $newZipcode = intval($newZip);
+        $sql = "UPDATE user
+			SET zipcode = '$newZipcode' 
+			WHERE username = '$currentUsername'";
+        
+        $val = $db->prepare($sql);
+	    if($val->execute()){
+            return true;
+        }
+        return false;
+
     }
 }
 ?>
