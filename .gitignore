@@ -1,7 +1,6 @@
 db/
 build/
 .DS_Store
-vendor
 .idea
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
