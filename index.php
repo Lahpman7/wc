@@ -155,13 +155,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="user-profile">
               <paper-material elevation="1">
               Update Profile
-              <?php 
+                    <?php 
                      if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
-                         echo "User logged: " . $_SESSION['username'];
+                         if(isset($_SESSION['imageUrl'])){
+                          $image = $_SESSION['imageUrl'];
+                          echo "<h2>Welcome, " . $_SESSION['fullname'] . '!!!</h2>';
+                          echo "<br><img src='$image' /><br>";
+
+                         }
+                         else{
+                         echo "<h2>Welcome, " . $_SESSION['username'] . '!!!</h2>';
+                         } 
+                         
                      }
     
-              ?>
-                  <?php if (isset($_SESSION['username'])){ ?>
+                  ?>
+                  <?php if (isset($_SESSION['username'])&&!isset($_SESSION['imageUrl'])){ ?>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
@@ -169,7 +178,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
-                  <?php } else{ echo "<h2> Please Log in to alter profile </h2>"; }?>
+                 <?php } //else statement here if need be?> 
                   
                 </paper-material>
             </section>
@@ -872,7 +881,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <section data-route="register-wine">
               <paper-material elevation="1">
                 <!--Masons Section-->
-                <form is="iron-form" id="register-wine-form" method="post" action="api/register-wine.php">
+                <form id="register-wine-form" method="post" action="api/register-wine.php">
                   <h3>Insert Wine Data! </h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="producer" type ="text" placeholder = "Producer" required>
@@ -996,7 +1005,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      <!--<button type="submit" name="login-submit">Submit</button>-->
                    <button name="loginForm" type="submit">Login</button>
                  </form>
-                 <?php } else { ?>
+                 <form action ="api/login.php" method="POST">
+                    <button name="loginForm" type="submit"><img src ="images/fblogger.png"></button>
+                 </form>
+                <?php } else { ?>
                  <form action="api/local-login.php" method="POST">
                    <h1>Logout</h1>
                    <button name="logoutForm" type="submit">Logout</button>
@@ -1005,7 +1017,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </paper-material>
             </section>
-
           </iron-pages>
         </div>
       </paper-scroll-header-panel>

@@ -54,4 +54,6 @@ function checkEmail()
         message.innerHTML = "Emails Do Not Match!"
     }
 }  
-
+function refreshLog(){
+    window.location.href = 'https://winarycode-masloph.c9users.io/wc/';
+}
