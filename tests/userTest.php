@@ -23,23 +23,8 @@ class UserTest extends TestCase
         $newUser::updatePassword("1111", "username_test");
         $password = $newUser::getPassword("username_test");
         $newUser::deleteUser("username_test");
-        
+
         $this->assertTrue($password == "1111");
     }
-
-
-    /* Params: username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date
-    public function testInsertUser(){
-        $newUser = new RegUser();
-        $tester = $newUser::insertUser("username","password","email@email.com","first", "last", 25, 93901, "consumer", "Court of Masters", 2016);
-        $this->assertTrue($tester);
-    }
-    
-    public function findPassword(){
-        $newUser = new RegUser();
-       
-        $tester = $newUser::findPassword("");
-        $this->assertTrue($tester);
-    }*/
 }
 ?>
