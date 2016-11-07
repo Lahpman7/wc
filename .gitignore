@@ -8,3 +8,4 @@ build/
 !.elasticbeanstalk/*.global.yml
 coverage.xml
 index.html
+vendor/**

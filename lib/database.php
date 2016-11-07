@@ -1,4 +1,5 @@
 <?php
+// This class is a database controller that will connect to the AWS database
 class Database {
         private static $instance = NULL;
         private function __construct() {}

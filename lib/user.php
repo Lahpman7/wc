@@ -31,7 +31,7 @@ class RegUser {
         
        $db = Database::getInstance();
        $sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES 
-        ('$username','$password','$email','$firstname','$lastname',$age,$zipcode,'$employment','$cert_body',$date)";
+        ('$username','$password','$email','$firstname','$lastname','$age','$zipcode','$employment','$cert_body','$date')";
        $val = $db->prepare($sql);
        
        if($val->execute()){
@@ -70,12 +70,11 @@ class RegUser {
         }
     }
     */
-    public static function updatePass($newPassword,$currentUsername){
+    public static function updatePassword($newPassword,$currentUsername){
         $db = Database::getInstance();
         $sql = "UPDATE user
 			SET password = '$newPassword' 
 			WHERE username = '$currentUsername'";
-			
 		$val = $db->prepare($sql);
 	    if($val->execute()){
             return true;
@@ -83,6 +82,17 @@ class RegUser {
          else{
              return false;
         }
+    }
+    
+    public static function getPassword($username){
+        $db = Database::getInstance();
+        $sql = "SELECT password
+        FROM user
+        WHERE username = '$username'";
+        $val = $db->prepare($sql);
+        $val->execute();
+        $record = $val->fetch(PDO::FETCH_ASSOC);
+        return $record['password'];
     }
 }
 ?>
