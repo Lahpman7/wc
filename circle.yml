@@ -8,7 +8,7 @@ dependencies:
 test:
   override:
     - mkdir -v -p $CIRCLE_TEST_REPORTS/reports
-    - ./vendor/phpunit/phpunit/phpunit ./tests --coverage-clover $CIRCLE_ARTIFACTS/coverage.xml --whitelist ./wc --log-junit $CIRCLE_TEST_REPORTS/reports/tests.xml
+    - ./vendor/phpunit/phpunit/phpunit ./tests --coverage-clover $CIRCLE_ARTIFACTS/coverage.xml --whitelist ./lib --log-junit $CIRCLE_TEST_REPORTS/reports/tests.xml
   post:
     - bash <(curl -s https://codecov.io/bash)
 notify:
