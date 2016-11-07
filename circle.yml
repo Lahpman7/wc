@@ -1,7 +1,6 @@
-machine: 
-  php: 
-    version: 5.6.1
-    
+machine:
+  php:
+    version: 5.6.7
 dependencies:
   pre:
     - sudo apt-get install python-dev
@@ -15,7 +14,6 @@ test:
 notify:
   webhooks:
     - url: http://csumbse.net/harbormaster/hook/circleci/
-
 deployment:
   production:
     branch: master
