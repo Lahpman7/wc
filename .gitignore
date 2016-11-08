@@ -1,2 +1,11 @@
 db/
 build/
+.DS_Store
+.idea
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+coverage.xml
+index.html
+vendor/**

@@ -1,5 +1,12 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "wc",
+  "homepage": "https://github.com/AnitaGarcia819/wc",
+  "authors": [
+    "masloph <maslopez@csumb.edu>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "iron-image": "PolymerElements/iron-image#^1.2.2",
@@ -39,5 +46,12 @@
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
-  "ignore": []
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
 }

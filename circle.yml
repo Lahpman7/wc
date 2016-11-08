@@ -1,0 +1,18 @@
+dependencies:
+  pre:
+    - sudo apt-get install python-dev
+    - sudo -H pip install awsebcli --upgrade --ignore-installed setuptools
+test:
+  override:
+    - mkdir -v -p $CIRCLE_TEST_REPORTS/reports
+    - ./vendor/phpunit/phpunit/phpunit ./tests --coverage-clover $CIRCLE_ARTIFACTS/coverage.xml --whitelist ./lib --log-junit $CIRCLE_TEST_REPORTS/reports/tests.xml
+  post:
+    - bash <(curl -s https://codecov.io/bash)
+notify:
+  webhooks:
+    - url: http://csumbse.net/harbormaster/hook/circleci/
+deployment:
+  production:
+    branch: master
+    commands:
+      - eb deploy --staged

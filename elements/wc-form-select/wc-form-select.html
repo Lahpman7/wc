@@ -1,0 +1,220 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/iron-menu-behavior/iron-menu-behavior.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../wc-aroma-value-input/wc-aroma-value-input.html">
+
+<dom-module id="wc-form-select">
+    <template>
+        <style>
+            :host{
+                width:100%;
+            }
+
+            paper-menu-button{
+                width: 100%;
+                padding: 0;
+            }
+
+            #dropdown > ::content > div{
+                background-color: white;
+                line-height: 20px;
+                border-radius: 3px;
+                box-shadow: 0px 2px 6px #ccc;
+
+            }
+            wc-aroma-value-input{
+                padding: 10px;
+
+            }
+
+
+
+        </style>
+
+
+                  <label id="label2"></label>
+                    <paper-radio-group multi = "false" id = "wines">
+                        <content></content>
+                    </paper-radio-group>
+
+    </template>
+    <script>
+
+        Polymer({
+            is: "wc-form-select",
+
+            behaviors:[
+                Polymer.IronFormElementBehavior,
+                Polymer.IronMenuBehavior
+            ],
+
+            properties:{
+                openAnimationConfig: {
+                    type: Array,
+                    value: function() {
+                        return [{
+                            name: 'fade-in-animation',
+                            timing: {
+                                delay: 150,
+                                duration: 50
+                            }
+                        }];
+                    }
+                },
+                closeAnimationConfig: {
+                    type: Array,
+                    value: function() {
+                        return [{
+                            name: 'fade-out-animation',
+                            timing: {
+                                duration: 200
+                            }
+                        }];
+                    }
+                },
+                label: {
+                    type: String,
+                    value: "label"
+                },
+                isHidden: {
+                    type: Boolean,
+                    value: false
+                },
+                makevisible: {
+                    type: Number,
+                    value: 0,
+                    observer: "_visibleChange"
+                },
+                values: {
+                    type:String
+                },
+                from : {
+                    type: String,
+                    observer: "_urlBuilder"
+                },
+                link : {
+                    type: String
+
+                },
+                ajaxResponse : {
+                    type: Array,
+                    value: ["Apple", "Banana"]
+                },
+                selectedItems: {
+                    type: Array,
+                    value: [],
+                    observer: "_selectedItemsChanged"
+                },
+                otherFieldSelected: {
+                    type: Boolean,
+                    value: false
+
+                },
+                name: {
+                    type: String
+                }
+             },
+            ready: function (){
+
+                this.hidden = true;
+                var menu = this.$.wines;
+                wine.addEventListener('iron-items-changed',function(){
+                    this.value = menu.holder;
+                });
+                // listens for selections and delections to update label in _selectedItemsChanged
+                var menu = this.$.menu;
+                var thisElem = this;
+                menu.addEventListener('iron-select', function(event){
+                    thisElem.selectedItems = menu.selectedItems;
+                });
+                menu.addEventListener('iron-deselect', function(event){
+                    thisElem.selectedItems = menu.selectedItems;
+                });
+
+            },
+            open: function() {
+                this.$.dropdown.open();
+            },
+            _handleResponse: function(){
+                this.ajaxResponse = this.$.ajax.lastResponse;
+
+
+            },
+            _selectedItemsChanged: function() {
+
+                var values = [];
+                if(this.selectedItems.length > 0){
+                    this.selectedItems.forEach(function (item){
+                        item.value = 1;
+                        values.push(item.textContent.trim());
+                    });
+                }
+                this._setLabel(values);
+
+            },
+            _setLabel: function(valuesIn){
+                var i = valuesIn.indexOf("Other...");
+
+                if (i >= 0 ){
+                    this.otherFieldSelected = true;
+                    valuesIn.splice(i,1);
+                }else {
+
+                    this.otherFieldSelected = false;
+                }
+                this.values = valuesIn;
+                var valueForLabel = ""
+                valueForLabel = valuesIn.join(", ");
+
+                this.$.label.value = valueForLabel;
+
+            },
+            _visibleChange(makevisible){
+                if (makevisible > 0){
+                    this.hidden = false;
+                    this.isHidden = false;
+                } else {
+                    this.hidden = true;
+                    this.isHidden = true;
+                }
+            },
+            _setParams: function(link){
+                return {"var":link };
+
+            },
+            _urlBuilder: function(from) {
+                return window.location.href + from;
+            },
+            _getItem: function(item){
+                for (var key in item) {
+                    return item[key];
+                }
+            },
+            _setName : function(item){
+                for (var key in item) {
+                    var arrOfWords = item[key].split(" ");
+                    var lowercaseArrOfWords = arrOfWords.map(function(str) {
+                        
+                        return str.toLowerCase()
+                    });
+                    var name  = lowercaseArrOfWords.join("_");
+                    if(name.charAt(name.length - 1) == "_"){
+                       name = name.substr(0, name.length - 1);
+                    }
+                    return name;
+                }
+            },
+            _setOtherName : function(link) {
+                return link + "_other";
+            },
+            _setOtherNameNotUsed : function(link) {
+                return link + "_other_selected";
+            }
+        });
+
+    </script>
+</dom-module>

@@ -1,14 +1,4 @@
 <!--
-Summary:
- The search function allows users to search for a key word and then lists the matching results.
-Test Plan:
-Navigate to the home page.
-In the search bar, enter one of the example strings in yellow.
-Verify that a list populates with the matching results.
-Reviewers:
-anitagarcia819
-Subscribers:
-
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -17,15 +7,14 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <dom-module id="wc-search">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
 
@@ -100,6 +89,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="horizontal-section">
               <p> <span class="wine-label">Producer:</span> [[item.producer]] <span class="wine-label">Vintage:</span> [[item.vintage]]</p>
               <p> <span class="wine-label"> Wine Name:</span> [[item.wine_name]] </p>
+              <a href="[[_assessLink(item.destination,item.vintage,item.wine_name,item.producer)]]" tabindex="-1">
+                <paper-button raised>Assess</paper-button>
+              </a>
             </div>
           </template>
 
@@ -133,9 +125,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.ajax.generateRequest();
         this.response = this.$.ajax.lastResponse;
       },
-
       _setParams: function(searchq){
         return {"q": searchq };
+      },
+      _assessLink(destination,vin,name,prod){
+        var vintage = vin.replace(" ", "%20");
+        var wine_name = name.replace(" ", "%20");
+        var producer = prod.replace(" ", "%20");
+        return "/"+destination+"-assessment?" +
+                "style=" + destination + "&vin=" + vintage + "&name=" + wine_name + "&prod=" + producer;
       }
     });
 
