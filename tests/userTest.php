@@ -39,5 +39,6 @@ class UserTest extends TestCase
 
         $this->assertTrue($password == "1111");
     }
+    
 }
 ?>

@@ -1,5 +1,6 @@
 <?php 
 include_once('database.php');
+
 class RegUser {
     public static $name;
     public static $email;
@@ -68,7 +69,21 @@ class RegUser {
              return false;
         }
     }
-
+    public static function updateEmail($newEmail,$currentUsername){
+        $db = Database::getInstance();
+        $sql = "UPDATE user
+        SET email = '$newEmail'
+        WHERE username ='$currentUsername'";
+        
+        $val = $db->prepare($sql);
+        if($val->execute()){
+            return true;
+        }
+         else{
+             return false;
+        }
+    }
+    
     public static function updateZip($newZip,$currentUsername){
         $db = Database::getInstance();
         $newZipcode = intval($newZip);
