@@ -111,8 +111,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <!--Login declared here -->
-          <a data-route="login-form" href="{{baseUrl}}login-form">
-            <iron-icon icon="account-box"></iron-icon>
+          <a data-route="login-form" href = "{{baseUrl}}login-form">
+            <iron-icon icon "mail"></iron-icon>
             <span>Login</span>
           </a>
         </paper-menu>
@@ -151,26 +151,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </paper-material>
             </section>
+
             <section data-route="user-profile">
               <paper-material elevation="1">
-              Update Profile <br>
-              <?php 
-                 if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
-                     echo "User logged in: " . $_SESSION['username'] . "<br>";
-                 }
-              ?>
-                  <?php if (isset($_SESSION['username'])){ ?>
+              Update Profile
+                    <?php 
+                     if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
+                         if(isset($_SESSION['imageUrl'])){
+                          $image = $_SESSION['imageUrl'];
+                          echo "<h2>Welcome, " . $_SESSION['fullname'] . '!!!</h2>';
+                          echo "<br><img src='$image' /><br>";
+
+                         }
+                         else{
+                         echo "<h2>Welcome, " . $_SESSION['username'] . '!!!</h2>';
+                         } 
+                         
+                     }
+    
+                  ?>
+                  <?php if (isset($_SESSION['username'])&&!isset($_SESSION['imageUrl'])){ ?>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
                         </paper-input-container>
-
+                        
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
-                  <?php } else{ echo "<h2> Please Log in to alter profile </h2>"; }?>
-
+                 <?php } //else statement here if need be?> 
+                  
                 </paper-material>
+
             </section>
+
             <!-- White Wine Assessment Form-->
             <section data-route="white-assessment">
               <paper-material elevation="1">
@@ -287,10 +300,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"flowers"}'
                      handle-as="json"
-                     last-response='{{flowerWhiteResponse}}'>
+                     last-response='{{flowerResponse}}'>
                     </iron-ajax>
                     <select name="flowers_aromas">
-                        <template is="dom-repeat" items="{{flowerWhiteResponse}}">
+                        <template is="dom-repeat" items="{{flowerResponse}}">
                         <option value="{{item.flowers}}"> {{item.flowers}}</option>
                       </template>
                     </select>
@@ -307,10 +320,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"herbs"}'
                      handle-as="json"
-                     last-response='{{herbsWhiteResponse}}'>
+                     last-response='{{herbsResponse}}'>
                     </iron-ajax>
                     <select name="herbs_aromas">
-                      <template is="dom-repeat" items="{{herbsWhiteResponse}}">
+                      <template is="dom-repeat" items="{{herbsResponse}}">
                         <option value="{{item.herbs}}"> {{item.herbs}}</option>
                       </template>
                     </select>
@@ -327,10 +340,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"vegetal"}'
                      handle-as="json"
-                     last-response='{{vegetalWhiteResponse}}'>
+                     last-response='{{vegetalResponse}}'>
                     </iron-ajax>
                     <select name="vegetal_aromas">
-                      <template is="dom-repeat" items="{{vegetalWhiteResponse}}">
+                      <template is="dom-repeat" items="{{vegetalResponse}}">
                         <option value="{{item.vegetal}}"> {{item.vegetal}}</option>
                       </template>
                     </select>
@@ -407,10 +420,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"earth_leaves_mushrooms"}'
                      handle-as="json"
-                     last-response='{{earth2Response}}'>
+                     last-response='{{earthResponse}}'>
                     </iron-ajax>
                     <select name="earth_leaves_mushrooms_aromas">
-                      <template is="dom-repeat" items="{{earth2Response}}">
+                      <template is="dom-repeat" items="{{earthResponse}}">
                         <option value="{{item.earth_leaves_mushrooms}}"> {{item.earth_leaves_mushrooms}}</option>
                       </template>
                     </select>
@@ -427,10 +440,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"mineral_stone_sulfur"}'
                      handle-as="json"
-                     last-response='{{mineralWhiteResponse}}'>
+                     last-response='{{mineralResponse}}'>
                     </iron-ajax>
                     <select name="mineral_stone_sulfur_aromas">
-                      <template is="dom-repeat" items="{{mineralWhiteResponse}}">
+                      <template is="dom-repeat" items="{{mineralResponse}}">
                         <option value="{{item.mineral_stone_sulfur}}"> {{item.mineral_stone_sulfur}}</option>
                       </template>
                     </select>
@@ -448,10 +461,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      url="api/white-aroma-values.php"
                      params='{"var" :"oak_vanilla_toast_smoke_coconut"}'
                      handle-as="json"
-                     last-response='{{oakWhiteResponse}}'>
+                     last-response='{{oakResponse}}'>
                     </iron-ajax>
                     <select name="oak_vanilla_smoke_coconut_aromas">
-                         <template is="dom-repeat" items="{{oakWhiteResponse}}">
+                         <template is="dom-repeat" items="{{oakResponse}}">
                         <option value="{{item.oak_vanilla_toast_smoke_coconut}}"> {{item.oak_vanilla_toast_smoke_coconut}}</option>
                       </template>
                     </select>
@@ -463,7 +476,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="sweetness" value="4">Med. Sweet
 
                     <h3> Acid </h3><br>
-                    <input type="radio" name="acid" value="1"> Low
+                    <input type="radio" name="acid" value="1"> Low 
                     <input type="radio" name="acid" value="2"> Med. -
                     <input type="radio" name="acid" value="3"> Med. +
                     <input type="radio" name="acid" value="4"> High
@@ -504,12 +517,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="quality_for_price_rate" value="2">1
                     <input type="radio" name="quality_for_price_rate" value="3">2
                     <input type="radio" name="quality_for_price_rate" value="4">3
-
-                    <!-- Adds the wine info-->
-                    <input id="winenamewhite" type="hidden" name="wine_name" >
-                    <input id="wineproducerwhite" type="hidden" name="wine_producer" >
-                    <input id="winestylewhite" type="hidden" name="wine_style" >
-                    <input id="winevintagewhite" type="hidden" name="wine_vintage" >
 
                     <button class="btn" name="whiteAssessReturn" type="submit">Submit</button>
             </form>
@@ -868,12 +875,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="quality_for_price_rate" value="3">2
                     <input type="radio" name="quality_for_price_rate" value="4">3
 
-                    <!-- Adds the wine info-->
-                    <input id="winenamered" type="hidden" name="wine_name">
-                    <input id="wineproducerred" type="hidden" name="wine_producer">
-                    <input id="winestylered" type="hidden" name="wine_style">
-                    <input id="winevintagered" type="hidden" name="wine_vintage">
-
                     <button class="btn" name="redAssessReturn" type="submit">Submit</button>
               </form>
             </paper-material>
@@ -881,7 +882,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <section data-route="register-wine">
               <paper-material elevation="1">
                 <!--Masons Section-->
-                <form is="iron-form" id="register-wine-form" method="post" action="api/register-wine.php">
+                <form id="register-wine-form" method="post" action="api/register-wine.php">
                   <h3>Insert Wine Data! </h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="producer" type ="text" placeholder = "Producer" required>
@@ -989,7 +990,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
                   </paper-input-container>
-
                     <button name="regAccount" type="submit">Register Account</button>
                 </form>
               </paper-material>
@@ -998,7 +998,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
              <section data-route="login-form">
               <paper-material elevation="1">
                 <div>
-                <?php if(!isset($_SESSION['username'])) { ?>
+                    <?php if(!isset($_SESSION['username'])) { ?>
                  <form action="api/local-login.php" method="POST">
                    <h1>Please Login</h1>
                    <input type="text" name="username" placeholder = "Username" value="">
@@ -1006,7 +1006,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      <!--<button type="submit" name="login-submit">Submit</button>-->
                    <button name="loginForm" type="submit">Login</button>
                  </form>
-                 <?php } else { ?>
+                 <form action ="api/login.php" method="POST">
+                    <button name="loginForm" type="submit"><img src ="images/fblogger.png"></button>
+                 </form>
+                <?php } else { ?>
                  <form action="api/local-login.php" method="POST">
                    <h1>Logout</h1>
                    <button name="logoutForm" type="submit">Logout</button>
@@ -1015,7 +1018,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </paper-material>
             </section>
-
           </iron-pages>
         </div>
       </paper-scroll-header-panel>
