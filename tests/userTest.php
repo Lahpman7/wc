@@ -9,7 +9,7 @@ class UserTest extends TestCase
         $newUser = new RegUser();
         $tester = $newUser::isUser("Testy2");
         //assertEquals(-1, $b->getAmount());
-        $this->assertEquals($tester,true);
+        $this->assertEquals($tester,false);
     }
     
     public function testDeleteUser(){
