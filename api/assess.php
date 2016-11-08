@@ -1,18 +1,28 @@
 <?php
+session_start();
 include 'db.include.php';
 $conn = getDatabaseConnection();
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
-    //var_dump($_POST);
+
     // For assessment table
+    // Generates unique id
+    $time = time();
+    $randomNum = rand();
+    $uniqueAssessmnetId = md5($time . $randomNum);
+        
+    // Timestamp
     $date = date("Y-m-d H:i:s", time());
-    //echo "DATE: " . $date;
     $phpdate = strtotime($date);
-    //echo "DATE 2: " . $phpdate;
-    $producer = "pro";
-    //$vin = 3333;
-    $vin = 1234;
-    $sql = "INSERT INTO assessment (date, producer, wine_name, vintage) VALUES (FROM_UNIXTIME($phpdate), '$producer', 'Nm', '$vin');";
+
+    // Gets data from wine that was searched for/ entered
+    $producer = $_POST['wine_producer'];
+    $wine_name = $_POST['wine_name'];
+    $vintage = $_POST['wine_vintage'];
+    $wine_style = $_POST['wine_style']; // red or white 
+    $username = $_SESSION['username'];
+
+    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, vintage, username) VALUES ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$vintage', '$username');";
     //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
     $statement = $conn->prepare($sql);
     $statement->execute();
@@ -43,6 +53,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $red_fruit_other = "";
         //echo "Red Fruit Other " . $red_fruit_other. "<br>";
 
+        $red_aroma = trim($red_aroma);
         switch($red_aroma){
             case "Red Cherry": $red_cherry = 1;
                 break;
@@ -72,6 +83,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $fig = 0;
         $black_fruit_other = "";
 
+        $black_aroma = trim($black_aroma);
         switch($black_aroma){
             case "Black Cherry": $black_berry = 1;
                 break;
@@ -96,6 +108,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $plum_skin = 0;
         $blue_fruit_other = "";
 
+        $blue_aroma = trim($blue_aroma);
         switch($blue_aroma){
             case "Blueberry": $blueberry= 1;
                 break;
@@ -122,6 +135,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $potpourri = 0;
         $flowers_other = "";
 
+        $flower_aroma = str_replace(' ', '', $flower_aroma);
         switch($flower_aroma){
             case "Rose": $rose = 1;
                 break;
@@ -148,6 +162,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $fennel = 0;
         $herbs_other = "";
 
+        $herb_aroma = str_replace(' ', '', $herb_aroma);
         switch($herb_aroma){
             case "Fresh Herbs": $fresh_herbs = 1;
                 break;
@@ -172,6 +187,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $stem_whole_cluster = 0;
         $vegetal_other = "";
 
+        $vegetal_aroma = str_replace(' ', '', $vegetal_aroma);
         switch($vegetal_aroma){
             case "Green Bell Pepper Capsicum": $green_bell_pepper_capsicum = 1;
                 break;
@@ -193,6 +209,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $menthol = 0;
         $mint_eucalyptus_other = "";
 
+        $mint_eucalyptus_aroma = str_replace(' ', '', $mint_eucalyptus_aroma);
         switch($mint_eucalyptus_aroma){
             case "Mint": $mint = 1;
                 break;
@@ -215,6 +232,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $anise_licorice = 0;
         $pepper_spice_other = "";
 
+        $pepper_spice_aroma = str_replace(' ', '', $pepper_spice_aroma);
         switch($pepper_spice_aroma){
             case "Black Peppercorn": $black_peppercorn = 1;
                 break;
@@ -243,6 +261,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $coffee_grounds = 0;
         $cocoa_coffee_other = "";
 
+        $cocoa_coffee_aroma = str_replace(' ', '', $cocoa_coffee_aroma);
         switch($cocoa_coffee_aroma){
             case "Milk Chocolate": $milk_chocolate = 1;
                 break;
@@ -270,6 +289,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $dried_leather = 0;
         $meat_leather_other = "";
 
+        $meat_leather_aroma = str_replace(' ', '', $meat_leather_aroma);
         switch($meat_leather_aroma){
             case "Meat": $meat = 1;
                 break;
@@ -294,6 +314,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $ashtray = 0;
         $tobacco_tar_other = "";
 
+        $tobacco_tar_aroma = str_replace(' ', '', $tobacco_tar_aroma);
         switch($tobacco_tar_aroma){
             case "Wet Tabacco": $wet_tobacco = 1;
                 break;
@@ -319,6 +340,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $dried_leaves = 0;
         $earth_leaves_mushrooms_other = "";
 
+        $earth_leaves_mushrooms_aroma = str_replace(' ', '', $earth_leaves_mushrooms_aroma);
         switch($earth_leaves_mushrooms_aroma){
             case "Forest Floor": $forest_floor = 1;
                 break;
@@ -353,6 +375,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $pencil_lead = 0;
         $mineral_stone_sulfur_other = "";
 
+        $mineral_stone_sulfur_aroma = trim($mineral_stone_sulfur_aroma);     
         switch($mineral_stone_sulfur_aroma){
             case "Sulfur": $sulfur = 1;
                 break;
@@ -390,6 +413,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $pencil_shavings = 0;
         $oak_vanilla_smoke_coconut_other = "";
 
+        $oak_vanilla_smoke_coconut_aroma = trim($oak_vanilla_smoke_coconut_aroma);     
         switch($oak_vanilla_smoke_coconut_aroma){
             case "Vanilla": $vanilla = 1;
                 break;
@@ -451,7 +475,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
                 sweetness, alcohol, tannin, bitter, balanced, length, complexity,
                 quality_for_price, quality_for_price_rate)
             VALUES
-                (NOW(), '$primary_color', '$secondary_color', '$red_fruits_level',
+                ('$uniqueAssessmnetId', '$primary_color', '$secondary_color', '$red_fruits_level',
                 '$red_cherry', '$pomegranate','$cranberry', '$raspberry', '$red_currant',
                 '$red_fruit_other',
 
@@ -521,6 +545,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $baked_apple = 0;
         $apple_pear_other = "";
 
+        $apple_pear_aroma= trim($apple_pear_aroma);   
         switch($apple_pear_aroma){
             case "Green Apple": $green_apple = 1;
                 break;
@@ -545,8 +570,10 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $grapefruit = 0;
         $cirtus_other = "";
 
+        
+        $citrus_aroma = trim($citrus_aroma);
         switch($citrus_aroma){
-            case "Lemon": $lemon = 1;
+            case "Lemon" : $lemon = 1;
                 break;
             case "Myer Lemon": $myer_lemon = 1;
                 break;
@@ -560,6 +587,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
                 break;
         }
 
+        
         // Stone 
         $stone_level = (int)$_POST['stone_level'];
         //echo "Stone Level" . $stone_level . "<br>";
@@ -572,6 +600,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $nectarine = 0;
         $stone_other = "";
 
+        $stone_aroma = trim($stone_aroma); 
         switch($stone_aroma){
             case "White Peach": $white_peach = 1;
                 break;
@@ -598,6 +627,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $banana = 0;
         $tropical_melon_other = "";
 
+        $tropical_melon_aroma = trim($tropical_melon_aroma); 
         switch($tropical_melon_aroma){
             case "Passion Fruit": $passion_fruit = 1;
                 break;
@@ -629,8 +659,9 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $orange_blossom = 0;
         $flower_other = "";
 
+        $flower_aroma = trim($flower_aroma);
         switch($flower_aroma){
-            case "White Flower": $white_flowers = 1;
+            case "White Flowers": $white_flowers = 1;
                 break;
             case "Yellow Flowers": $yellow_flowers = 1;
                 break;
@@ -651,6 +682,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $fresh_herbs = 0;
         $herbs_other = "";
 
+        $herb_aroma = trim($herb_aroma);
         switch($herb_aroma){
             case "Dried Herbs": $dried_herbs = 1;
                 break;
@@ -660,6 +692,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Vegetal
         $vegetal_level = (int)$_POST['vegetal_level'];
+        $vegetal_aroma = $_POST['vegetal_aromas'];
         //echo "Veg level" . $vegetal_level . "<br>";
         $radish = 0;
         $jalapeno = 0;
@@ -667,6 +700,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $vegetal_cut_grass = 0;
         $vegetal_other = "";
 
+         $vegetal_aroma = trim($vegetal_aroma);
          switch($vegetal_aroma){
             case "Radish": $radish = 1;
                 break;
@@ -689,7 +723,8 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $ashtray = 0;
         $oxidative_other = "";
 
-         switch($oxidative_aroma){
+        $oxidative_aroma = trim($oxidative_aroma);
+        switch($oxidative_aroma){
             case "Baked Fruit": $baked_fruit = 1;
                 break;
             case "Brown Fruit": $brown_fruit = 1;
@@ -712,6 +747,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $yeast = 0;
         $yeast_bread_dough_other = "";
 
+        $yeast_bread_dough_aroma = trim($yeast_bread_dough_aroma);
         switch($yeast_bread_dough_aroma){
             case "Brioche": $brioche= 1;
                 break;
@@ -731,14 +767,17 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Earth Leaves
         $earth_leaves_mushrooms_level = (int)$_POST['earth_leaves_mushrooms_level'];
-        $earth_leaves_mushrooms_aromas = $_POST['earth_leaves_mushrooms_aromas'];
+        $earth_leaves_mushrooms_aroma = $_POST['earth_leaves_mushrooms_aromas'];
         //echo "Ox Level" . $earth_leaves_mushrooms_level . "<br>"; 
         $straw_hay = 0;
         $earth_leaves_mushrooms_cut_grass = 0;
         $earth_leaves_mushrooms_other = "";
 
-        switch($earth_leaves_mushrooms_aromas){
+        $earth_leaves_mushrooms_aroma = trim($earth_leaves_mushrooms_aroma);
+        switch($earth_leaves_mushrooms_aroma){
             case "Straw Hay": $straw_hay = 1;
+                break;
+            case "Cut Grass": $earth_leaves_mushrooms_cut_grass = 1;
                 break;
         }
         // Stone
@@ -756,6 +795,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $smokey = 0;
         $mineral_stone_sulfur_other = "";
 
+        $mineral_stone_sulfur_aroma = trim($mineral_stone_sulfur_aroma);
         switch($mineral_stone_sulfur_aroma){
             case "Sulfur": $sulfur = 1;
                 break;
@@ -788,6 +828,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $sawdust = 0;
         $oak_vanilla_toast_other = "";
 
+        $oak_vanilla_toast_aroma = trim($oak_vanilla_toast_aroma);
         switch($oak_vanilla_toast_aroma){
             case "Vanilla": $vanilla = 1;
                 break;
@@ -850,7 +891,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
             light_toast, heavy_toast, sawdust, oak_vanilla_toast_other, sweetness, acid, alcohol, bitter,
             balanced, length, complexity, quality_for_price, quality_for_price_rate)
            VALUES
-            (NOW(), '$primary_color', '$secondary_color', '$apple_pear_level',
+            ('$uniqueAssessmnetId', '$primary_color', '$secondary_color', '$apple_pear_level',
             '$green_apple', '$yellow_apple', '$red_apple', '$baked_apple',
             '$apple_pear_other',
 
@@ -892,4 +933,5 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $statement->execute();
     }
 }// end of check
+header("Location: ../index.php");
 ?>

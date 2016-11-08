@@ -1,7 +1,5 @@
 <?php 
-
-    include_once('database.php');
-
+include_once('database.php');
 class RegBottle{
     public static $producer;
     public static $wine_name;

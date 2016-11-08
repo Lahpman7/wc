@@ -29,5 +29,15 @@ class UserTest extends TestCase
         $tester = $updateUser::updateZip(72689,"Testy2");
         $this->assertEquals($tester,true);
     }
+    
+    public function testUpdatePassword(){
+        $newUser = new RegUser();
+        $newUser::insertUser("username_test","password","email@email.com","first", "last", 25, 93901, "consumer", "Court of Masters", 2016);
+        $newUser::updatePassword("1111", "username_test");
+        $password = $newUser::getPassword("username_test");
+        $newUser::deleteUser("username_test");
+
+        $this->assertTrue($password == "1111");
+    }
 }
 ?>

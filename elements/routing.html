@@ -32,37 +32,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       next();
     }
 
+    function assessParams(ctx, next){
+      var querystring = ctx.querystring;
+      var querys = querystring.split("&");
+      for (var i = 0; i < querys.length; i++) {
+        var param = querys[i].split("=");
+        app.wineInfo[param[0]] = param[1];
+      }
+      //console.log(app.wineInfo);
+      app.addWineInfo();
+      next();
+
+    }
+
     // Routes
     page('*', scrollToTop, closeDrawer, function(ctx, next) {
       next();
     });
-
     page('/', function() {
       app.route = 'home';
     });
-
     page(app.baseUrl, function() {
       app.route = 'home';
     });
-
     page('/user-profile', function() {
       app.route = 'user-profile';
     });
-    page('/white-assessment', function() {
+    page('/white-assessment', assessParams, function() {
       app.route = 'white-assessment';
     });
-    page('/red-assessment', function() {
+    page('/red-assessment', assessParams, function() {
       app.route = 'red-assessment';
     });
 
     page('/register-wine', function() {
       app.route = 'register-wine';
     });
-    
+
     page('/register-account', function() {
       app.route ='register-account';
     });
-    
+
     page('/login-form', function(){
       app.route = 'login-form';
     });

@@ -5,14 +5,7 @@
     //$conn = getDatabaseConnection(); //gets database connection
     $currentUsername = $_SESSION['username'];
     $currentPassword = $_SESSION['password'];
-    /*
-    if(isset($_POST['username']) && !empty($_POST['username'])){
-
-    	$newUserName = $_POST['username'];
-		$user = new RegUser();
-        $user::updateUser($currentUsername,$newUserName);
-    }
-    */
+    
     if(isset($_POST['password']) && !empty($_POST['password'])){
     	$newPassword = $_POST['password'];
     	$currentUsername = $_SESSION['username'];

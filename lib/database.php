@@ -1,11 +1,11 @@
 <?php
+// This class is a database controller that will connect to the AWS database
 class Database {
         private static $instance = NULL;
         private function __construct() {}
         private function __clone() {}
            
 public static function getInstance() {
-        //hardcoded values need to change later 
         /*
         $host = "localhost";
         $dbname = "wc_db";

@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <dom-module id="wc-search">
   <template>
@@ -88,6 +89,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="horizontal-section">
               <p> <span class="wine-label">Producer:</span> [[item.producer]] <span class="wine-label">Vintage:</span> [[item.vintage]]</p>
               <p> <span class="wine-label"> Wine Name:</span> [[item.wine_name]] </p>
+              <a href="[[_assessLink(item.destination,item.vintage,item.wine_name,item.producer)]]" tabindex="-1">
+                <paper-button raised>Assess</paper-button>
+              </a>
             </div>
           </template>
 
@@ -121,9 +125,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.ajax.generateRequest();
         this.response = this.$.ajax.lastResponse;
       },
-
       _setParams: function(searchq){
         return {"q": searchq };
+      },
+      _assessLink(destination,vin,name,prod){
+        var vintage = vin.replace(" ", "%20");
+        var wine_name = name.replace(" ", "%20");
+        var producer = prod.replace(" ", "%20");
+        return "/"+destination+"-assessment?" +
+                "style=" + destination + "&vin=" + vintage + "&name=" + wine_name + "&prod=" + producer;
       }
     });
 

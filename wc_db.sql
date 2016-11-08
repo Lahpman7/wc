@@ -1,10 +1,9 @@
-
 -- phpMyAdmin SQL Dump
 -- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Oct 31, 2016 at 11:27 PM
+-- Generation Time: Nov 07, 2016 at 06:43 AM
 -- Server version: 5.6.28
 -- PHP Version: 7.0.10
 
@@ -81,19 +80,20 @@ INSERT INTO `aromas` (`color_key`, `primary_color`, `secondary_color`, `apple_pe
 --
 
 CREATE TABLE `assessment` (
-  `assessment_id` int(11) NOT NULL,
+  `assessment_id` varchar(40) NOT NULL,
   `date` datetime DEFAULT NULL,
   `producer` varchar(40) DEFAULT NULL,
   `wine_name` varchar(40) DEFAULT NULL,
-  `vintage` int(4) DEFAULT NULL
+  `vintage` int(4) DEFAULT NULL,
+  `username` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `assessment`
 --
 
-INSERT INTO `assessment` (`assessment_id`, `date`, `producer`, `wine_name`, `vintage`) VALUES
-(158, '2016-10-31 15:25:20', 'pro', 'Nm', 1234);
+INSERT INTO `assessment` (`assessment_id`, `date`, `producer`, `wine_name`, `vintage`, `username`) VALUES
+('e7d5f85ef5abeeac96fd4783ea93154d', '2016-11-02 17:55:48', 'pro', 'Nm', 1234, '');
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ INSERT INTO `login` (`username`, `password`) VALUES
 --
 
 CREATE TABLE `red_taste_assessment` (
-  `taste_id` datetime(4) DEFAULT NULL,
+  `taste_id` varchar(40) DEFAULT NULL,
   `primary_color` int(1) DEFAULT NULL,
   `secondary_color` int(1) DEFAULT NULL,
   `red_fruits_level` int(1) DEFAULT NULL,
@@ -248,15 +248,15 @@ CREATE TABLE `red_taste_assessment` (
 --
 
 INSERT INTO `red_taste_assessment` (`taste_id`, `primary_color`, `secondary_color`, `red_fruits_level`, `red_cherry`, `pomegranate`, `cranberry`, `raspberry`, `red_currant`, `red_fruit_other`, `black_fruit_level`, `black_berry`, `black_currant`, `raisin`, `date`, `fig`, `black_fruit_other`, `blue_fruit_level`, `blueberry`, `dried_blueberry`, `plum`, `plum_skin`, `blue_fruit_other`, `fruit_type`, `flowers_level`, `rose`, `violet`, `lavender`, `dried_flowers`, `potpourri`, `flowers_other`, `herbs_level`, `fresh_herbs`, `dried_herbs`, `tomatoe_leaf`, `basil`, `oregeno`, `fennel`, `herbs_other`, `vegetal_level`, `green_bell_pepper_capsicum`, `vegetal_fresh_herbs`, `vegetal_dried_herbs`, `stem_whole_cluster`, `vegetal_other`, `mint_eucalyptus_level`, `mint`, `eucalyptus`, `menthol`, `mint_eucalyptus_other`, `pepper_spice_level`, `black_peppercorn`, `green_peppercorn`, `cinnamon`, `baking_spice`, `hard_spice`, `anise_licorice`, `pepper_spice_other`, `cocoa_coffee_level`, `milk_chocolate`, `dark_chocolate`, `cocoa_powder`, `mocha`, `espresso`, `coffee_grounds`, `cocoa_coffee_other`, `meat_leather_level`, `meat`, `grilled_meat`, `beef_jerkey`, `wet_leather`, `dried_leather`, `meat_leather_other`, `tobacco_tar_level`, `wet_tobacco`, `dried_tobacco`, `tar`, `ashtray`, `tobacco_tar_other`, `earth_leaves_mushrooms_level`, `forest_floor`, `compost`, `mushrooms`, `potting_soil`, `barnyard`, `wet_leaves`, `dried_leaves`, `earth_leaves_mushrooms_other`, `mineral_stone_sulfur_level`, `sulfur`, `slate_petrol`, `metallic`, `flit`, `dust`, `chalk`, `limestone`, `volcanic`, `smokey`, `pencil_lead`, `mineral_stone_sulfur_other`, `oak_vanilla_smoke_coconut_level`, `vanilla`, `maple`, `light_toast`, `heavy_toast`, `sawdust`, `sandalwood`, `pencil_shavings`, `oak_vanilla_smoke_coconut_other`, `sweetness`, `alcohol`, `tannin`, `bitter`, `balanced`, `length`, `complexity`, `quality_for_price`, `quality_for_price_rate`) VALUES
-('2016-10-31 13:18:17.0000', 4, 2, 3, 1, 0, 0, 0, 0, '', 3, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, '', 4, 3, 1, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, '', 3, 1, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 3, 1, 0, 0, 0, 0, 0, 0, '', 4, 4, 4, 4, 2, 4, 3, 2, 4);
+('6148bd7fd3fc71b21f884b4608a8f6a1', 0, 0, 0, 1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, '', 0, 0, 1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, '', 0, 1, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `registered_user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `registered_user` (
   `username` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
@@ -269,6 +269,15 @@ CREATE TABLE `user` (
   `date_cert` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `registered_user`
+--
+
+INSERT INTO `registered_user` (`username`, `password`, `email`, `firstname`, `lastname`, `age`, `zipcode`, `employment`, `cert_body`, `date_cert`) VALUES
+('usern', 'pass', 'e@g', 'A', 'G', 25, 93901, 'Consumer', 'Master', 1234),
+('username', 'password', 'email', 'first', 'last', 12, 93901, 'consumer', 'Masters', 2016),
+('james', '1111', 'email@email.com', 'james', 'bob', 1, 67834, 'consumer', 'Court of Master Sommeliers Certified Som', 1932);
+
 -- --------------------------------------------------------
 
 --
@@ -276,7 +285,7 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `white_taste_assessment` (
-  `taste_id` datetime DEFAULT NULL,
+  `taste_id` varchar(40) DEFAULT NULL,
   `primary_color` int(1) DEFAULT NULL,
   `secondary_color` int(1) DEFAULT NULL,
   `apple_pear_level` int(1) DEFAULT NULL,
@@ -378,10 +387,7 @@ CREATE TABLE `white_taste_assessment` (
 --
 
 INSERT INTO `white_taste_assessment` (`taste_id`, `primary_color`, `secondary_color`, `apple_pear_level`, `green_apple`, `yellow_apple`, `red_apple`, `baked_apple`, `apple_pear_other`, `citrus_level`, `lemon`, `myer_lemon`, `lime`, `orange`, `dried_orange_peel`, `grapefruit`, `cirtus_other`, `stone_level`, `white_peach`, `yellow_peach`, `apricot`, `apricot_kernal`, `nectarine`, `stone_other`, `tropical_melon_level`, `passion_fruit`, `pineapple`, `kiwi`, `lychee`, `mango`, `banana`, `tropical_melon_other`, `fruit_type`, `flower_level`, `white_flowers`, `yellow_flowers`, `dried_flowers`, `honeysuckle`, `orange_blossom`, `flower_other`, `herb_level`, `dried_herbs`, `fresh_herbs`, `herbs_other`, `vegetal_level`, `radish`, `jalapeno`, `green_bell_pepper`, `vegetal_cut_grass`, `vegetal_other`, `oxidative_level`, `baked_fruit`, `brown_fruit`, `leather`, `ashtray`, `oxidative_other`, `yeast_bread_dough_level`, `brioche`, `almond`, `fresh_dough`, `hazelnut`, `yeast`, `yeast_bread_dough_other`, `ml_butter_cream_level`, `earth_leaves_mushrooms_level`, `straw_hay`, `earth_leaves_mushrooms_cut_grass`, `earth_leaves_mushrooms_other`, `mineral_stone_sulfur_level`, `sulfur`, `state_petrol`, `metallic`, `flit`, `dust`, `chalk`, `limestone`, `volcanic`, `smokey`, `mineral_stone_sulfur_other`, `oak_vanilla_toast_level`, `vanilla`, `maple`, `light_toast`, `heavy_toast`, `sawdust`, `oak_vanilla_toast_other`, `sweetness`, `acid`, `alcohol`, `bitter`, `balanced`, `length`, `complexity`, `quality_for_price`, `quality_for_price_rate`) VALUES
-('0000-00-00 00:00:00', 1, 3, 1, 1, 0, 0, 1, 'this is a string', 0, 0, 0, 0, 0, 0, 0, 'this is a string ', 0, 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 0, 0, 0, 'this is a string ', 0, 0, 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 'this is a string ', 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'this is a string', 0, 0, 0, 0, 0, 0, 3, 1, 5),
-('0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, ' ', 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-('0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, ' ', 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, ' ', 0, 0, 0, 0, ' ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-('2016-10-31 15:25:20', 3, 4, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 2, 4);
+('2a80e932ec29cb3e95c1d38e5873c702', 3, 0, 0, 1, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, 0, '', 0, 0, 1, 0, 0, 0, 0, '', 0, 1, 0, '', 0, 1, 0, 0, 0, '', 0, 1, 0, 0, 0, '', 0, 1, 0, 0, 0, 0, '', 0, 0, 1, 0, '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, 0, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -803,7 +809,9 @@ INSERT INTO `wine_bottle` (`producer`, `wine_name`, `vintage`, `wine_style`, `gr
 ('WORKING', 'WORKING', '1234', 'Sparkling', 'WORKING', 'WORKING', 'CA', 'WORKING', NULL),
 ('WORKING', 'WORKING', '1234', 'Sparkling', '', 'WORKING', 'ca', 'WORKING', NULL),
 ('Tallbot', 'Kali-Hart ', '', 'Still Red', 'Pinot Noir', 'USA', 'CA', 'Central Coast', 12),
-('Tallbot', 'Kali-Hart ', '', 'Sparkling White', 'Pinot Noir', 'USA', 'California', 'Central Coast', 13);
+('Tallbot', 'Kali-Hart ', '', 'Sparkling White', 'Pinot Noir', 'USA', 'California', 'Central Coast', 13),
+('Tallbot', 'Kali-Hart', '', 'Fortified Red', 'Pinot Noir', 'USA', 'CA', 'Central Coast', 13),
+('Tallbot', 'Kali-Hart', '', 'Fortified Red', 'Pinot Noir', 'USA', 'CA', 'Central Coast', 13);
 
 --
 -- Indexes for dumped tables
@@ -822,17 +830,7 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`username`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `registered_user`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`username`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `assessment`
---
-ALTER TABLE `assessment`
-  MODIFY `assessment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+ALTER TABLE `registered_user`
+  ADD PRIMARY KEY (`email`);

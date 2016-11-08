@@ -1,7 +1,6 @@
 db/
 build/
 .DS_Store
-vendor
 .idea
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
@@ -9,3 +8,4 @@ vendor
 !.elasticbeanstalk/*.global.yml
 coverage.xml
 index.html
+vendor/**

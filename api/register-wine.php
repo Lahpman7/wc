@@ -27,4 +27,5 @@
         $regBottle::insertBottle($producer, $wine_name, $vintage, $wine_style,
         $grapes, $country, $state, $region, $alcohol);
     }
+    header("Location: ../index.php");
 ?>

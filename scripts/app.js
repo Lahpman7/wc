@@ -23,6 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // app.baseUrl = '/polymer-starter-kit/';
   }
 
+  // object will contain wine information for assess
+  app.wineInfo = {};
+
     function _submit(event) {
      Polymer.dom(event).localTarget.parentElement.submit();
    }
@@ -65,6 +68,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Scale middleContainer appName
     Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
   });
+
+  // Adds info to wine form
+  app.addWineInfo = function() {
+    app.$.winenamewhite.value = app.wineInfo.name;
+    app.$.wineproducerwhite.value = app.wineInfo.prod;
+    app.$.winestylewhite.value = app.wineInfo.style;
+    app.$.winevintagewhite.value = app.wineInfo.vin;
+
+    app.$.winenamered.value = app.wineInfo.name;
+    app.$.wineproducerred.value = app.wineInfo.prod;
+    app.$.winestylered.value = app.wineInfo.style;
+    app.$.winevintagered.value = app.wineInfo.vin;
+  };
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
