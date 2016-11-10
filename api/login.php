@@ -1,17 +1,17 @@
 <?php
-        echo "above session";
+        echo "above session\n";
         session_start();
-        echo "above require";
-        //include '../vendor/autoload.php';
-        require_once __DIR__ . '/vendor/autoload.php';
+        echo "above require\n";
+        include '../vendor/autoload.php';
+        //require_once __DIR__ . '/vendor/autoload.php';
         //above works on my test page but maybe because I have all in root dir
-        echo "under require";
+        echo "under require\n";
         $fb = new Facebook\Facebook([
             'app_id' => '1773451242931017',
             'app_secret' => '5a2fd5013528d9551880d8bf247a661e',
             'default_graph_version' => 'v2.5',
         ]);
-        echo "under facebook class dec";
+        echo "under facebook class dec\n";
         //above is app credentials, will need to hide this before push.
         # login.php
         //$fb = new Facebook\Facebook([/* . . . */]);
