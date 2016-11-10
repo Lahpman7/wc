@@ -3,7 +3,8 @@
         echo "above session\n";
         session_start();
         echo "above require\n";
-        include '../vendor/autoload.php';
+        require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
+        //include '../vendor/autoload.php';
         //require_once __DIR__ . '/vendor/autoload.php';
         //include 'db.include.php';
         //require_once __DIR__ . '/vendor/autoload.php';
