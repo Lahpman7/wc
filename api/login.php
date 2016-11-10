@@ -4,8 +4,8 @@
         session_start();
         echo "above require\n";
         //include '../vendor/autoload.php';
-        include 'db.include.php';
-        //require_once __DIR__ . '/vendor/autoload.php';
+        //include 'db.include.php';
+        require_once __DIR__ . '/vendor/autoload.php';
         //above works on my test page but maybe because I have all in root dir
         echo "under require\n";
         $fb = new Facebook\Facebook([
