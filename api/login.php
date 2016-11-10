@@ -1,6 +1,6 @@
 <?php
         session_start();
-        //require_once  '../vendor/autoload.php';
+        require_once  '../vendor/autoload.php';
         //above works on my test page but maybe because I have all in root dir
 
         $fb = new Facebook\Facebook([
@@ -44,6 +44,7 @@
         	// redirect the user back to the same page if it has "code" GET variable
         	if (isset($_GET['code'])) {
         		//header('Location: ./');
+            echo "in code";
         	}
         	//retrieve payload (fullname,first,last,email,id,age_range('min')
         	try {
@@ -53,7 +54,8 @@
         		echo 'Graph returned an error: ' . $e->getMessage();
         		session_destroy();
         		// redirecting user back to app login page
-        		header("Location: ./");
+        		//header("Location: ./");
+            echo "In catch statement";
         		exit;
         	} catch(Facebook\Exceptions\FacebookSDKException $e) {
         		// When validation fails or other local issues
@@ -68,15 +70,16 @@
 	    	$_SESSION['fullname'] = $payload['name'];
 	    	$_SESSION['imageUrl'] = $image;
 	    	//can invoke insert function or function that sees if its in DB then inserts if not
-
+        echo "in if statement";
 	    	//echo $_SESSION['username'];
-	    	header('Location: ../index.php');
+	    	//header('Location: ../index.php');
 	    	//var_dump($payload);
         	//echo $payload['age_range']['min'];
           	// Now you can redirect to another page and use the access token from $_SESSION['accessToken']
         } else {
         	// will need to change this to AWS, cannot test locally!!! facebook requires http/s
         	$loginUrl = $helper->getLoginUrl('https://winarycode-masloph.c9users.io/wc/api/login.php', $permissions);
-        	header('Location: ' . $loginUrl);
+        	//header('Location: ' . $loginUrl);
+          echo "in else statement";
         }
     ?>
