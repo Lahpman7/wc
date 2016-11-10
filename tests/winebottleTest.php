@@ -1,7 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
+//include_once("lib/wineBottle.php");
 include_once("lib/wineBottle.php");
-//nclude_once("../lib/wineBottle.php");
+
 
 class BottleTest extends TestCase
 {
@@ -14,6 +15,12 @@ class BottleTest extends TestCase
         $this->assertEquals($tester,true);
     }
     
+    public function testUpdateGrapes(){
+        $bottleObject = new RegBottle();
+        $tester = $bottleObject::updateBottleGrapes("AAATestProducer","TestWineName","UpdatedGrapeName");
+        //tested + working
+        $this->assertTrue($tester);
+    }
     public function testDelete(){
         $bottleObject = new RegBottle();
         $tester = $bottleObject::deleteBottle("TestProducer","TestWineName","1970", "WineStyleTest",

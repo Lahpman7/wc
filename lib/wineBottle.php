@@ -64,7 +64,20 @@ class RegBottle{
             return "";
         }
     }
+    public static function updateBottleGrapes($producer,$wine_name,$grapes){
+        $db = Database::getInstance();
+        $sql = "UPDATE wine_bottle 
+                SET grapes = '$grapes'
+                WHERE wine_name ='$wine_name' 
+                AND producer = '$producer'";
+        $val = $db->prepare($sql);
+        if($val->execute()){
+            return true;
+        }
+        return false;
     
+        
+    }
     public static function retrieveAll(){
         $db = Database::getInstance();
         // NEED TO INSTALL +json 
