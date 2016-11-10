@@ -2,7 +2,7 @@
         echo "above session";
         session_start();
         echo "above require";
-        require_once  '../vendor/autoload.php';
+        //require_once  '../vendor/autoload.php';
         //above works on my test page but maybe because I have all in root dir
         echo "under require";
         $fb = new Facebook\Facebook([
