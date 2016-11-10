@@ -1,8 +1,8 @@
-<?php
+<?php 
         session_start();
-        //require_once  '../vendor/autoload.php';
+        require_once  '../vendor/autoload.php';
         //above works on my test page but maybe because I have all in root dir
-
+        
         $fb = new Facebook\Facebook([
             'app_id' => '1773451242931017',
             'app_secret' => '5a2fd5013528d9551880d8bf247a661e',
@@ -13,7 +13,7 @@
         //$fb = new Facebook\Facebook([/* . . . */]);
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email']; // optional
-
+        	
         try {
         	if (isset($_SESSION['accessToken'])) {
         		$accessToken = $_SESSION['accessToken'];
@@ -63,12 +63,12 @@
         	$image = 'https://graph.facebook.com/'.$payload['id'].'/picture?width=200';
 	    	//prints image
 	    	//echo "<img src='$image' /><br><br>";
-
+	    	
 	    	$_SESSION['username'] = $payload['email'];
 	    	$_SESSION['fullname'] = $payload['name'];
 	    	$_SESSION['imageUrl'] = $image;
 	    	//can invoke insert function or function that sees if its in DB then inserts if not
-
+	    	
 	    	//echo $_SESSION['username'];
 	    	header('Location: ../index.php');
 	    	//var_dump($payload);
@@ -78,5 +78,5 @@
         	// will need to change this to AWS, cannot test locally!!! facebook requires http/s
         	$loginUrl = $helper->getLoginUrl('https://winarycode-masloph.c9users.io/wc/api/login.php', $permissions);
         	header('Location: ' . $loginUrl);
-        }
+        }	
     ?>
