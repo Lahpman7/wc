@@ -109,6 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="info"></iron-icon>
             <span>Register Account</span>
           </a>
+           <a data-route="register-account" href="{{baseUrl}}register-account-fb">
+            <iron-icon icon="info"></iron-icon>
+            <span>Register Account++</span>
+          </a>
 
           <!--Login declared here -->
           <a data-route="login-form" href = "{{baseUrl}}login-form">
@@ -946,7 +950,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
              <!-- Register Account Form -->
             <section data-route="register-account">
               <paper-material elevation="1">
-                <form id="register-account-form" method="post"  onsubit= "return comparison();"action="api/register-user.php">
+                <form id="register-account-form" method="post"  onsubmit= "return comparison();"action=api/register-user.php">
                   <h3>Create an Account</h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
@@ -985,6 +989,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <option value = "8"> 55 and older </option>
                     </select>
                   <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="zipcode" type ="text" placeholder = "Zip code" required>
+                  </paper-input-container>
+                   <select name="employment">
+                        <option value = "consumer">Consumer</option>
+                        <option value = "producer">Producer</option>
+                        <option value = "service">Service/Sales</option>
+                        <option value = "buyer">Buyer</option>
+                    </select>
+                   <select name="cert_body">
+                        <option value = "none"> None </option>
+                        <option value = "Court of Master Sommeliers Intro Certificate">Court of Master Sommeliers Intro Certificate</option>
+                        <option value = "Court of Master Sommeliers Certified Sommelier">Court of Master Sommeliers Certified Sommelier</option>
+                        <option value = "Court of Master Sommeliers Advanced Level">Court of Master Sommeliers Advanced Level</option>
+                    </select>
+                  <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
+                  </paper-input-container>
+                    <button name="regAccount" type="submit">Register Account</button>
+                </form>
+              </paper-material>
+            </section>
+            <!-- FB continued -->
+            <section data-route="register-account-fb">
+              <paper-material elevation="1">
+                <form id="register-account-form" method="post"  onsubmit= "return comparison();"action="api/register-user.php">
+                  <h3>Create an Account</h3>
+                  <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
+                  </paper-input-container>
+                  <paper-input-container>
+                      <input is="iron-input" type = "password" id = "pass1" name ="password" type ="text" placeholder = "Password" required>
+                  </paper-input-container>
+                  <paper-input-container>
+                      <input is="iron-input" type = "password" id = "pass2" onkeyup="checkPass()" name ="confirm_password" type ="text" placeholder = "Confirm Password" required>
+                      <span id="confirmMessage" class="confirmMessage"></span>
+                  </paper-input-container>
+                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="zipcode" type ="text" placeholder = "Zip code" required>
                   </paper-input-container>
                    <select name="employment">
