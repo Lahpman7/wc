@@ -87,7 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Home</span>
           </a>
           <a data-route="user-profile" href="{{baseUrl}}user-profile">
-            <iron-icon icon="perm-identity"></iron-icon>
+            <iron-icon icon="icons:face"></iron-icon>
             <span>Profile</span>
           </a>
           <a data-route="white-assessment" href="{{baseUrl}}white-assessment">
@@ -96,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <a data-route="red-assessment" href="{{baseUrl}}red-assessment">
-            <iron-icon icon="mail"></iron-icon>
+            <iron-icon icon="icons:assignment-turned-in"></iron-icon>
             <span>Red Assessment</span>
           </a>
 
@@ -106,17 +106,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </a>
             <!--Register Account Routing -->
           <a data-route="register-account" href="{{baseUrl}}register-account">
-            <iron-icon icon="info"></iron-icon>
+            <iron-icon icon="icons:assignment-returned"></iron-icon>
             <span>Register Account</span>
           </a>
-           <a data-route="register-account" href="{{baseUrl}}register-account-fb">
-            <iron-icon icon="info"></iron-icon>
-            <span>Register Account++</span>
+           <a style="display:none;" data-route="register-account-fb" href="{{baseUrl}}register-account-fb">
           </a>
 
           <!--Login declared here -->
           <a data-route="login-form" href = "{{baseUrl}}login-form">
-            <iron-icon icon "mail"></iron-icon>
+            <iron-icon icon="icons:accessibility"></iron-icon>
             <span>Login</span>
           </a>
         </paper-menu>
@@ -159,7 +157,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="user-profile">
               <paper-material elevation="1">
               Update Profile
-                    <?php 
+                    <?php
                      if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                          if(isset($_SESSION['imageUrl'])){
                           $image = $_SESSION['imageUrl'];
@@ -169,21 +167,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                          }
                          else{
                          echo "<h2>Welcome, " . $_SESSION['username'] . '!!!</h2>';
-                         } 
-                         
+                         }
+
                      }
-    
+
                   ?>
                   <?php if (isset($_SESSION['username'])&&!isset($_SESSION['imageUrl'])){ ?>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
                         </paper-input-container>
-                        
+
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
-                 <?php } //else statement here if need be?> 
-                  
+                 <?php } //else statement here if need be?>
+
                 </paper-material>
 
             </section>
@@ -480,7 +478,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="sweetness" value="4">Med. Sweet
 
                     <h3> Acid </h3><br>
-                    <input type="radio" name="acid" value="1"> Low 
+                    <input type="radio" name="acid" value="1"> Low
                     <input type="radio" name="acid" value="2"> Med. -
                     <input type="radio" name="acid" value="3"> Med. +
                     <input type="radio" name="acid" value="4"> High
@@ -521,11 +519,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="quality_for_price_rate" value="2">1
                     <input type="radio" name="quality_for_price_rate" value="3">2
                     <input type="radio" name="quality_for_price_rate" value="4">3
-                    
-                    <!-- Adds the wine info-->		
-                     <input id="winenamewhite" type="hidden" name="wine_name" >		
-                     <input id="wineproducerwhite" type="hidden" name="wine_producer" >		
-                     <input id="winestylewhite" type="hidden" name="wine_style" >		
+
+                    <!-- Adds the wine info-->
+                     <input id="winenamewhite" type="hidden" name="wine_name" >
+                     <input id="wineproducerwhite" type="hidden" name="wine_producer" >
+                     <input id="winestylewhite" type="hidden" name="wine_style" >
                      <input id="winevintagewhite" type="hidden" name="wine_vintage" >
                     <button class="btn" name="whiteAssessReturn" type="submit">Submit</button>
             </form>
@@ -883,14 +881,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="quality_for_price_rate" value="2">1
                     <input type="radio" name="quality_for_price_rate" value="3">2
                     <input type="radio" name="quality_for_price_rate" value="4">3
-                    
-                    
-                    <!-- Adds the wine info-->		
-                    <input id="winenamered" type="hidden" name="wine_name">		
-                     <input id="wineproducerred" type="hidden" name="wine_producer">		
-                     <input id="winestylered" type="hidden" name="wine_style">		
-                     <input id="winevintagered" type="hidden" name="wine_vintage">		
- 
+
+
+                    <!-- Adds the wine info-->
+                    <input id="winenamered" type="hidden" name="wine_name">
+                     <input id="wineproducerred" type="hidden" name="wine_producer">
+                     <input id="winestylered" type="hidden" name="wine_style">
+                     <input id="winevintagered" type="hidden" name="wine_vintage">
+
                     <button class="btn" name="redAssessReturn" type="submit">Submit</button>
               </form>
             </paper-material>
@@ -1014,7 +1012,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="register-account-fb">
               <paper-material elevation="1">
                 <form id="register-account-form" method="post"  onsubmit= "return comparison();"action="api/register-user.php">
-                  <h3>Create an Account</h3>
+                  <h3>We need a little more information from you!</h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
                   </paper-input-container>
@@ -1043,7 +1041,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
                   </paper-input-container>
-                    <button name="regAccount" type="submit">Register Account</button>
+                    <button name="regAccountFB" type="submit">Register Account</button>
                 </form>
               </paper-material>
             </section>
