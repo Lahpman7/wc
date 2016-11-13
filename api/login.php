@@ -76,12 +76,14 @@
           if($testUser::emailExists($_SESSION['username'])){
             //when user email is already in our db, we send them back to index
             //header('Location: http://localhost/wc/#!/user-profile');
-            header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile')
+            echo 'exists';
+            //header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile')
           }
           else{
+            echo 'does not exist';
             //we are gonna send user to finish sign up in a HIDDEN form.
             //header('Location: http://localhost/wc/#!/register-account-fb');
-            header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb')
+            //header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb')
           }
 
         } else {
