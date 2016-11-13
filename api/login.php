@@ -3,8 +3,10 @@
         error_reporting(E_ALL);ini_set('display_errors',1);
         include_once('../lib/user.php');
         require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
+        echo "test";
         //above works on my test page but maybe because I have all in root dir
         //$urlReturn  = 'http://localhost/wc/api/login.php';
+        /*
         $urlReturn = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/api/login.php';
         $fb = new Facebook\Facebook([
             'app_id' => '1773451242931017',
@@ -12,8 +14,7 @@
             'default_graph_version' => 'v2.5',
         ]);
         //above is app credentials, will need to hide this before push.
-        # login.php
-        //$fb = new Facebook\Facebook([/* . . . */]);
+
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email'];
 
@@ -95,5 +96,5 @@
         	// will need to change this to AWS, cannot test locally!!! facebook requires http/s
         	$loginUrl = $helper->getLoginUrl($urlReturn, $permissions);
         	header('Location: ' . $loginUrl);
-        }
+        }*/
     ?>
