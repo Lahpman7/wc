@@ -96,7 +96,7 @@
         } else {
         	// will need to change this to AWS, cannot test locally!!! facebook requires http/s
         	$loginUrl = $helper->getLoginUrl($urlReturn, $permissions);
-          echo 'in redirect to facebook';
-        	//header('Location: ' . $loginUrl);
+          //echo 'in redirect to facebook';
+        	header('Location: ' . $loginUrl);
         }
     ?>
