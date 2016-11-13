@@ -1,5 +1,6 @@
 <?php
         session_start();
+        error_reporting(E_ALL);ini_set('display_errors',1);
         include_once('../lib/user.php');
         require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
         //above works on my test page but maybe because I have all in root dir
