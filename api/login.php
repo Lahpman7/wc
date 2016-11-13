@@ -1,6 +1,6 @@
 <?php
         session_start();
-        error_reporting(E_ALL);ini_set('display_errors',1);
+        //error_reporting(E_ALL);ini_set('display_errors',1);
         include_once('../lib/user.php');
         require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
         //above works on my test page but maybe because I have all in root dir
@@ -75,15 +75,12 @@
           $testUser = new RegUser();
           if($testUser::emailExists($_SESSION['username'])){
             //when user email is already in our db, we send them back to index
-            //header('Location: http://localhost/wc/#!/user-profile');
-            echo 'exists';
-            //header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile')
+            $continueProfile = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile';
+            header('Location: ' . $continueProfile);
           }
           else{
-            echo 'does not exist';
-            //we are gonna send user to finish sign up in a HIDDEN form.
-            //header('Location: http://localhost/wc/#!/register-account-fb');
-            //header('Location: http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb')
+            $continueReg = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb';
+            header('Location: ' . $continueReg);
           }
 
         } else {
