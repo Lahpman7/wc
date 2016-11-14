@@ -9,13 +9,13 @@
         const app_secret = '5a2fd5013528d9551880d8bf247a661e';
         const default_graph_version = 'v2.5';
         $urlReturn = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/api/login.php';
-        $fb = new Facebook\Facebook([
+        $facebookLoginObject = new Facebook\Facebook([
             'app_id' => app_id,
             'app_secret' => app_secret,
             'default_graph_version' => default_graph_version,
         ]);
 
-        $helper = $fb->getRedirectLoginHelper();
+        $helper = $facebookLoginObject->getRedirectLoginHelper();
         $permissions = ['email'];
 
         try {
@@ -33,17 +33,17 @@
          }
         if (isset($accessToken)) {
         	if (isset($_SESSION['accessToken'])) {
-        		$fb->setDefaultAccessToken($_SESSION['accessToken']);
+        		$facebookLoginObject->setDefaultAccessToken($_SESSION['accessToken']);
         	} else {
         		// getting short-lived access token
         		$_SESSION['accessToken'] = (string) $accessToken;
         	  	// OAuth 2.0 client handler
-        		$oAuth2Client = $fb->getOAuth2Client();
+          		$oAuth2Client = $facebookLoginObject->getOAuth2Client();
         		// Exchanges a short-lived access token for a long-lived one
         		$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($_SESSION['accessToken']);
         		$_SESSION['accessToken'] = (string) $longLivedAccessToken;
         		// setting default access token to be used in script
-        		$fb->setDefaultAccessToken($_SESSION['accessToken']);
+        		$facebookLoginObject->setDefaultAccessToken($_SESSION['accessToken']);
         	}
         	// redirect the user back to the same page if it has "code" GET variable
         	if (isset($_GET['code'])) {
@@ -51,7 +51,7 @@
         	}
         	//retrieve payload (fullname,first,last,email,id,age_range('min')
         	try {
-        		$payload_request = $fb->get('/me?fields=name,first_name,last_name,email,age_range');
+        		$payload_request = $facebookLoginObject->get('/me?fields=name,first_name,last_name,email,age_range');
         		$payload = $payload_request->getGraphNode()->asArray();
         	} catch(Facebook\Exceptions\FacebookResponseException $e) {
         		echo 'Graph returned an error: ' . $e->getMessage();
@@ -65,7 +65,7 @@
         		exit;
         	}
         	$image = 'https://graph.facebook.com/'.$payload['id'].'/picture?width=200';
-  	    	$_SESSION['email'] = $payload['email'];
+  	    	$_SESSION['username'] = $payload['email'];
   	    	$_SESSION['fullname'] = $payload['name'];
           $_SESSION['first'] = $payload['first_name'];
           $_SESSION['last'] = $payload['last_name'];
@@ -74,7 +74,7 @@
           //will either need to get username from session in emailExists function or, create a function that returns username to assign in here to cutback on sessions
   	    	// function that checks if its in DB then inserts if not
           $testUser = new RegUser();
-          if($testUser::emailExists($_SESSION['email'])){
+          if($testUser::emailExists($_SESSION['username'])){
             //when user email is already in our db, we send them back to index
             $continueProfile = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile';
             header('Location: ' . $continueProfile);
