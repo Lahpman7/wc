@@ -5,14 +5,15 @@
         require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
         //above works on my test page but maybe because I have all in root dir
         //$urlReturn  = 'http://localhost/wc/api/login.php';
-
+        const app_id = '1773451242931017';
+        const app_secret = '5a2fd5013528d9551880d8bf247a661e';
+        const default_graph_version = 'v2.5';
         $urlReturn = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/api/login.php';
         $fb = new Facebook\Facebook([
-            'app_id' => '1773451242931017',
-            'app_secret' => '5a2fd5013528d9551880d8bf247a661e',
-            'default_graph_version' => 'v2.5',
+            'app_id' => app_id,
+            'app_secret' => app_secret,
+            'default_graph_version' => default_graph_version,
         ]);
-        //above is app credentials, will need to hide this before push.
 
         $helper = $fb->getRedirectLoginHelper();
         $permissions = ['email'];
@@ -64,16 +65,16 @@
         		exit;
         	}
         	$image = 'https://graph.facebook.com/'.$payload['id'].'/picture?width=200';
-  	    	$_SESSION['username'] = $payload['email'];
+  	    	$_SESSION['email'] = $payload['email'];
   	    	$_SESSION['fullname'] = $payload['name'];
           $_SESSION['first'] = $payload['first_name'];
           $_SESSION['last'] = $payload['last_name'];
   	    	$_SESSION['imageUrl'] = $image;
           $_SESSION['age'] = $payload['age_range']['min'];
-
+          //will either need to get username from session in emailExists function or, create a function that returns username to assign in here to cutback on sessions
   	    	// function that checks if its in DB then inserts if not
           $testUser = new RegUser();
-          if($testUser::emailExists($_SESSION['username'])){
+          if($testUser::emailExists($_SESSION['email'])){
             //when user email is already in our db, we send them back to index
             $continueProfile = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile';
             header('Location: ' . $continueProfile);
