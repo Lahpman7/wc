@@ -26,10 +26,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // object will contain wine information for assess
   app.wineInfo = {};
 
-    function _submit(event) {
+  function _submit(event) {
      Polymer.dom(event).localTarget.parentElement.submit();
    }
 
+  // returns user for front end
+  app.userInfo = window.BootstrappedUser;
+
+  //returns true of false if user is logged in
+  app.hasUser = function(userInfo) {
+    return userInfo != undefined;
+  }
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
