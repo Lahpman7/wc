@@ -6,7 +6,7 @@ class Database {
         private function __clone() {}
 
 public static function getInstance() {
-      
+
         $host = "wc-database.cvuylrrqda7p.us-west-1.rds.amazonaws.com";
         $dbname = "wc_db";
         $username = "wc_user";
