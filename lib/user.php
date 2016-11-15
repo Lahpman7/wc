@@ -1,16 +1,17 @@
 <?php
-include_once('../api/db.include.php');
+include_once('api/db.include.php');
 
 class RegUser {
     public static $name;
     public static $email;
     public function __construct(){
-        $db = getDatabaseConnection();
+        
     }
 
    //function if the user exits
    public static function isUser($uname){
         //select statement for pulling user name
+        $db = getDatabaseConnection();
         $sql = "SELECT username FROM user WHERE username ='$uname'";
         $val = $db->prepare($sql);
         $val->execute();
@@ -28,6 +29,7 @@ class RegUser {
     }
 
     public static function insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date){
+        $db = getDatabaseConnection();
        $sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES
         ('$username','$password','$email','$firstname','$lastname','$age','$zipcode','$employment','$cert_body','$date')";
        $val = $db->prepare($sql);
@@ -41,6 +43,7 @@ class RegUser {
     }
 
     public static function deleteUser($uname){
+        $db = getDatabaseConnection();
         $sql = "DELETE FROM user WHERE username ='$uname'";
         $val = $db->prepare($sql);
         if($val->execute()){
@@ -52,6 +55,7 @@ class RegUser {
     }
 
     public static function updatePassword($newPassword,$currentUsername){
+        $db = getDatabaseConnection();
         $sql = "UPDATE user
   			SET password = '$newPassword'
   			WHERE username = '$currentUsername'";
@@ -65,6 +69,7 @@ class RegUser {
           }
     }
     public static function updateEmail($newEmail,$currentUsername){
+        $db = getDatabaseConnection();
         $sql = "UPDATE user
         SET email = '$newEmail'
         WHERE username ='$currentUsername'";
@@ -79,6 +84,7 @@ class RegUser {
     }
 
     public static function updateZip($newZip,$currentUsername){
+        $db = getDatabaseConnection();
         $newZipcode = intval($newZip);
         $sql = "UPDATE user
 			  SET zipcode = '$newZipcode'
@@ -93,6 +99,7 @@ class RegUser {
     }
 
     public static function getPassword($username){
+        $db = getDatabaseConnection();
         $sql = "SELECT password
         FROM user
         WHERE username = '$username'";
@@ -103,6 +110,7 @@ class RegUser {
     }
 
     public static function emailExists($fbEmail){
+        $db = getDatabaseConnection();
         $sql = "SELECT email FROM user WHERE email ='$fbEmail'";
         $val = $db->prepare($sql);
         $val->execute();
