@@ -8,7 +8,6 @@ class UserTest extends TestCase
     public function testUser(){
         $newUser = new RegUser();
         $tester = $newUser::isUser("Testy2");
-        //assertEquals(-1, $b->getAmount());
         $this->assertEquals($tester,false);
     }
     
@@ -36,9 +35,7 @@ class UserTest extends TestCase
         $newUser::updatePassword("1111", "username_test");
         $password = $newUser::getPassword("username_test");
         $newUser::deleteUser("username_test");
-
         $this->assertTrue($password == "1111");
     }
-    
 }
 ?>
