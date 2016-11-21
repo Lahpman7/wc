@@ -2,6 +2,7 @@ dependencies:
   pre:
     - sudo apt-get install python-dev
     - sudo -H pip install awsebcli --upgrade --ignore-installed setuptools
+    - composer update
 test:
   override:
     - mkdir -v -p $CIRCLE_TEST_REPORTS/reports

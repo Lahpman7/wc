@@ -1,19 +1,22 @@
-<?php 
+<?php
         session_start();
-        require_once  '../vendor/autoload.php';
+        //error_reporting(E_ALL);ini_set('display_errors',1);
+        include_once('../lib/user.php');
+        require_once '../vendor/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
         //above works on my test page but maybe because I have all in root dir
-        
+        //$urlReturn  = 'http://localhost/wc/api/login.php';
+
+        $urlReturn = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/api/login.php';
         $fb = new Facebook\Facebook([
             'app_id' => '1773451242931017',
             'app_secret' => '5a2fd5013528d9551880d8bf247a661e',
             'default_graph_version' => 'v2.5',
         ]);
         //above is app credentials, will need to hide this before push.
-        # login.php
-        //$fb = new Facebook\Facebook([/* . . . */]);
+
         $helper = $fb->getRedirectLoginHelper();
-        $permissions = ['email']; // optional
-        	
+        $permissions = ['email'];
+
         try {
         	if (isset($_SESSION['accessToken'])) {
         		$accessToken = $_SESSION['accessToken'];
@@ -61,22 +64,27 @@
         		exit;
         	}
         	$image = 'https://graph.facebook.com/'.$payload['id'].'/picture?width=200';
-	    	//prints image
-	    	//echo "<img src='$image' /><br><br>";
-	    	
-	    	$_SESSION['username'] = $payload['email'];
-	    	$_SESSION['fullname'] = $payload['name'];
-	    	$_SESSION['imageUrl'] = $image;
-	    	//can invoke insert function or function that sees if its in DB then inserts if not
-	    	
-	    	//echo $_SESSION['username'];
-	    	header('Location: ../index.php');
-	    	//var_dump($payload);
-        	//echo $payload['age_range']['min'];
-          	// Now you can redirect to another page and use the access token from $_SESSION['accessToken']
+  	    	$_SESSION['username'] = $payload['email'];
+  	    	$_SESSION['fullname'] = $payload['name'];
+          $_SESSION['first'] = $payload['first_name'];
+          $_SESSION['last'] = $payload['last_name'];
+  	    	$_SESSION['imageUrl'] = $image;
+          $_SESSION['age'] = $payload['age_range']['min'];
+
+  	    	// function that checks if its in DB then inserts if not
+          $testUser = new RegUser();
+          if($testUser::emailExists($_SESSION['username'])){
+            //when user email is already in our db, we send them back to index
+            $continueProfile = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile';
+            header('Location: ' . $continueProfile);
+          }
+          else{
+            $continueReg = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb';
+            header('Location: ' . $continueReg);
+          }
+
         } else {
-        	// will need to change this to AWS, cannot test locally!!! facebook requires http/s
-        	$loginUrl = $helper->getLoginUrl('https://winarycode-masloph.c9users.io/wc/api/login.php', $permissions);
+        	$loginUrl = $helper->getLoginUrl($urlReturn, $permissions);
         	header('Location: ' . $loginUrl);
-        }	
+        }
     ?>

@@ -59,6 +59,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
+  <!-- loads user info if logged in. Must be loaded before script/app.js -->
+  <?php if(isset($_SESSION['username'])) { ?>
+    <script>
+      window.BootstrappedUser = {
+        username : <?php echo "'".$_SESSION['username']."'," ?>
+        fullname : <?php echo "'".$_SESSION['fullname']."'," ?>
+        image : <?php echo "'".$_SESSION['imageUrl']."'" ?>
+      }
+    </script>
+  <?php } ?>
+
   <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
   <link rel="import" href="elements/elements.html">
@@ -86,34 +97,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
-          <a data-route="user-profile" href="{{baseUrl}}user-profile">
-            <iron-icon icon="perm-identity"></iron-icon>
-            <span>Profile</span>
-          </a>
-          <a data-route="white-assessment" href="{{baseUrl}}white-assessment">
-            <iron-icon icon="info"></iron-icon>
-            <span>White Assesment</span>
-          </a>
-
-          <a data-route="red-assessment" href="{{baseUrl}}red-assessment">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Red Assessment</span>
-          </a>
-
-          <a data-route="register-wine" href="{{baseUrl}}register-wine">
-            <iron-icon icon="assignment"></iron-icon>
-            <span>Register Wine</span>
+         <!-- user profile link -->
+          <template is="dom-if" if="{{hasUser(userInfo)}}">
+            <a data-route="user-profile" href="{{baseUrl}}user-profile">
+              <iron-icon icon="perm-identity"></iron-icon>
+              <span> My Profile</span>
             </a>
-            <!--Register Account Routing -->
-          <a data-route="register-account" href="{{baseUrl}}register-account">
-            <iron-icon icon="info"></iron-icon>
-            <span>Register Account</span>
-          </a>
-
-          <!--Login declared here -->
+          </template>
+          <!-- Social feed link TODO add social stream page to href-->
+          <template is="dom-if" if="{{hasUser(userInfo)}}">
+            <a data-route="user-profile" href="{{baseUrl}}user-profile">
+              <iron-icon icon="supervisor-account"></iron-icon>
+              <span>Social Stream</span>
+            </a>
+          </template>
+          <!--Register Account Routing if user is not logged in-->
+            <a hidden$="{{hasUser(userInfo)}}" data-route="register-account" href="{{baseUrl}}register-account">
+              <iron-icon icon="add"></iron-icon>
+              <span>Register Account</span>
+            </a>
+          <!--Login / Logout declared here -->
           <a data-route="login-form" href = "{{baseUrl}}login-form">
-            <iron-icon icon "mail"></iron-icon>
-            <span>Login</span>
+            <iron-icon icon="star"></iron-icon>
+            <span hidden$="{{hasUser(userInfo)}}">Login</span>
+            <template is="dom-if" if="{{hasUser(userInfo)}}">
+              <span>Logout</span>
+            </template>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -127,9 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span class="space"></span>
 
           <!-- Toolbar icons -->
-          <paper-icon-button icon="refresh"></paper-icon-button>
-          <paper-icon-button icon="search"></paper-icon-button>
-
+          <paper-icon-button icon="account-circle"></paper-icon-button>
           <!-- Application name -->
           <div class="middle middle-container">
             <div class="app-name">Winary Code</div>
@@ -137,7 +144,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application sub title -->
           <div class="bottom bottom-container">
-            <div class="bottom-title">Sommeiler 2.0</div>
+            <div class="bottom-title">Sommeiler 2.0
+              <template is="dom-if" if="{{hasUser(userInfo)}}">
+                - Welcome {{userInfo.username}}
+              </template>
+            </div>
           </div>
         </paper-toolbar>
 
@@ -946,7 +957,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
              <!-- Register Account Form -->
             <section data-route="register-account">
               <paper-material elevation="1">
-                <form id="register-account-form" method="post"  onsubit= "return comparison();"action="api/register-user.php">
+                <form id="register-account-form" method="post"  onsubmit= "return comparison();"action="api/register-user.php">
                   <h3>Create an Account</h3>
                   <paper-input-container>
                       <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
@@ -1006,6 +1017,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </form>
               </paper-material>
             </section>
+            <!-- FB continued -->
+            <section data-route="register-account-fb">
+              <paper-material elevation="1">
+                <form id="register-account-form" method="post"  onsubmit= "return comparison();"action="api/register-user.php">
+                  <h3>We need a little more information from you!</h3>
+                  <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="username" type ="text" placeholder = "Username" required>
+                  </paper-input-container>
+                  <paper-input-container>
+                      <input is="iron-input" type = "password" id = "pass1" name ="password" type ="text" placeholder = "Password" required>
+                  </paper-input-container>
+                  <paper-input-container>
+                      <input is="iron-input" type = "password" id = "pass2" onkeyup="checkPass()" name ="confirm_password" type ="text" placeholder = "Confirm Password" required>
+                      <span id="confirmMessage" class="confirmMessage"></span>
+                  </paper-input-container>
+                   <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="zipcode" type ="text" placeholder = "Zip code" required>
+                  </paper-input-container>
+                   <select name="employment">
+                        <option value = "consumer">Consumer</option>
+                        <option value = "producer">Producer</option>
+                        <option value = "service">Service/Sales</option>
+                        <option value = "buyer">Buyer</option>
+                    </select>
+                   <select name="cert_body">
+                        <option value = "none"> None </option>
+                        <option value = "Court of Master Sommeliers Intro Certificate">Court of Master Sommeliers Intro Certificate</option>
+                        <option value = "Court of Master Sommeliers Certified Sommelier">Court of Master Sommeliers Certified Sommelier</option>
+                        <option value = "Court of Master Sommeliers Advanced Level">Court of Master Sommeliers Advanced Level</option>
+                    </select>
+                  <paper-input-container>
+                      <input is="iron-input" id = "inputProducer" name ="date" type ="text" placeholder = "Date certified" required>
+                  </paper-input-container>
+                    <button name="regAccountFB" type="submit">Register Account</button>
+                </form>
+              </paper-material>
+            </section>
 
              <section data-route="login-form">
               <paper-material elevation="1">
@@ -1039,17 +1087,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </paper-toast>
 
   </template>
-  <!-- loads user info if logged in. Must be loaded before script/app.js -->
-  <?php if(isset($_SESSION['username'])) { ?>
-
-    <script>
-      window.BootstrappedUser = {
-        username : <?php echo "'".$_SESSION['username']."'," ?>
-        fullname : <?php echo "'".$_SESSION['fullname']."'," ?>
-        image : <?php echo "'".$_SESSION['imageUrl']."'" ?>
-      }
-    </script>
-  <?php } ?>
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
   <script src ="scripts/validation.js"></script>
