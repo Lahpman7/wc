@@ -43,6 +43,5 @@ class AromasTest extends TestCase
     } 
     $this->assertTrue($tester);
     }
-
 }
 ?>

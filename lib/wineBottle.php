@@ -1,5 +1,5 @@
 <?php 
-include_once('database.php');
+include_once('api/db.include.php');
 class RegBottle{
     public static $producer;
     public static $wine_name;
@@ -12,19 +12,14 @@ class RegBottle{
     public static $region;
     public static $alcohol;
     public function __construct(){
-        //$this->name = "James";
-        //$this->email = "Email";
-        //removed, it was suggested we add these above instead of in constructor
-        //can add name and email field(and others when we see Anita's reg user form)
-    } 
+        }
 
-    public static function insertBottle($producer, $wine_name, $vintage, $wine_style, 
-            $grapes, $country, $state, $region, $alcohol){
+    public static function insertBottle($producer, $wine_name, $vintage, $wine_style,$grapes, $country, $state, $region, $alcohol){
+            $db = getDatabaseConnection();
             $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, region, alcohol) 
             VALUES('$producer', '$wine_name','$vintage', '$wine_style', '$grapes', '$country',
                 '$state','$region','$alcohol');";
           
-            $db = Database::getInstance();
             $val = $db->prepare($sql);
             if($val->execute()){
                 return true;
@@ -34,10 +29,9 @@ class RegBottle{
             }
     }
 
-    public static function deleteBottle($producer, $wine_name, $vintage, $wine_style,
-            $grapes, $country, $state, $city, $region, $alcohol){
+    public static function deleteBottle($producer, $wine_name, $vintage, $wine_styl,$grapes, $country, $state, $city, $region, $alcohol){
+               $db = getDatabaseConnection();
                 $sql = "DELETE FROM wine_bottle WHERE producer = '$producer'";
-                $db = Database::getInstance();
                 $val = $db->prepare($sql);
                 if($val->execute()){
                     return true;
@@ -48,8 +42,7 @@ class RegBottle{
     }
 
     public static function retrieveBottle($wine_name){
-        $db = Database::getInstance();
-       
+        $db = getDatabaseConnection();
         $sql = "SELECT wine_name FROM wine_bottle WHERE wine_name ='$wine_name'";
         
         $val = $db->prepare($sql);
@@ -64,8 +57,9 @@ class RegBottle{
             return "";
         }
     }
+
     public static function updateBottleGrapes($producer,$wine_name,$grapes){
-        $db = Database::getInstance();
+        $db = getDatabaseConnection();
         $sql = "UPDATE wine_bottle 
                 SET grapes = '$grapes'
                 WHERE wine_name ='$wine_name' 
@@ -74,20 +68,15 @@ class RegBottle{
         if($val->execute()){
             return true;
         }
-        return false;
-    
-        
+        return false; 
     }
+
     public static function retrieveAll(){
-        $db = Database::getInstance();
-        // NEED TO INSTALL +json 
+        $db = getDatabaseConnection();
         $sql = "SELECT * FROM wine_bottle";
         $val = $db->prepare($sql);
         $val->execute();
         $retrieval = $val->fetchAll(PDO::FETCH_ASSOC);
-        //var_dump($retrieval);
-        //echo json_encode($retrieval);
-        //json_encode($retrieval);
         return json_encode($retrieval);
     }
 }

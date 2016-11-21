@@ -18,7 +18,6 @@ class BottleTest extends TestCase
     public function testUpdateGrapes(){
         $bottleObject = new RegBottle();
         $tester = $bottleObject::updateBottleGrapes("AAATestProducer","TestWineName","UpdatedGrapeName");
-        //tested + working
         $this->assertTrue($tester);
     }
     public function testDelete(){
@@ -37,7 +36,6 @@ class BottleTest extends TestCase
     public function testRetrieveAll(){
         $bottleObject = new RegBottle();
         $tester = $bottleObject::retrieveAll();
-        //var_dump(json_decode($tester));
         $this->assertTrue(true);
     }
 }

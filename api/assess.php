@@ -4,7 +4,6 @@ include 'db.include.php';
 $conn = getDatabaseConnection();
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
-
     // For assessment table
     // Generates unique id
     $time = time();
@@ -22,7 +21,8 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
     $wine_style = $_POST['wine_style']; // red or white 
     $username = $_SESSION['username'];
 
-    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, vintage, username) VALUES ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$vintage', '$username');";
+    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, vintage, username) VALUES 
+    ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$vintage', '$username');";
     //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
     $statement = $conn->prepare($sql);
     $statement->execute();
@@ -135,7 +135,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $potpourri = 0;
         $flowers_other = "";
 
-        $flower_aroma = str_replace(' ', '', $flower_aroma);
+        $flower_aroma = trim($flower_aroma);
         switch($flower_aroma){
             case "Rose": $rose = 1;
                 break;
@@ -162,7 +162,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $fennel = 0;
         $herbs_other = "";
 
-        $herb_aroma = str_replace(' ', '', $herb_aroma);
+        $herb_aroma = trim($herb_aroma);
         switch($herb_aroma){
             case "Fresh Herbs": $fresh_herbs = 1;
                 break;
@@ -187,7 +187,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $stem_whole_cluster = 0;
         $vegetal_other = "";
 
-        $vegetal_aroma = str_replace(' ', '', $vegetal_aroma);
+        $vegetal_aroma = trim($vegetal_aroma);
         switch($vegetal_aroma){
             case "Green Bell Pepper Capsicum": $green_bell_pepper_capsicum = 1;
                 break;
@@ -209,7 +209,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $menthol = 0;
         $mint_eucalyptus_other = "";
 
-        $mint_eucalyptus_aroma = str_replace(' ', '', $mint_eucalyptus_aroma);
+        $mint_eucalyptus_aroma = trim($mint_eucalyptus_aroma);
         switch($mint_eucalyptus_aroma){
             case "Mint": $mint = 1;
                 break;
@@ -232,7 +232,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $anise_licorice = 0;
         $pepper_spice_other = "";
 
-        $pepper_spice_aroma = str_replace(' ', '', $pepper_spice_aroma);
+        $pepper_spice_aroma = trim($pepper_spice_aroma);
         switch($pepper_spice_aroma){
             case "Black Peppercorn": $black_peppercorn = 1;
                 break;
@@ -261,7 +261,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $coffee_grounds = 0;
         $cocoa_coffee_other = "";
 
-        $cocoa_coffee_aroma = str_replace(' ', '', $cocoa_coffee_aroma);
+        $cocoa_coffee_aroma = trim($cocoa_coffee_aroma);
         switch($cocoa_coffee_aroma){
             case "Milk Chocolate": $milk_chocolate = 1;
                 break;
@@ -289,7 +289,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $dried_leather = 0;
         $meat_leather_other = "";
 
-        $meat_leather_aroma = str_replace(' ', '', $meat_leather_aroma);
+        $meat_leather_aroma = trim($meat_leather_aroma);
         switch($meat_leather_aroma){
             case "Meat": $meat = 1;
                 break;
@@ -314,7 +314,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $ashtray = 0;
         $tobacco_tar_other = "";
 
-        $tobacco_tar_aroma = str_replace(' ', '', $tobacco_tar_aroma);
+        $tobacco_tar_aroma = trim($tobacco_tar_aroma);
         switch($tobacco_tar_aroma){
             case "Wet Tabacco": $wet_tobacco = 1;
                 break;
@@ -340,7 +340,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $dried_leaves = 0;
         $earth_leaves_mushrooms_other = "";
 
-        $earth_leaves_mushrooms_aroma = str_replace(' ', '', $earth_leaves_mushrooms_aroma);
+        $earth_leaves_mushrooms_aroma = trim($earth_leaves_mushrooms_aroma);
         switch($earth_leaves_mushrooms_aroma){
             case "Forest Floor": $forest_floor = 1;
                 break;

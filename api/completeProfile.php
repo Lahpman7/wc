@@ -21,6 +21,4 @@
 
     $user = new RegUser();
     $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date);
-
-
 ?>
