@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="elements/wc-button-select-input/wc-button-select-input.html">
   <link rel="import" href="elements/wc-aroma-value-input/wc-aroma-value-input.html">
   <link rel="import" href="elements/wc-long-menu/wc-long-menu.html">
+  s<link rel="import" href="elements/wc-users-table/wc-users-table.html"> 
 
   <title>Winary Code</title>
 
@@ -98,6 +99,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
+
+          <a data-route="Admin-profile" href="{{baseUrl}}admin-profile">
+            <iron-icon icon="perm-identity"></iron-icon>
+            <span>admin Profile</span>
+          </a>
+
          <!-- user profile link -->
           <template is="dom-if" if="{{hasUser(userInfo)}}">
             <a data-route="user-profile" href="{{baseUrl}}user-profile">
@@ -163,9 +170,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div>
                      <wc-search></wc-search>
                 </div>
+
               </paper-material>
             </section>
-
+            <section data-route="admin-profile">
+            <div>
+                <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
+            </div>
+            </section>
+            <!-- user profile -->
             <section data-route="user-profile">
               <paper-material elevation="1">
               Update Profile
@@ -487,7 +500,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="sweetness" value="1">Bone Dry
                     <input type="radio" name="sweetness" value="2">Dry
                     <input type="radio" name="sweetness" value="3">Off Dry
-                    <input type="radio" name="sweetness" value="4">Med. Sweet
+                    <input type="radio" name="sweetness" value="4">Med Sweet
 
                     <h3> Acid </h3><br>
                     <input type="radio" name="acid" value="1"> Low
