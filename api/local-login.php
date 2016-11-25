@@ -39,8 +39,8 @@
         $reply['firstname'] = $record['firstname'];
         $reply['lastname'] = $record['lastname'];
         $_SESSION['username'] = $record['username'];
-        $_SESSION['adminname'] = $record['firstname'] . " " . $record['lastname'];
-        header("Location: ../index.php");
+        $_SESSION['fullname'] = $record['firstname'] . " " . $record['lastname'];
+        header("Location: ../#!/user-profile");
          /*header('Content-type: application/json');
          echo json_encode($reply);*/
     }

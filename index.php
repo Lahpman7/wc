@@ -191,13 +191,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                          }
                          else{
-                         echo "<h2>Welcome, " . $_SESSION['username'] . '!!!</h2>';
+                         echo "<h2>Welcome, " . $_SESSION['fullname'] . '!!!</h2>';
                          }
 
                      }
 
                   ?>
-                  <?php if (isset($_SESSION['username'])&&!isset($_SESSION['imageUrl'])){ ?>
+                  <?php if (isset($_SESSION['username'])){ ?>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
@@ -1083,7 +1083,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    <button name="loginForm" type="submit">Login</button>
                  </form>
                  <form action ="api/login.php" method="POST">
-                    <button name="loginForm" type="submit"><img src ="images/fblogger.png"></button>
+                    <button name="loginForm" style="padding: 0; border: none; background: none;" type="submit"><img src ="images/fblogger.png"></button>
                  </form>
                 <?php } else { ?>
                  <form action="api/local-login.php" method="POST">

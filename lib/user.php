@@ -5,7 +5,7 @@ class RegUser {
     public static $name;
     public static $email;
     public function __construct(){
-        
+
     }
 
    //function if the user exits
@@ -111,13 +111,14 @@ class RegUser {
 
     public static function emailExists($fbEmail){
         $db = getDatabaseConnection();
-        $sql = "SELECT email FROM user WHERE email ='$fbEmail'";
+        $sql = "SELECT email,username FROM user WHERE email ='$fbEmail'";
         $val = $db->prepare($sql);
         $val->execute();
         $shoop = $val->fetch();
-
+        //can return a user name here
         if($fbEmail == $shoop['email']){
-            return true;
+            $username = $shoop['username'];
+            return $username;
         }
         else {
             return false;
