@@ -34,7 +34,7 @@ if(isset($_POST['regAccountFB'])){
     $date = $_POST['date'];
 
     $age = $_SESSION['age'];
-    $email = $_SESSION['username'];
+    $email = $_SESSION['email'];
     $firstname = $_SESSION['first'];
     $lastname = $_SESSION['last'];
     $imgUrl = $_SESSION['imageUrl'];
