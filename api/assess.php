@@ -2,6 +2,20 @@
 session_start();
 include 'db.include.php';
 $conn = getDatabaseConnection();
+$username = $_SESSION['username'];
+echo $username;
+$time = time();
+    $randomNum = rand();
+    $uniqueAssessmnetId = md5($time . $randomNum);
+        
+    // Timestamp
+    $date = date("Y-m-d H:i:s", time());
+    $phpdate = strtotime($date);
+    $sql = "INSERT INTO assessment (date, producer, wine_name, vintage, username) VALUES 
+    (FROM_UNIXTIME($phpdate), 'Test', 'Test', '1234', '$username');";
+    //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
+    $statement = $conn->prepare($sql);
+    $statement->execute();/*
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
     // For assessment table

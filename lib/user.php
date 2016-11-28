@@ -1,5 +1,5 @@
 <?php
-include_once('api/db.include.php');
+include_once('../api/db.include.php');
 
 class RegUser {
     public static $name;
