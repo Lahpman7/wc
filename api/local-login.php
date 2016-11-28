@@ -15,8 +15,8 @@
     $password = $_POST['password']; //hash("sha1", $_POST['password']) - another example
 
     $sql = "SELECT username, password,
-            firstname, lastname
-            FROM user
+            firstname, lastname, email, img_url
+            FROM registered_user
             WHERE username = :username
             AND password = :password";
 
@@ -38,6 +38,8 @@
         $reply['username'] = $record['username'];
         $reply['firstname'] = $record['firstname'];
         $reply['lastname'] = $record['lastname'];
+        $_SESSION['imageUrl'] = $record['email'];
+        $_SESSION['imageUrl'] = $record['img_url'];
         $_SESSION['username'] = $record['username'];
         $_SESSION['fullname'] = $record['firstname'] . " " . $record['lastname'];
         header("Location: ../#!/user-profile");

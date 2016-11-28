@@ -12,7 +12,7 @@ class RegUser {
    public static function isUser($uname){
         //select statement for pulling user name
         $db = getDatabaseConnection();
-        $sql = "SELECT username FROM user WHERE username ='$uname'";
+        $sql = "SELECT username FROM registered_user WHERE username ='$uname'";
         $val = $db->prepare($sql);
         $val->execute();
         $shoop = $val->fetch();
@@ -28,10 +28,10 @@ class RegUser {
         }
     }
 
-    public static function insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date){
+    public static function insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date, $imgUrl){
         $db = getDatabaseConnection();
-       $sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES
-        ('$username','$password','$email','$firstname','$lastname','$age','$zipcode','$employment','$cert_body','$date')";
+       $sql= "INSERT INTO registered_user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert, img_url) VALUES
+        ('$username','$password','$email','$firstname','$lastname','$age','$zipcode','$employment','$cert_body','$date', '$imgUrl')";
        $val = $db->prepare($sql);
 
        if($val->execute()){
@@ -44,7 +44,7 @@ class RegUser {
 
     public static function deleteUser($uname){
         $db = getDatabaseConnection();
-        $sql = "DELETE FROM user WHERE username ='$uname'";
+        $sql = "DELETE FROM registered_user WHERE username ='$uname'";
         $val = $db->prepare($sql);
         if($val->execute()){
             return true;
@@ -56,7 +56,7 @@ class RegUser {
 
     public static function updatePassword($newPassword,$currentUsername){
         $db = getDatabaseConnection();
-        $sql = "UPDATE user
+        $sql = "UPDATE registered_user
   			SET password = '$newPassword'
   			WHERE username = '$currentUsername'";
 
@@ -70,7 +70,7 @@ class RegUser {
     }
     public static function updateEmail($newEmail,$currentUsername){
         $db = getDatabaseConnection();
-        $sql = "UPDATE user
+        $sql = "UPDATE registered_user
         SET email = '$newEmail'
         WHERE username ='$currentUsername'";
 
@@ -86,7 +86,7 @@ class RegUser {
     public static function updateZip($newZip,$currentUsername){
         $db = getDatabaseConnection();
         $newZipcode = intval($newZip);
-        $sql = "UPDATE user
+        $sql = "UPDATE registered_user
 			  SET zipcode = '$newZipcode'
 			  WHERE username = '$currentUsername'";
 
@@ -101,7 +101,7 @@ class RegUser {
     public static function getPassword($username){
         $db = getDatabaseConnection();
         $sql = "SELECT password
-        FROM user
+        FROM registered_user
         WHERE username = '$username'";
         $val = $db->prepare($sql);
         $val->execute();
@@ -111,7 +111,7 @@ class RegUser {
 
     public static function emailExists($fbEmail){
         $db = getDatabaseConnection();
-        $sql = "SELECT email,username FROM user WHERE email ='$fbEmail'";
+        $sql = "SELECT email,username FROM registered_user WHERE email ='$fbEmail'";
         $val = $db->prepare($sql);
         $val->execute();
         $shoop = $val->fetch();

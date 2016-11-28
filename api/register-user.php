@@ -21,8 +21,9 @@ if(isset($_POST["regAccount"])){
     $employment = $_POST['employment'];
     $cert = $_POST['cert_body'];
     $date = $_POST['date'];
+    $imgUrl = "images/default_profile_img.png";
     $user = new RegUser();
-    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date);
+    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date, $imgUrl);
 }
 if(isset($_POST['regAccountFB'])){
     $username = $_POST['username'];
@@ -36,9 +37,10 @@ if(isset($_POST['regAccountFB'])){
     $email = $_SESSION['username'];
     $firstname = $_SESSION['first'];
     $lastname = $_SESSION['last'];
+    $imgUrl = $_SESSION['imageUrl'];
     echo $username. ' ' . $password.' '. $email.' '. $firstname.' '. $lastname.' ' .$age.' '.$zipcode.' '.$employment.' '. $cert_body.' '.$date;
     $user = new RegUser();
-    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date);
+    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date, $imgUrl);
     //need username, pass, age, zip, employment, cert body and date
 }
 header("Location: ../index.php");

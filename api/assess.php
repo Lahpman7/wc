@@ -2,7 +2,7 @@
 session_start();
 include 'db.include.php';
 $conn = getDatabaseConnection();
-$username = $_SESSION['username'];
+/*$username = $_SESSION['username'];
 echo $username;
 $time = time();
     $randomNum = rand();
@@ -15,31 +15,9 @@ $time = time();
     (FROM_UNIXTIME($phpdate), 'Test', 'Test', '1234', '$username');";
     //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
     $statement = $conn->prepare($sql);
-    $statement->execute();/*
+    $statement->execute();*/
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
-    // For assessment table
-    // Generates unique id
-    $time = time();
-    $randomNum = rand();
-    $uniqueAssessmnetId = md5($time . $randomNum);
-        
-    // Timestamp
-    $date = date("Y-m-d H:i:s", time());
-    $phpdate = strtotime($date);
-
-    // Gets data from wine that was searched for/ entered
-    $producer = $_POST['wine_producer'];
-    $wine_name = $_POST['wine_name'];
-    $vintage = $_POST['wine_vintage'];
-    $wine_style = $_POST['wine_style']; // red or white 
-    $username = $_SESSION['username'];
-
-    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, vintage, username) VALUES 
-    ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$vintage', '$username');";
-    //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
-    $statement = $conn->prepare($sql);
-    $statement->execute();
     if(isset($_POST['redAssessReturn'])){
         //echo 'Red';
         //var_dump($_POST);
@@ -946,6 +924,30 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $statement = $conn->prepare($sql);
         $statement->execute();
     }
+     // For assessment table
+    // Generates unique id
+    $time = time();
+    $randomNum = rand();
+    $uniqueAssessmnetId = md5($time . $randomNum);
+        
+    // Timestamp
+    $date = date("Y-m-d H:i:s", time());
+    $phpdate = strtotime($date);
+
+    // Gets data from wine that was searched for/ entered
+    $producer = $_POST['wine_producer'];
+    $wine_name = $_POST['wine_name'];
+    $vintage = $_POST['wine_vintage'];
+    $wine_style = $_POST['wine_style']; // red or white 
+    $username = $_SESSION['username'];
+    $fullname = $_SESSION['fullname'];// Add to DB
+    $profileImg = $_SESSION['imageUrl']; // Add to DB
+
+    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, wine_style, vintage, username, fullname, img_url, quality_for_price, quality_for_price_rate) VALUES 
+    ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$wine_style','$vintage', '$username', '$fullname','$profileImg', '$quality_for_price', '$quality_for_price_rate');";
+    //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
+    $statement = $conn->prepare($sql);
+    $statement->execute();
 }// end of check
 header("Location: ../index.php");
 ?>

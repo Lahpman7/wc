@@ -23,9 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="elements/wc-button-select-input/wc-button-select-input.html">
   <link rel="import" href="elements/wc-aroma-value-input/wc-aroma-value-input.html">
   <link rel="import" href="elements/wc-long-menu/wc-long-menu.html">
-  s<link rel="import" href="elements/wc-users-table/wc-users-table.html"> 
+  <link rel="import" href="elements/wc-users-table/wc-users-table.html"> 
 
-  <title>Winary Code</title>
+  <title>WC</title>
 
   <!-- Place favicon.ico in the `app/` directory -->
 
@@ -102,7 +102,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a data-route="Admin-profile" href="{{baseUrl}}admin-profile">
             <iron-icon icon="perm-identity"></iron-icon>
-            <span>admin Profile</span>
+            <span>Admin Profile</span>
           </a>
 
          <!-- user profile link -->
@@ -114,8 +114,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </template>
           <!-- Social feed link TODO add social stream page to href-->
           <template is="dom-if" if="{{hasUser(userInfo)}}">
-            <a data-route="user-profile" href="{{baseUrl}}user-profile">
-              <iron-icon icon="supervisor-account"></iron-icon>
+            <a data-route="social-stream" href="{{baseUrl}}social-stream">
+              <iron-icon icon="supervisor-account">
+                
+              </iron-icon>
               <span>Social Stream</span>
             </a>
           </template>
@@ -149,7 +151,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">Winary Code</div>
+            <div class="app-name">W C </div>
           </div>
 
           <!-- Application sub title -->
@@ -173,31 +175,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               </paper-material>
             </section>
+
             <section data-route="admin-profile">
             <div>
                 <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
             </div>
             </section>
+     
+            <section data-route="social-stream">
+              <paper-material elevation="1">
+                <div>
+                     <wc-social-stream></wc-social-stream>
+                </div>
+              </paper-material>
+            </section>
+          
             <!-- user profile -->
             <section data-route="user-profile">
               <paper-material elevation="1">
-              <h1>Update Profile</h1>
+             
                     <?php
                      if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                          if(isset($_SESSION['imageUrl'])){
                           $image = $_SESSION['imageUrl'];
                           echo "<h2>Welcome, " . $_SESSION['fullname'] . '!</h2>';
                           echo "<br><img src='$image' /><br>";
-
                          }
-                         else{
-                         echo "<h2>Welcome, " . $_SESSION['fullname'] . '!</h2>';
-                         }
-
                      }
-
                   ?>
                   <?php if (isset($_SESSION['username'])){ ?>
+                  <h3>Update Your Password</h3>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
@@ -206,8 +213,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
                  <?php } //else statement here if need be?>
-                <h1>Wine Assessment History</h1>
-                <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
+                <h1>Your Wine Assessment History</h1>
+    
+                <wc-users-table url="api/profileAssessmentHistory.php"></wc-users-table>
                 </paper-material>
 
             </section>
