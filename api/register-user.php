@@ -1,6 +1,15 @@
 <?php
-session_start();
+session_start(); 
 require_once("../lib/user.php");
+/*$user = new RegUser();
+//include "db.include.php";
+/*$db = getDatabaseConnection();
+$sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES
+       ('xyz','1234','anitadoll@me.com','Anita','Garcia',200,93901,'Consumer','Master',2016);";
+$statement = $db->prepare($sql);
+$statement->execute();
+$user::insertUser("xyz1","1234","anitadoll2@me.com","Anita","Garcia",200,93901,"Consumer","Master",2016);
+    echo "Done";*/
 if(isset($_POST["regAccount"])){
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -12,8 +21,9 @@ if(isset($_POST["regAccount"])){
     $employment = $_POST['employment'];
     $cert = $_POST['cert_body'];
     $date = $_POST['date'];
+    $imgUrl = "images/default_profile_img.png";
     $user = new RegUser();
-    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date);
+    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date, $imgUrl);
 }
 if(isset($_POST['regAccountFB'])){
     $username = $_POST['username'];
@@ -24,13 +34,14 @@ if(isset($_POST['regAccountFB'])){
     $date = $_POST['date'];
 
     $age = $_SESSION['age'];
-    $email = $_SESSION['username'];
+    $email = $_SESSION['email'];
     $firstname = $_SESSION['first'];
     $lastname = $_SESSION['last'];
+    $imgUrl = $_SESSION['imageUrl'];
     echo $username. ' ' . $password.' '. $email.' '. $firstname.' '. $lastname.' ' .$age.' '.$zipcode.' '.$employment.' '. $cert_body.' '.$date;
     $user = new RegUser();
-    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date);
+    $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert_body,$date, $imgUrl);
     //need username, pass, age, zip, employment, cert body and date
 }
- header("Location: ../index.php");
+header("Location: ../index.php");
 ?>

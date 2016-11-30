@@ -1,0 +1,163 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+
+<dom-module id="wc-social-stream">
+
+   <style is="custom-style">
+    body {
+      @apply(--paper-font-common-base);
+      margin: 0;
+      padding: 0;
+      background-color: #eee;
+    }
+    app-toolbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #F57C00;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+      color: white;
+      z-index: 1;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .loadingIndicator {
+      text-align: center;
+      height: 40px;
+    }
+    .loadingIndicator paper-spinner {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    iron-list {
+      padding-top: 64px;
+      padding-bottom: 16px;
+      --iron-list-items-container: {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 60px;
+        margin-bottom: 10px;
+      };
+    }
+    .personItem {
+      @apply(--layout-horizontal);
+      margin: 16px 16px 0 16px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+      border: 1px solid #ddd;
+    }
+    .avatar {
+      height: 40px;
+      width: 40px;
+      border-radius: 20px;
+      box-sizing: border-box;
+      background-color: #DDD;
+    }
+    .pad {
+      padding: 0 16px;
+      @apply(--layout-flex);
+      @apply(--layout-vertical);
+    }
+    .primary {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    address {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+    .spacer {
+      @apply(--layout-flex);
+    }
+    .index {
+      width: 30px;
+    }
+  </style>
+
+  <template>
+ 
+   <iron-ajax id="ajax"
+    url="../../api/assessmentInfo.php"
+    handle-as="json"
+    loading="{{loadingPeople}}"
+    last-response="{{people}}">
+  </iron-ajax>
+  <iron-list id="list" items="{{people}}" as="person" scroll-target="html">
+      <template>
+        <div>
+          <div class="personItem" tabindex$="[[tabIndex]]">
+            <iron-image class="avatar" sizing="cover" src=[[person.img_url]]></iron-image>
+            <div class="pad">
+              <div class="primary">[[person.fullname]]</div>
+              <address>
+              <b>Producer:</b> [[person.producer]] <b>Wine Name:</b> [[person.wine_name]] <br>
+              <b>Wine Style: </b> [[person.wine_style]] <b>Vintage: </b> [[person.vintage]]<br>
+              <b>Quality for price: </b> [[person.quality_for_price]] <b>Rate: </b>[[person.quality_for_price_rate]]<br/>
+              <b>Date Assessed: </b> [[person.date]]<br>
+              </address>
+            </div>
+          </div>
+        </div>
+      </template>
+    </iron-list>
+  
+    <div class="loadingIndicator">
+      <paper-spinner active="{{loadingPeople}}"></paper-spinner> Fetching data
+    </div>
+    <iron-scroll-threshold id="scrollTheshold"
+      lower-threshold="500"
+      on-lower-threshold="_loadMoreData"
+      scroll-target="html">
+    </iron-scroll-threshold>
+  </template>
+
+ <script>
+
+  Polymer({
+      is: 'wc-social-stream',
+      properties: {
+        response: {
+          type: Object
+        }
+      },
+      ready: function() {
+        this.$.ajax.generateRequest();
+      },
+      _loadMoreData : function() {
+        this.$.ajax.generateRequest();
+      },
+      _didRespond : function(e) {
+        var people = e.detail.response;
+        people.forEach(function(person) {
+          this.$.list.push('items', person);
+        });
+        // Clear the lower threshold so we can load more data when the user scrolls down again.
+        this.$.scrollTheshold.clearTriggers();
+        //console.log(e.detail.response);
+      }
+    });
+   
+  </script>
+
+</dom-module>

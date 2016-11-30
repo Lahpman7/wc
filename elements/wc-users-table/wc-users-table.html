@@ -1,0 +1,53 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-datatable/paper-datatable.html">
+
+<dom-module id="wc-users-table">
+<template>
+<iron-ajax auto
+ id="ajax"
+ method="GET"
+ url='{{url}}'
+ handle-as="json"
+ last-response='{{response}}'>
+</iron-ajax>
+
+ <paper-datatable data="{{response}}" as item>
+  <paper-datatable-column header="Username" property="title" sortable>
+    <template is="dom-repeat">
+         <paper-input value="{{item.username}}" ></paper-input>
+    </template>
+  </paper-datatable-column>
+
+  <paper-datatable-column header="Producer" property="title" sortable>
+    <template>
+        <paper-input value="{{item.producer}}"></paper-input>
+    </template>
+  </paper-datatable-column>
+  <paper-datatable-column header="Wine Name" property="title" sortable>
+    <template>
+        <paper-input value="{{item.wine_name}}"></paper-input>
+    </template>
+  </paper-datatable-column>
+  <paper-datatable-column header="Vintage" property="title" sortable>
+    <template>
+        <paper-input value="{{item.vintage}}"></paper-input>
+    </template>
+  </paper-datatable-column>
+</paper-datatable>
+</template>
+<script>
+    Polymer({
+      is: 'wc-users-table',
+
+      properties: {
+        url: {
+          type: String
+        },
+        response: {
+          type: Object
+        }
+      }
+    });
+  </script>
+</dom-module>

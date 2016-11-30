@@ -23,8 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="elements/wc-button-select-input/wc-button-select-input.html">
   <link rel="import" href="elements/wc-aroma-value-input/wc-aroma-value-input.html">
   <link rel="import" href="elements/wc-long-menu/wc-long-menu.html">
+  <link rel="import" href="elements/wc-users-table/wc-users-table.html"> 
 
-  <title>Winary Code</title>
+  <title>WC</title>
 
   <!-- Place favicon.ico in the `app/` directory -->
 
@@ -97,6 +98,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
+
+          <a data-route="Admin-profile" href="{{baseUrl}}admin-profile">
+            <iron-icon icon="perm-identity"></iron-icon>
+            <span>Admin Profile</span>
+          </a>
+
          <!-- user profile link -->
           <template is="dom-if" if="{{hasUser(userInfo)}}">
             <a data-route="user-profile" href="{{baseUrl}}user-profile">
@@ -106,8 +113,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </template>
           <!-- Social feed link TODO add social stream page to href-->
           <template is="dom-if" if="{{hasUser(userInfo)}}">
-            <a data-route="user-profile" href="{{baseUrl}}user-profile">
-              <iron-icon icon="supervisor-account"></iron-icon>
+            <a data-route="social-stream" href="{{baseUrl}}social-stream">
+              <iron-icon icon="supervisor-account">
+                
+              </iron-icon>
               <span>Social Stream</span>
             </a>
           </template>
@@ -139,14 +148,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-icon-button icon="account-circle"></paper-icon-button>
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">Winary Code</div>
+            <div class="app-name">W C </div>
           </div>
 
           <!-- Application sub title -->
           <div class="bottom bottom-container">
             <div class="bottom-title">Sommeiler 2.0
               <template is="dom-if" if="{{hasUser(userInfo)}}">
-                - Welcome {{userInfo.username}}
+                - Welcome {{userInfo.fullname}} 
               </template>
             </div>
           </div>
@@ -160,28 +169,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div>
                      <wc-search></wc-search>
                 </div>
+
               </paper-material>
             </section>
 
+            <section data-route="admin-profile">
+            <div>
+                <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
+            </div>
+            </section>
+     
+            <section data-route="social-stream">
+              <paper-material elevation="1">
+                <div>
+                     <wc-social-stream></wc-social-stream>
+                </div>
+              </paper-material>
+            </section>
+          
+            <!-- user profile -->
             <section data-route="user-profile">
               <paper-material elevation="1">
-              Update Profile
+             
                     <?php
                      if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                          if(isset($_SESSION['imageUrl'])){
                           $image = $_SESSION['imageUrl'];
-                          echo "<h2>Welcome, " . $_SESSION['fullname'] . '!!!</h2>';
+                          echo "<h2>Welcome, " . $_SESSION['fullname'] . '!</h2>';
                           echo "<br><img src='$image' /><br>";
-
                          }
-                         else{
-                         echo "<h2>Welcome, " . $_SESSION['username'] . '!!!</h2>';
-                         }
-
                      }
-
                   ?>
-                  <?php if (isset($_SESSION['username'])&&!isset($_SESSION['imageUrl'])){ ?>
+                  <?php if (isset($_SESSION['username'])){ ?>
+                  <h3>Update Your Password</h3>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
@@ -190,7 +210,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <button name="updateProfile" type="submit">Update data</button>
                   </form>
                  <?php } //else statement here if need be?>
-
+                <h1>Your Wine Assessment History</h1>
+    
+                <wc-users-table url="api/profileAssessmentHistory.php"></wc-users-table>
                 </paper-material>
 
             </section>
@@ -228,6 +250,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{applePearResponse}}'>
                     </iron-ajax>
                     <select name="apple_pear_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{applePearResponse}}">
                           <option value="{{item.apple_pear}}"> {{item.apple_pear}}</option>
                         </template>
@@ -248,6 +271,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{citrusResponse}}'>
                     </iron-ajax>
                     <select name="citrus_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{citrusResponse}}">
                         <option value="{{item.citrus_fruit}}"> {{item.citrus_fruit}}
                         </option>
@@ -269,8 +293,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{stoneResponse}}'>
                     </iron-ajax>
                     <select name="stone_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{stoneResponse}}">
-                        <option value="{{item.stone_fruit}}"> {{item.stone_fruit}}</option>
+                          <option value="{{item.stone_fruit}}"> {{item.stone_fruit}}</option>
                       </template>
                     </select>
 
@@ -289,8 +314,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{tropicalResponse}}'>
                     </iron-ajax>
                     <select name="tropical_melon_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{tropicalResponse}}">
-                        <option value="{{item.tropical_melon}}"> {{item.tropical_melon}}</option>
+                          <option value="{{item.tropical_melon}}"> {{item.tropical_melon}}</option>
                       </template>
                     </select>
                      <h3> Fruit Type </h3>
@@ -314,8 +340,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{flowerWhiteResponse}}'>
                     </iron-ajax>
                     <select name="flowers_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{flowerWhiteResponse}}">
-                        <option value="{{item.flowers}}"> {{item.flowers}}</option>
+                          <option value="{{item.flowers}}"> {{item.flowers}}</option>
                       </template>
                     </select>
 
@@ -334,6 +361,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{herbsWhiteResponse}}'>
                     </iron-ajax>
                     <select name="herbs_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{herbsWhiteResponse}}">
                         <option value="{{item.herbs}}"> {{item.herbs}}</option>
                       </template>
@@ -354,6 +382,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{vegetalWhiteResponse}}'>
                     </iron-ajax>
                     <select name="vegetal_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{vegetalWhiteResponse}}">
                         <option value="{{item.vegetal}}"> {{item.vegetal}}</option>
                       </template>
@@ -374,6 +403,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{oxResponse}}'>
                     </iron-ajax>
                     <select name="oxidative_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{oxResponse}}">
                         <option value="{{item.oxidative}}"> {{item.oxidative}}</option>
                       </template>
@@ -394,6 +424,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{breadResponse}}'>
                     </iron-ajax>
                     <select name="yeast_bread_dough_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{breadResponse}}">
                         <option value="{{item.yeast_bread_dough}}"> {{item.yeast_bread_dough}}</option>
                       </template>
@@ -414,6 +445,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{mlResponse}}'>
                     </iron-ajax>
                     <select name="ml_butter_cream_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{mlResponse}}">
                         <option value="{{item.ml_butter_cream}}"> {{item.ml_butter_cream}}</option>
                       </template>
@@ -434,6 +466,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{earthWhiteResponse}}'>
                     </iron-ajax>
                     <select name="earth_leaves_mushrooms_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{earthWhiteResponse}}">
                         <option value="{{item.earth_leaves_mushrooms}}"> {{item.earth_leaves_mushrooms}}</option>
                       </template>
@@ -454,6 +487,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{mineralWhiteResponse}}'>
                     </iron-ajax>
                     <select name="mineral_stone_sulfur_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{mineralWhiteResponse}}">
                         <option value="{{item.mineral_stone_sulfur}}"> {{item.mineral_stone_sulfur}}</option>
                       </template>
@@ -475,6 +509,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{oakWhiteResponse}}'>
                     </iron-ajax>
                     <select name="oak_vanilla_smoke_coconut_aromas">
+                         <option value="">- Select One -</option>
                          <template is="dom-repeat" items="{{oakWhiteResponse}}">
                         <option value="{{item.oak_vanilla_toast_smoke_coconut}}"> {{item.oak_vanilla_toast_smoke_coconut}}</option>
                       </template>
@@ -484,7 +519,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <input type="radio" name="sweetness" value="1">Bone Dry
                     <input type="radio" name="sweetness" value="2">Dry
                     <input type="radio" name="sweetness" value="3">Off Dry
-                    <input type="radio" name="sweetness" value="4">Med. Sweet
+                    <input type="radio" name="sweetness" value="4">Med Sweet
 
                     <h3> Acid </h3><br>
                     <input type="radio" name="acid" value="1"> Low
@@ -541,6 +576,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="red-assessment">
               <paper-material elevation="1">
+                <h2 class="page-title">Red Wine Assessment</h2>
                 <form id="red-wine-assessment" method="post" action="api/assess.php">
                     <h3> Primary Color </h3><br>
                     <input type="radio" name="primary_color" value=1>Orange
@@ -568,10 +604,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{redFruitResponse}}'>
                     </iron-ajax>
                     <select name="red_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{redFruitResponse}}">
-
                           <option value="{{item.red_fruit}}"> {{item.red_fruit}}</option>
-
                         </template>
                     </select>
 
@@ -590,6 +625,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{blackFruitResponse}}'>
                     </iron-ajax>
                     <select name="black_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{blackFruitResponse}}">
                         <option value="{{item.black_fruit}}"> {{item.black_fruit}}</option>
                       </template>
@@ -610,6 +646,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{blueFruitResponse}}'>
                     </iron-ajax>
                     <select name="blue_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{blueFruitResponse}}">
                         <option value="{{item.blue_fruit}}"> {{item.blue_fruit}}</option>
                       </template>
@@ -636,6 +673,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{flowerResponse}}'>
                     </iron-ajax>
                     <select name="flowers_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{flowerResponse}}">
                         <option value="{{item.flowers}}"> {{item.flowers}}</option>
                       </template>
@@ -656,6 +694,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{herbsResponse}}'>
                     </iron-ajax>
                     <select name="herbs_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{herbsResponse}}">
                         <option value="{{item.herbs}}"> {{item.herbs}}</option>
                       </template>
@@ -676,6 +715,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{vegetalResponse}}'>
                     </iron-ajax>
                     <select name="vegetal_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{vegetalResponse}}">
                         <option value="{{item.vegetal}}"> {{item.vegetal}}</option>
                       </template>
@@ -696,6 +736,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{mintEucalyptusResponse}}'>
                     </iron-ajax>
                     <select name="mint_eucalyptus_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{mintEucalyptusResponse}}">
                         <option value="{{item.mint_eucalyptus}}"> {{item.mint_eucalyptus}}</option>
                       </template>
@@ -716,6 +757,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{pepperResponse}}'>
                     </iron-ajax>
                     <select name="pepper_spice_aromas">
+                        <option value="">- Select One -</option>
                         <template is="dom-repeat" items="{{pepperResponse}}">
                         <option value="{{item.pepper_spice}}"> {{item.pepper_spice}}</option>
                       </template>
@@ -736,6 +778,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{cocoaResponse}}'>
                     </iron-ajax>
                     <select name="cocoa_coffee_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{cocoaResponse}}">
                         <option value="{{item.cocoa_coffee}}"> {{item.cocoa_coffee}}</option>
                       </template>
@@ -756,6 +799,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{meatResponse}}'>
                     </iron-ajax>
                     <select name="meat_leather_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{meatResponse}}">
                         <option value="{{item.meat_leather}}"> {{item.meat_leather}}</option>
                       </template>
@@ -776,6 +820,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{tobaccoResponse}}'>
                     </iron-ajax>
                     <select name="tobacco_tar_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{tobaccoResponse}}">
                         <option value="{{item.tobacco_tar}}"> {{item.tobacco_tar}}</option>
                       </template>
@@ -796,6 +841,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{earthRedResponse}}'>
                     </iron-ajax>
                     <select name="earth_leaves_mushrooms_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{earthRedResponse}}">
                         <option value="{{item.earth_leaves_mushrooms}}"> {{item.earth_leaves_mushrooms}}</option>
                       </template>
@@ -816,6 +862,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{mineralRedResponse}}'>
                     </iron-ajax>
                     <select name="mineral_stone_sulfur_aromas">
+                      <option value="">- Select One -</option>
                       <template is="dom-repeat" items="{{mineralRedResponse}}">
                         <option value="{{item.mineral_stone_sulfur}}"> {{item.mineral_stone_sulfur}}</option>
                       </template>
@@ -837,6 +884,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      last-response='{{oakRedResponse}}'>
                     </iron-ajax>
                     <select name="oak_vanilla_smoke_coconut_aromas">
+                        <option value="">- Select One -</option>
                          <template is="dom-repeat" items="{{oakRedResponse}}">
                         <option value="{{item.oak_vanilla_toast_smoke_coconut}}"> {{item.oak_vanilla_toast_smoke_coconut}}</option>
                       </template>
@@ -1067,7 +1115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    <button name="loginForm" type="submit">Login</button>
                  </form>
                  <form action ="api/login.php" method="POST">
-                    <button name="loginForm" type="submit"><img src ="images/fblogger.png"></button>
+                    <button name="loginForm" style="padding: 0; border: none; background: none;" type="submit"><img src ="images/fblogger.png"></button>
                  </form>
                 <?php } else { ?>
                  <form action="api/local-login.php" method="POST">

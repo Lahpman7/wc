@@ -9,6 +9,7 @@
         const app_secret = '5a2fd5013528d9551880d8bf247a661e';
         const default_graph_version = 'v2.5';
         $urlReturn = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/api/login.php';
+
         $facebookLoginObject = new Facebook\Facebook([
             'app_id' => app_id,
             'app_secret' => app_secret,
@@ -65,7 +66,7 @@
         		exit;
         	}
         	$image = 'https://graph.facebook.com/'.$payload['id'].'/picture?width=200';
-  	    	$_SESSION['username'] = $payload['email'];
+  	    	$_SESSION['email'] = $payload['email'];
   	    	$_SESSION['fullname'] = $payload['name'];
           $_SESSION['first'] = $payload['first_name'];
           $_SESSION['last'] = $payload['last_name'];
@@ -74,18 +75,19 @@
           //will either need to get username from session in emailExists function or, create a function that returns username to assign in here to cutback on sessions
   	    	// function that checks if its in DB then inserts if not
           $testUser = new RegUser();
-          if($testUser::emailExists($_SESSION['username'])){
+          if($testUser::emailExists($_SESSION['email'])){
             //when user email is already in our db, we send them back to index
-            $continueProfile = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/user-profile';
+            $_SESSION['username'] = $testUser::emailExists($_SESSION['email']);
+            $continueProfile = '../#!/user-profile';
             header('Location: ' . $continueProfile);
           }
           else{
-            $continueReg = 'http://wcdeploy.csztpytway.us-west-1.elasticbeanstalk.com/#!/register-account-fb';
+            $continueReg = '../#!/register-account-fb';
             header('Location: ' . $continueReg);
           }
 
         } else {
-        	$loginUrl = $helper->getLoginUrl($urlReturn, $permissions);
-        	header('Location: ' . $loginUrl);
+          	$loginUrl = $helper->getLoginUrl($urlReturn, $permissions);
+          	header('Location: ' . $loginUrl);
         }
     ?>
