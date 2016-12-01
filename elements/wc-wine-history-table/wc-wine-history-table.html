@@ -1,0 +1,190 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../../bower_components/paper-datatable/paper-datatable-card.html">
+
+<dom-module id="wc-wine-history-table">
+<template>
+<iron-ajax auto
+ id="ajax"
+ method="GET"
+ url='{{url}}'
+ handle-as="json"
+ last-response='{{response}}'
+ on-response="_handleResponse">
+</iron-ajax>
+
+<paper-card heading="Wine Bottle Inventory">
+  <div class="horizontal end-justified center layout">
+    <paper-input no-label-float label="Search">
+      <iron-icon icon="search" prefix></iron-icon>
+    </paper-input>
+    <paper-menu-button ignore-select horizontal-align="right">
+      <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+      <paper-menu class="dropdown-content">
+        <template is="dom-repeat" items="[[toggleColumns]]" as="column" index-as="index">
+          <paper-icon-item position="[[column.position]]" on-tap="_hideColumn">
+            <template is="dom-if" if="[[!column.hidden]]">
+              <iron-icon icon="visibility-off" item-icon></iron-icon>
+            </template>
+            <template is="dom-if" if="[[column.hidden]]">
+              <iron-icon disabled icon="visibility" item-icon></iron-icon>
+            </template>
+            [[column.header]]
+          </paper-icon-item>
+        </template>
+      </paper-menu>
+    </paper-menu-button>
+  </div>
+
+  <paper-datatable-api  paginate
+    selectable
+    filters
+    data="[[response]]"
+    page= "1"
+    size="10"
+    available-size="[5,10,20]"
+    toggle-columns="{{toggleColumns}}"
+    on-sort="_handleSort"
+    on-filter="_handleFilter"
+    selected-rows={{selectedRows}}
+    on-selection-changed="_handleSelectionChanged"
+    total-elements="[[totalElements]]"
+    total-pages="[[totalPages]]"
+    selectable-data-key="username">
+
+    <paper-datatable-api-column header="Producer" property="producer">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="producer" property="producer">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Wine Name" property="wine_name">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Wine Style" property="wine_style">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Vintage" property="vintage">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Grapes" property="grape">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Country" property="country">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="State" property="state">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Region" property="region">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+    <paper-datatable-api-column header="Alcohol" property="alcohol">
+      <template>
+        <span>{{value}}</span>
+      </template>
+    </paper-datatable-api-column>
+  </paper-datatable-api>
+</paper-card>
+</template>
+<script>
+    Polymer({
+      is: 'wc-wine-history-table',
+
+      properties: {
+        url: {
+          type: String
+        },
+        response: {
+          type: Object
+        },
+        page: {
+          type: Number,
+          notify: true,
+          value: 0,
+          observer: '_handlePageChanged',
+        },
+        size: {
+          type: Number,
+          notify: true,
+          value: 2,
+          observer: '_handleSizeChanged',
+        },
+        totalElements: {
+          type: Number,
+          notify: true,
+          value: 0,
+        },
+        totalPages: {
+          type: Number,
+          notify: true,
+          value: 0,
+        },
+        data: {
+          type: Array,
+          notify: true,
+        },
+        sortProperty: {
+          type: String,
+          observer: '_sortPropertyChanged',
+        },
+        _response: {
+          type: Array,
+        },
+      },
+      _handleResponse: function(event) {
+        this._response = event.detail.response;
+
+        /*
+         * Keep only first element (this.size)
+         */
+        this.data = this._response.slice(0, this.size);
+        this.totalElements = 401;
+        this.totalPages = 20;
+      },
+      _handleSizeChanged: function(size) {
+        /*
+         * Size changed so redo slice
+         */
+        if (this._response) {
+          this.data = this._response.slice(0, size);
+          this.totalPages = 6 / size;
+        }
+      },
+      _handlePageChanged: function(page) {
+        /*
+         * Page changed so redo slice
+         */
+        if (this._response) {
+          var begin = page * this.size;
+          var end = (page * this.size) + this.size;
+          this.data = this._response.slice(begin, end);
+        }
+      },
+      _sortPropertyChanged: function(sort) {
+        /*
+         * Do the sort in javascript
+         */
+      }
+    });
+  </script>
+</dom-module>

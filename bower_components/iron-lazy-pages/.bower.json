@@ -1,6 +1,6 @@
 {
   "name": "iron-lazy-pages",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "authors": [
     "Tim van der Lippe <tvanderlippe@gmail.com>"
   ],
@@ -30,11 +30,11 @@
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.1.1",
     "paper-spinner": "PolymerElements/paper-spinner#^1.1.1"
   },
-  "_release": "1.4.2",
+  "_release": "1.4.3",
   "_resolution": {
     "type": "version",
-    "tag": "v1.4.2",
-    "commit": "012aeba70ff9272c10fd95a05821ac85a12e9f24"
+    "tag": "v1.4.3",
+    "commit": "0f4ed95a1df0fa97a5e28c054816624630aee83a"
   },
   "_source": "https://github.com/TimvdLippe/iron-lazy-pages.git",
   "_target": "^1.0.0",

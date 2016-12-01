@@ -8,12 +8,12 @@ function checkPass()
     //Set the colors we will be using ...
     var goodColor = "#66cc66";
     var badColor = "#ff6666";
-    //Compare the values in the password field 
+    //Compare the values in the password field
     //and the confirmation field
     if(pass1.value == pass2.value){
-        //The passwords match. 
+        //The passwords match.
         //Set the color to the good color and inform
-        //the user that they have entered the correct password 
+        //the user that they have entered the correct password
         pass2.style.backgroundColor = goodColor;
         message.style.color = goodColor;
         message.innerHTML = "Passwords Match!";
@@ -25,7 +25,7 @@ function checkPass()
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!";
     }
-}  
+}
 function checkEmail()
 {
     //Store the password field objects into variables ...
@@ -36,12 +36,12 @@ function checkEmail()
     //Set the colors we will be using ...
     var goodColor = "#66cc66";
     var badColor = "#ff6666";
-    //Compare the values in the password field 
+    //Compare the values in the password field
     //and the confirmation field
     if(email1.value == email2.value){
-        //The email match. 
+        //The email match.
         //Set the color to the good color and inform
-        //the user that they have entered the correct password 
+        //the user that they have entered the correct password
         email2.style.backgroundColor = goodColor;
         message.style.color = goodColor;
         message.innerHTML = "Emails Match!";
@@ -53,7 +53,7 @@ function checkEmail()
         message.style.color = badColor;
         message.innerHTML = "Emails Do Not Match!";
     }
-}  
+}
 function refreshLog(){
     window.location.href = 'https://winarycode-masloph.c9users.io/wc/';
 }

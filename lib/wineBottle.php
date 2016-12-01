@@ -1,5 +1,5 @@
-<?php 
-include_once('api/db.include.php');
+<?php
+include_once('../api/db.include.php');
 class RegBottle{
     public static $producer;
     public static $wine_name;
@@ -16,10 +16,10 @@ class RegBottle{
 
     public static function insertBottle($producer, $wine_name, $vintage, $wine_style,$grapes, $country, $state, $region, $alcohol){
             $db = getDatabaseConnection();
-            $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, region, alcohol) 
+            $sql = "INSERT INTO wine_bottle (producer, wine_name, vintage, wine_style, grapes, country, state, region, alcohol)
             VALUES('$producer', '$wine_name','$vintage', '$wine_style', '$grapes', '$country',
                 '$state','$region','$alcohol');";
-          
+
             $val = $db->prepare($sql);
             if($val->execute()){
                 return true;
@@ -44,13 +44,13 @@ class RegBottle{
     public static function retrieveBottle($wine_name){
         $db = getDatabaseConnection();
         $sql = "SELECT wine_name FROM wine_bottle WHERE wine_name ='$wine_name'";
-        
+
         $val = $db->prepare($sql);
         $val->execute();
         $retrieval = $val->fetch();
-        
+
         if($wine_name == $retrieval['wine_name']){
-            
+
             return $retrieval['wine_name'];
         }
         else{
@@ -60,15 +60,15 @@ class RegBottle{
 
     public static function updateBottleGrapes($producer,$wine_name,$grapes){
         $db = getDatabaseConnection();
-        $sql = "UPDATE wine_bottle 
+        $sql = "UPDATE wine_bottle
                 SET grapes = '$grapes'
-                WHERE wine_name ='$wine_name' 
+                WHERE wine_name ='$wine_name'
                 AND producer = '$producer'";
         $val = $db->prepare($sql);
         if($val->execute()){
             return true;
         }
-        return false; 
+        return false;
     }
 
     public static function retrieveAll(){
