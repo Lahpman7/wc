@@ -58,6 +58,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page('/user-profile', function() {
       app.route = 'user-profile';
     });
+    page('/social-profile/:username/:work/:firstname/:lastname', function(data) {
+      app.route = 'social-profile';
+      app.socialUser = data.params;
+
+    });
     page('/white-assessment', assessParams, function() {
       app.route = 'white-assessment';
     });
@@ -84,10 +89,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     page("/admin-profile", function() {
       app.route = 'admin-profile';
     });
-    
+
     page('/social-stream', function(){
       app.route = 'social-stream';
     });
+
 
     // 404
     page('*', function() {

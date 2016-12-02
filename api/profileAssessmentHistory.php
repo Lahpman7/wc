@@ -2,8 +2,8 @@
   session_start();
   include "db.include.php";
   $db = getDatabaseConnection();
-  $username = $_SESSION['username'];
-  
+  $username = $_GET['username'];
+
   $sql = "SELECT *  FROM assessment WHERE username = '$username' ORDER BY date DESC";
 
   $statement = $db->prepare($sql);

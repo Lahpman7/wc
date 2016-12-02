@@ -1,0 +1,110 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+
+<dom-module id="wc-social-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      #container{
+        height:210px;
+        position: relative;
+        margin: 0 auto;
+        overflow:scroll;
+      }
+
+      #search-container{
+        display:block;
+        width: 100%;
+        margin: 50px auto;
+
+      }
+      .sizing-contain {
+         width: 100px;
+         height: 100px;
+         margin-left: 1.5%;
+         border: #c2c2c2 solid 5px;
+       }
+    </style>
+
+    <iron-ajax
+      auto
+      id="ajax"
+      method="GET"
+      url="../../api/registeredUsers.php"
+      handle-as="json"
+      debounce-duration="300"
+      last-response="{{ajaxResponse}}"></iron-ajax>
+
+    <div class="card">
+      <div id="container">
+        <template is="dom-repeat" items="{{ajaxResponse}}">
+          <a href="/social-profile/{{item.username}}/{{item.employment}}/{{item.firstname}}/{{item.lastname}}">
+          <iron-image on-tap="_handleTap" sizing="contain" class="sizing-contain" alt="{{item.firstname}} {{item.lastname}}'s profile image'" src="[[_setImgUrl(item.img_url)]]"></iron-image>
+          </a>
+        </template>
+
+
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'wc-social-grid',
+
+      properties: {
+        nope: {
+          type: String
+        },
+        randAvitar: {
+          type: Array,
+          value: [ "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a6/a6443479ac2ee5a0e2f261302d94b88c2c705b1c_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/47/478f3ab42907f815adad7c4e0a1e5a4b4e62d722_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/000da1c345912b1ae066b3a2570b4ec5ed89f221_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/c9b4e976a416ccdaaf4e117f7b47178667cf5cdd_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ae/aef11ca6ba513b6c71a7ee2fcfc5da0eedabd249_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/00a5613507bc5b443c9a55f7db35e2e4170a4769_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0b/0ba757eee60b427efa869f539f59690e19e1c7ea_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/0068de31202d37449ca5beea9e3c0f622d8fff60_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d5/d5059cedae07d8855105213e3fc35d54ec42ac68_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/00860b5fac3cc7a31d8b73fb94eaff40ee51ec36_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/00d93606b65bbca00cbf6d3bbf2d35c311479d1c_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/0951682b67c0e382c8e60929fcd598f51f17996d_full.jpg",
+                  "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/0026361fd4e33d466a6177455ffcc6063ea609cf_full.jpg"
+
+
+                ]
+        }
+      },
+
+      listeners: {
+        '.registeredUserImage.click' : '_sendSearch'
+
+      },
+      _setImgUrl : function (url){
+        //sets the avitar to a random img if no img_url is found in database
+        if (url == "" || url == null){
+          return this.randAvitar.pop();
+        }else {
+          return url;
+        }
+      },
+      _profileLink : function (username, email,firstname, lastname, employment, img_url){
+        var emp = employment.replace(" ", "%20");
+
+        return "/"+destination+"-assessment?" +
+                "style=" + destination + "&vin=" + vintage + "&name=" + wine_name + "&prod=" + producer;
+
+      },
+      _handleTap: function(e) {
+        app.otherUserImg = e.currentTarget.src;
+      }
+    });
+  </script>
+</dom-module>

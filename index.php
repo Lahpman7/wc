@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="elements/wc-button-select-input/wc-button-select-input.html">
   <link rel="import" href="elements/wc-aroma-value-input/wc-aroma-value-input.html">
   <link rel="import" href="elements/wc-long-menu/wc-long-menu.html">
-  <link rel="import" href="elements/wc-users-table/wc-users-table.html"> 
+  <link rel="import" href="elements/wc-users-table/wc-users-table.html">
 
   <title>WC</title>
 
@@ -115,7 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-if" if="{{hasUser(userInfo)}}">
             <a data-route="social-stream" href="{{baseUrl}}social-stream">
               <iron-icon icon="supervisor-account">
-                
+
               </iron-icon>
               <span>Social Stream</span>
             </a>
@@ -155,7 +155,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="bottom bottom-container">
             <div class="bottom-title">Sommeiler 2.0
               <template is="dom-if" if="{{hasUser(userInfo)}}">
-                - Welcome {{userInfo.fullname}} 
+                - Welcome {{userInfo.fullname}}
               </template>
             </div>
           </div>
@@ -168,6 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1">
                 <div>
                      <wc-search></wc-search>
+                     <wc-social-grid><wc-social-grid/>
                 </div>
 
               </paper-material>
@@ -178,7 +179,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
             </div>
             </section>
-     
+
             <section data-route="social-stream">
               <paper-material elevation="1">
                 <div>
@@ -186,11 +187,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </div>
               </paper-material>
             </section>
-          
+
             <!-- user profile -->
             <section data-route="user-profile">
               <paper-material elevation="1">
-             
+
                     <?php
                      if(isset($_SESSION['username']) && !empty($_SESSION['username'])){
                          if(isset($_SESSION['imageUrl'])){
@@ -211,11 +212,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </form>
                  <?php } //else statement here if need be?>
                 <h1>Your Wine Assessment History</h1>
-    
-                <wc-users-table url="api/profileAssessmentHistory.php"></wc-users-table>
+
+                <wc-users-table url="api/profileAssessmentHistory.php" user="{{userInfo.username}}"></wc-users-table>
                 </paper-material>
 
             </section>
+
+            <!-- social profile -->
+
+            <section data-route="social-profile">
+              <paper-material elevation="1">
+
+                <iron-image src="{{otherUserImg}}"></iron-image>
+                <h1>{{socialUser.firstname}} {{socialUser.lastname}}</h1>
+                <h3>{{socialUser.work}}</h3>
+                <wc-users-table url="api/profileAssessmentHistory.php" user="{{socialUser.username}}"></wc-users-table>
+
+
+            </section>
+
 
             <!-- White Wine Assessment Form-->
             <section data-route="white-assessment">
