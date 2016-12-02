@@ -187,6 +187,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="social-stream">
               <paper-material elevation="1">
                 <div>
+                     <img src ="images/grid.png">
                      <wc-social-stream></wc-social-stream>
                 </div>
               </paper-material>
