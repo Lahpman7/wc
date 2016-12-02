@@ -2,9 +2,8 @@
   session_start();
   include "db.include.php";
   $db = getDatabaseConnection();
-  
-  $sql = "SELECT *  FROM assessment ORDER BY date DESC";
 
+  $sql = "SELECT *  FROM assessment ORDER BY date DESC";
   $statement = $db->prepare($sql);
   $statement->execute();
   $records = $statement->fetchAll(PDO::FETCH_ASSOC);

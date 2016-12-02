@@ -1,15 +1,8 @@
 <?php
-session_start(); 
+
+session_start();
 require_once("../lib/user.php");
-/*$user = new RegUser();
-//include "db.include.php";
-/*$db = getDatabaseConnection();
-$sql= "INSERT INTO user (username, password, email,firstname,lastname, age, zipcode, employment,cert_body,date_cert) VALUES
-       ('xyz','1234','anitadoll@me.com','Anita','Garcia',200,93901,'Consumer','Master',2016);";
-$statement = $db->prepare($sql);
-$statement->execute();
-$user::insertUser("xyz1","1234","anitadoll2@me.com","Anita","Garcia",200,93901,"Consumer","Master",2016);
-    echo "Done";*/
+
 if(isset($_POST["regAccount"])){
     $username = $_POST['username'];
     $password = $_POST['password'];

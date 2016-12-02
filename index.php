@@ -24,6 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="elements/wc-aroma-value-input/wc-aroma-value-input.html">
   <link rel="import" href="elements/wc-long-menu/wc-long-menu.html">
   <link rel="import" href="elements/wc-users-table/wc-users-table.html">
+  <link rel="import" href="elements/wc-wine-history-table/wc-wine-history-table.html">
 
   <title>WC</title>
 
@@ -98,11 +99,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
-
+          <template is="dom-if" if="{{isAdmin(userInfo)}}">
           <a data-route="Admin-profile" href="{{baseUrl}}admin-profile">
             <iron-icon icon="perm-identity"></iron-icon>
             <span>Admin Profile</span>
           </a>
+          </template>
 
          <!-- user profile link -->
           <template is="dom-if" if="{{hasUser(userInfo)}}">
@@ -168,21 +170,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1">
                 <div>
                      <wc-search></wc-search>
-                     <wc-social-grid><wc-social-grid/>
+
                 </div>
 
               </paper-material>
             </section>
 
             <section data-route="admin-profile">
-            <div>
                 <wc-users-table url="api/assessmentInfo.php"></wc-users-table>
-            </div>
+                <br><br><br>
+               <wc-wine-history-table url="api/wineBottleHistory.php"></wc-wine-history-table>
             </section>
 
             <section data-route="social-stream">
               <paper-material elevation="1">
                 <div>
+                     <wc-social-grid><wc-social-grid/>
                      <wc-social-stream></wc-social-stream>
                 </div>
               </paper-material>
@@ -212,7 +215,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </form>
                  <?php } //else statement here if need be?>
                 <h1>Your Wine Assessment History</h1>
-
                 <wc-users-table url="api/profileAssessmentHistory.php" user="{{userInfo.username}}"></wc-users-table>
                 </paper-material>
 

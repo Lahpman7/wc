@@ -37,6 +37,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.hasUser = function(userInfo) {
     return userInfo !== undefined;
   };
+  app.isAdmin = function(userInfo)
+  {
+    if(userInfo.username=="admin")
+       return userInfo !== undefined;
+  }
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
