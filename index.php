@@ -147,10 +147,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <span class="space"></span>
 
           <!-- Toolbar icons -->
-          <paper-icon-button icon="account-circle"></paper-icon-button>
+          <paper-icon-button hidden$="{{hasUser(userInfo)}}" icon="account-circle"></paper-icon-button>
+          <paper-icon-item >
+            <iron-image class="avatar" sizing="cover" src="{{userInfo.image}}"></iron-image>
+          </paper-icon-item>
           <!-- Application name -->
           <div class="middle middle-container">
-            <div class="app-name">W C </div>
+            <div class="app-name">W C</div>
           </div>
 
           <!-- Application sub title -->
@@ -185,7 +188,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="social-stream">
               <paper-material elevation="1">
                 <div>
-                     <wc-social-grid><wc-social-grid/>
+                     <wc-social-grid></wc-social-grid>
                      <wc-social-stream></wc-social-stream>
                 </div>
               </paper-material>
@@ -205,7 +208,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      }
                   ?>
                   <?php if (isset($_SESSION['username'])){ ?>
-                  <h3>Update Your Password</h3>
+                  <h3 class="emp-label" >Update Your Password</h3>
                   <form method="POST" action="api/updateProfile.php">
                         <paper-input-container>
                             <input is="iron-input" id = "inputPassword" name ="password" type ="text" placeholder = "Enter new password" required>
@@ -227,7 +230,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 <iron-image src="{{otherUserImg}}"></iron-image>
                 <h1>{{socialUser.firstname}} {{socialUser.lastname}}</h1>
-                <h3>{{socialUser.work}}</h3>
+                <span class="emp-label">Employment:</span><h3>{{socialUser.work}}</h3>
                 <wc-users-table url="api/profileAssessmentHistory.php" user="{{socialUser.username}}"></wc-users-table>
 
 
@@ -1126,11 +1129,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <?php if(!isset($_SESSION['username'])) { ?>
                  <form action="api/local-login.php" method="POST">
                    <h1>Please Login</h1>
-                   <input type="text" name="username" placeholder = "Username" value="">
-                   <input type="password" name="password" placeholder = "Password" value="">
+                   <input class="login-form" type="text" name="username" placeholder = "Username" value="">
+                   <input class="login-form" type="password" name="password" placeholder = "Password" value="">
                      <!--<button type="submit" name="login-submit">Submit</button>-->
-                   <button name="loginForm" type="submit">Login</button>
+                   <button class="login-btn"name="loginForm" type="submit">Login</button>
                  </form>
+                 <h4>-OR-</h4>
                  <form action ="api/login.php" method="POST">
                     <button name="loginForm" style="padding: 0; border: none; background: none;" type="submit"><img src ="images/fblogger.png"></button>
                  </form>

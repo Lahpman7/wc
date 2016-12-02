@@ -12,3 +12,38 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
 }
+
+.avatar {
+  height: 24px;
+  width: 24px;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+  .emp-label{
+    display: block;
+    margin-bottom: -10px;
+    font-weight: 200;
+    position: relative;
+    top: 5px;
+  }
+
+/* ------------------------------- log in screen ---------------------------*/
+
+ .login-form{
+   display: block;
+   margin-top: 5px;
+   width: 200px;
+   height: 25px;
+   font-size: 14px;
+
+ }
+
+ .login-btn{
+   padding: 10px 15px;
+    background: #3f51b5;
+    color: #FFF;
+    width: 205px;
+    margin: 10px 0;
+
+ }

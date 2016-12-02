@@ -39,9 +39,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       pre#instructions{
         background: #ffefb4;
-        padding: 10px;
+        padding: 0 10px;
         white-space: pre-wrap;
         white-space: -moz-pre-wrap;
+        font-size: 0.8em;
 
       }
       ul#response{
@@ -65,6 +66,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 18px;
 
       }
+
+      .search-btn{
+        padding: 10px 15px;
+        background: #3f51b5;
+        color: #FFF;
+        width: 205px;
+        margin: 10px 0;
+
+
+      }
     </style>
 
     <div class="card">
@@ -79,10 +90,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             handle-as="json"
             debounce-duration="300"
             last-response="{{ajaxResponse}}"></iron-ajax>
-          <input placeholder="Live Search..." id="search" type="text" name="q" value="">
-          <pre id="instructions">Search for "fizz" or "estate"</pre>
+          <input placeholder="Find your wine.." id="search" type="text" name="q" value="">
+          <pre id="instructions">Search terms like "fizz" or "estate"</pre>
 
-          <button id="button" type="button" name="button">Search</button>
+          <button class="search-btn" id="button" type="button" name="button">Search</button>
           <a href="{{baseUrl}}register-wine">Or, Register a New Wine</a>
 
           <template is="dom-repeat" items="[[ajaxResponse]]">
