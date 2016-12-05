@@ -9,7 +9,7 @@
         $regBottle::insertBottle($_POST["producer"], $_POST["wname"], $_POST["vintage"], $_POST['wine_styles'],
         $_POST["grape"], $_POST["country"], $_POST["state"], $_POST["region"], $_POST["alcohol"]);
 
-        $log = $date . ' Success, Bottle Registered ---> Producer: ' $_POST["producer"].' Wine Name: '. $_POST["wname"].' Vintage: ' . $_POST["vintage"].' Wine Style: ' . $_POST['wine_styles'].' Grape: ' .
+        $log = $date . ' Success, Bottle Registered ---> Producer: '. $_POST["producer"].' Wine Name: '. $_POST["wname"].' Vintage: ' . $_POST["vintage"].' Wine Style: ' . $_POST['wine_styles'].' Grape: ' .
         $_POST["grape"].' Country: ' . $_POST["country"].' State: ' . $_POST["state"].' Region: ' . $_POST["region"].' Alcohol \% ' . $_POST["alcohol"] .'\n';
     }
     else{
