@@ -2,20 +2,16 @@
 session_start();
 include 'db.include.php';
 $conn = getDatabaseConnection();
-/*$username = $_SESSION['username'];
-echo $username;
+// For assessment table + Assessments 
+// Generates unique id
 $time = time();
-    $randomNum = rand();
-    $uniqueAssessmnetId = md5($time . $randomNum);
-        
-    // Timestamp
-    $date = date("Y-m-d H:i:s", time());
-    $phpdate = strtotime($date);
-    $sql = "INSERT INTO assessment (date, producer, wine_name, vintage, username) VALUES 
-    (FROM_UNIXTIME($phpdate), 'Test', 'Test', '1234', '$username');";
-    //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
-    $statement = $conn->prepare($sql);
-    $statement->execute();*/
+$randomNum = rand();
+$uniqueAssessmnetId = md5($time . $randomNum);
+
+     
+// Timestamp
+$date = date("Y-m-d H:i:s", time());
+$phpdate = strtotime($date);
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
     if(isset($_POST['redAssessReturn'])){
@@ -444,7 +440,6 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         //echo "quality_for_price" . $quality_for_price . "<br>";
         $quality_for_price_rate = (int)$_POST['quality_for_price_rate'];
         //echo "quality_for_price_rate " . $quality_for_price_rate . "<br>";
-
         $sql = "INSERT INTO red_taste_assessment
                 (taste_id, primary_color, secondary_color, red_fruits_level, red_cherry, pomegranate,
                 cranberry, raspberry, red_currant, red_fruit_other, black_fruit_level, black_berry,
@@ -519,6 +514,8 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
             $statement = $conn->prepare($sql);
             $statement->execute();
+            $log = "(Red assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId; 
+            error_log($log);
     }else{
         // White wine assessment
         $primary_color = (int)$_POST['primary_color'];
@@ -923,16 +920,9 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
             '$complexity','$quality_for_price', '$quality_for_price_rate');";
         $statement = $conn->prepare($sql);
         $statement->execute();
+        $log = "(White assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId; 
+        error_log($log);
     }
-     // For assessment table
-    // Generates unique id
-    $time = time();
-    $randomNum = rand();
-    $uniqueAssessmnetId = md5($time . $randomNum);
-        
-    // Timestamp
-    $date = date("Y-m-d H:i:s", time());
-    $phpdate = strtotime($date);
 
     // Gets data from wine that was searched for/ entered
     $producer = $_POST['wine_producer'];
@@ -945,9 +935,13 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
     $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, wine_style, vintage, username, fullname, img_url, quality_for_price, quality_for_price_rate) VALUES 
     ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$wine_style','$vintage', '$username', '$fullname','$profileImg', '$quality_for_price', '$quality_for_price_rate');";
-    //$sql = "INSERT INTO assessment VALUES $date, $wine_producer, $wine_name, $wine_vintage";
+
     $statement = $conn->prepare($sql);
     $statement->execute();
+     
+    $log = "(Assess.php) Date: " . $date  . " Assessment Id: " . $uniqueAssessmnetId . " Producer: " . $producer . " Wine Name: " . $wine_name . " Wine Style: " . $wine_style . " Vintage: " . $vintage  . " Username: " . $username . " Fullname" . $fullname . " Profile Image: " . $profileImg . " Quality For Price" . 
+        $quality_for_price." Quality For Price Rate: " . $quality_for_price_rate;
+    error_log($log);
 }// end of check
 header("Location: ../index.php");
 ?>
