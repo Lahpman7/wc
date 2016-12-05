@@ -4,6 +4,9 @@ session_start();
 require_once("../lib/user.php");
 
 if(isset($_POST["regAccount"])){
+
+    date_default_timezone_set('America/Los_Angeles');
+    $date = date('l jS \of F Y h:i:s A');
     $username = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];
@@ -16,6 +19,9 @@ if(isset($_POST["regAccount"])){
     $date = $_POST['date'];
     $imgUrl = "images/default_profile_img.png";
     $user = new RegUser();
+    $log = $date . ' :' .  $username. ' ' .$email. ' ' .$firstname. ' ' .$lastname. ' ' . $age . ' ' .
+              $zipcode. ' ' .$employment. ' ' .$cert. ' ' .$date. ' ' .$imgUrl .' \n';
+    error_log($log);
     $user::insertUser($username,$password,$email,$firstname,$lastname,$age,$zipcode,$employment,$cert,$date, $imgUrl);
 }
 if(isset($_POST['regAccountFB'])){
