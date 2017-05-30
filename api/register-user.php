@@ -44,7 +44,7 @@ if(isset($_POST['regAccountFB'])){
     $firstname = $_SESSION['first'];
     $lastname = $_SESSION['last'];
     $imgUrl = $_SESSION['imageUrl'];
-    echo $username. ' ' . $password.' '. $email.' '. $firstname.' '. $lastname.' ' .$age.' '.$zipcode.' '.$employment.' '. $cert_body.' '.$date;
+    // echo $username. ' ' . $password.' '. $email.' '. $firstname.' '. $lastname.' ' .$age.' '.$zipcode.' '.$employment.' '. $cert_body.' '.$date;
     $user = new RegUser();
 
     $pw2 = sha1($password);

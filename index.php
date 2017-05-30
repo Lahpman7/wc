@@ -1129,9 +1129,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <?php if(!isset($_SESSION['username'])) { ?>
                  <form action="api/local-login.php" method="POST">
                    <h1>Please Login</h1>
-                   <input class="login-form" type="text" name="username" placeholder = "Username" value="">
+                   <input class="login-form" type="text" name="email" placeholder = "E-Mail" value="">
                    <input class="login-form" type="password" name="password" placeholder = "Password" value="">
-                     <!--<button type="submit" name="login-submit">Submit</button>-->
                    <button class="login-btn"name="loginForm" type="submit">Login</button>
                  </form>
                  <h4>-OR-</h4>

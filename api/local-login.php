@@ -8,38 +8,33 @@
   if(isset($_POST['logoutForm'])){
       session_destroy();
       header("Location: ../index.php");
-
   }
   if(isset($_POST['loginForm'])){// checks to see if data submitted
-    $username = $_POST['username'];
-    $password = $_POST['password']; //hash("sha1", $_POST['password']) - another example
-
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    // need to change table name to registered_user and add img_url col before push
     $sql = "SELECT username, password,
-            firstname, lastname, email, img_url
-            FROM registered_user
-            WHERE username = :username
-            AND password = :password";
+            firstname, lastname, email
+            FROM user
+            WHERE email = :email";
 
     $namedParameter = array();
-    $namedParameter[':username'] = $username;
-    $namedParameter[':password'] = $password;
+    $namedParameter[':email'] = $email;
     $statement = $conn->prepare($sql); // prevents sql injection
     $statement->execute($namedParameter);
     $record = $statement->fetch(PDO::FETCH_ASSOC);
 
     if (empty($record)){
-        //header('Content-type: application/json');
+        //echo $namedParameter[':username'].' '. $namedParameter[':password'];
+        header('Content-type: application/json');
         //echo json_encode($record);
-        header("Location: ../index.php");
-        //echo 'empty';
 
     } else {
-        $reply = array();
-        $reply['username'] = $record['username'];
-        $reply['firstname'] = $record['firstname'];
-        $reply['lastname'] = $record['lastname'];
-        $_SESSION['imageUrl'] = $record['email'];
-        $_SESSION['imageUrl'] = $record['img_url'];
+        // need to use password verification with
+        $out = password_hash($password, PASSWORD_DEFAULT);
+        die($record['password'] . ' ' . $out );
+        $_SESSION['email'] = $record['email'];
+        // $_SESSION['imageUrl'] = $record['img_url'];
         $_SESSION['username'] = $record['username'];
         $_SESSION['fullname'] = $record['firstname'] . " " . $record['lastname'];
         header("Location: ../#!/user-profile");
