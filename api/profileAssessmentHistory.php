@@ -9,7 +9,7 @@
 
   $sql = "SELECT *  FROM assessment WHERE username = :uname ORDER BY date DESC";
   $statement = $db->prepare($sql);
-  $val->bindParam(':uname', $username);
+  $statement->bindParam(':uname', $username);
   $statement->execute();
   $records = $statement->fetchAll(PDO::FETCH_ASSOC);
   $statement->closeCursor;
