@@ -13,6 +13,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `wc_db`
 --
+CREATE DATABASE `wc_db`;
+USE `wc_db`;
 
 -- --------------------------------------------------------
 
@@ -253,10 +255,10 @@ INSERT INTO `red_taste_assessment` (`taste_id`, `primary_color`, `secondary_colo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `registered_user`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `registered_user` (
+CREATE TABLE `user` (
   `username` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
@@ -266,14 +268,15 @@ CREATE TABLE `registered_user` (
   `zipcode` int(5) NOT NULL,
   `employment` varchar(40) NOT NULL,
   `cert_body` varchar(40) NOT NULL,
-  `date_cert` int(4) NOT NULL
+  `date_cert` int(4) NOT NULL,
+  `img_url` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `registered_user`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `registered_user` (`username`, `password`, `email`, `firstname`, `lastname`, `age`, `zipcode`, `employment`, `cert_body`, `date_cert`) VALUES
+INSERT INTO `user` (`username`, `password`, `email`, `firstname`, `lastname`, `age`, `zipcode`, `employment`, `cert_body`, `date_cert`) VALUES
 ('usern', 'pass', 'e@g', 'A', 'G', 25, 93901, 'Consumer', 'Master', 1234),
 ('username', 'password', 'email', 'first', 'last', 12, 93901, 'consumer', 'Masters', 2016),
 ('james', '1111', 'email@email.com', 'james', 'bob', 1, 67834, 'consumer', 'Court of Master Sommeliers Certified Som', 1932);
@@ -830,7 +833,7 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`username`);
 
 --
--- Indexes for table `registered_user`
+-- Indexes for table `user`
 --
-ALTER TABLE `registered_user`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`email`);

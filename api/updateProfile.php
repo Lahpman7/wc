@@ -1,8 +1,6 @@
 <?php
 	session_start();
-    //include 'db.include.php';
     require_once("../lib/user.php");
-    //$conn = getDatabaseConnection(); //gets database connection
     $currentUsername = $_SESSION['username'];
 
     if(isset($_POST['password'])){

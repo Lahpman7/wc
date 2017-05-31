@@ -6,7 +6,7 @@
     if(isset($_POST['regAccountFB'])){
       $username = $_POST['username'];
       $password = $_POST['password'];
-      $age = $_POST['age'];
+      $age = $_POST['age']; 
       $zipcode = $_POST['zipcode'];
       $employment = $_POST['employment'];
       $cert = $_POST['cert_body'];

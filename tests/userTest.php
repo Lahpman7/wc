@@ -1,6 +1,6 @@
 <?PHP
 use PHPUnit\Framework\TestCase;
-include "lib/user.php";
+include "../lib/user.php";
 
 class UserTest extends TestCase
 {
@@ -31,12 +31,12 @@ class UserTest extends TestCase
 
     public function testUpdatePassword(){
         $newUser = new RegUser();
-        $newUser::insertUser("username_test","password","email@email.com","first", "last", 25, 93901, "consumer", "Court of Masters", 2016, "default_profile_img.png");
-        $newUser::updatePassword("1111", "username_test");
+        $newUser::insertUser("username_test","password","email@email.email","first", "last", 25, 93901, "consumer", "Court of Masters", 2016, "default_profile_img.png");
+        $newUser::updatePassword('11115', "username_test");
         $password = $newUser::getPassword("username_test");
         $newUser::deleteUser("username_test");
-        $this->assertTrue(password_verify("1111", $password));
-
+        // die( $updatedPw.'  '.$password);
+        $this->assertTrue(password_verify('11115', $password));
     }
 }
 ?>

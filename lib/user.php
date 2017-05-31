@@ -5,14 +5,13 @@ class RegUser {
     public static $name;
     public static $email;
     public function __construct(){
-
     }
 
    //function if the user exits
    public static function isUser($uname){
         //select statement for pulling user name
         $db = getDatabaseConnection();
-        $sql = "SELECT username FROM registered_user WHERE username = :uname";
+        $sql = "SELECT username FROM user WHERE username = :uname";
         $val = $db->prepare($sql);
         $val->bindParam(':uname', $uname);
         $val->execute();
@@ -26,25 +25,38 @@ class RegUser {
         }
     }
 
-    public static function insertUser($username, $password, $email, $firstname, $lastname, $age, $zipcode, $employment, $cert_body, $date, $imgUrl){
+    public static function insertUser($username, $password, $email, $firstname, $lastname, $age, $zipcode, $employment, $cert_body, $date, $img_url){
        $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
        $db = getDatabaseConnection();
-       $sql = "INSERT INTO registered_user (username, password, email, firstname, lastname, age, zipcode, employment, cert_body, date_cert, img_url) VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+       $sql = "INSERT INTO user (username, password, email, firstname, lastname, age, zipcode, employment, cert_body, date_cert, img_url) VALUES
+        (?,?,?,?,?,?,?,?,?,?,?)";
        $val = $db->prepare($sql);
-       $stmt->bind_param('sssssiissss', $username, $hashed_pw, $email, $firstname, $lastname, $age, $zipcode, $employment, $cert_body, $date, $imgUrl);
+      //  $val->bind_param('sssssiissss', $username, $hashed_pw, $email, $firstname, $lastname, (int) $age, (int) $zipcode, $employment, $cert_body, $date, $imgUrl);
+       $val->bindParam(1, $username);
+       $val->bindParam(2, $hashed_pw);
+       $val->bindParam(3, $email);
+       $val->bindParam(4, $firstname);
+       $val->bindParam(5, $lastname);
+       $val->bindParam(6, $age);
+       $val->bindParam(7, $zipcode);
+       $val->bindParam(8, $employment);
+       $val->bindParam(9, $cert_body);
+       $val->bindParam(10, $date);
+       $val->bindParam(11, $img_url);
 
        if($val->execute()){
+            // die('done');
             return true;
         }
-        else{
+        else {
+            die(var_dump($val->errorInfo()));
             return false;
         }
     }
 
     public static function deleteUser($uname){
         $db = getDatabaseConnection();
-        $sql = "DELETE FROM registered_user WHERE username = :uname";
+        $sql = "DELETE FROM user WHERE username = :uname";
         $val = $db->prepare($sql);
         $val->bindParam(':uname', $uname);
         if($val->execute()){
@@ -58,7 +70,7 @@ class RegUser {
     public static function updatePassword($newPassword, $currentUsername){
         $hashed_pw = password_hash($newPassword, PASSWORD_DEFAULT);
         $db = getDatabaseConnection();
-        $sql = "UPDATE registered_user
+        $sql = "UPDATE user
           			SET password = :password
           			WHERE username = :uname";
 
@@ -66,15 +78,15 @@ class RegUser {
         $val->bindParam(':uname', $currentUsername);
         $val->bindParam(':password', $hashed_pw);
   	    if($val->execute()){
+            // die(password_verify($newPassword,$hashed_pw));
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
+
     }
     public static function updateEmail($newEmail, $currentUsername){
         $db = getDatabaseConnection();
-        $sql = "UPDATE registered_user
+        $sql = "UPDATE user
                 SET email = :email
                 WHERE username = :uname";
 
@@ -92,7 +104,7 @@ class RegUser {
     public static function updateZip($newZip, $currentUsername){
         $db = getDatabaseConnection();
         $newZipcode = intval($newZip);
-        $sql = "UPDATE registered_user
+        $sql = "UPDATE user
         			  SET zipcode = :newZip
         			  WHERE username = :currentUsername";
 
@@ -109,7 +121,7 @@ class RegUser {
     public static function getPassword($username){
         $db = getDatabaseConnection();
         $sql = "SELECT password
-                FROM registered_user
+                FROM user
                 WHERE username = :username";
         $val = $db->prepare($sql);
         $val->bindParam(':username', $username);
@@ -120,7 +132,7 @@ class RegUser {
 
     public static function emailExists($fbEmail){
         $db = getDatabaseConnection();
-        $sql = "SELECT email, username FROM registered_user WHERE email = :fbEmail";
+        $sql = "SELECT email, username FROM user WHERE email = :fbEmail";
         $val = $db->prepare($sql);
         $val->bindParam(':fbEmail', $fbEmail);
         $val->execute();

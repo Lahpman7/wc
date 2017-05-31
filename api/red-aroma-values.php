@@ -5,7 +5,7 @@
 
     $varquery = $_GET["var"]; 
     $newAroma = new Aromas();
-    $aromas = $newAroma::getAromas(0,$varquery);
+    $aromas = $newAroma::getAromas(0, $varquery);
 
     header('Content-type: application/json');
     echo json_encode($aromas);

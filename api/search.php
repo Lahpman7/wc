@@ -3,11 +3,13 @@
     $conn = getDatabaseConnection(); //gets database connection
 
     $query = $_GET['q'];
+    $likeString = '%' . $query . '%';
     $sql = "SELECT producer, wine_name, vintage, wine_style FROM wine_bottle
-    WHERE wine_name LIKE '%" .$query. "%' OR producer LIKE '%". $query . "%'";
+    WHERE wine_name LIKE :query OR producer LIKE :queryTwo";
     //echo $query';
-
-    $statement = $conn->prepare($sql); // prevents sql injection
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':query', $likeString);
+    $statement->bindParam(':queryTwo', $likeString);
     $statement->execute();
     $record = $statement->fetchAll(PDO::FETCH_ASSOC);
     $statement->closeCursor();

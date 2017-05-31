@@ -7,8 +7,9 @@
   date_default_timezone_set('America/Los_Angeles');
   $date = date('l jS \of F Y h:i:s A');
 
-  $sql = "SELECT *  FROM assessment WHERE username = '$username' ORDER BY date DESC";
+  $sql = "SELECT *  FROM assessment WHERE username = :uname ORDER BY date DESC";
   $statement = $db->prepare($sql);
+  $val->bindParam(':uname', $username);
   $statement->execute();
   $records = $statement->fetchAll(PDO::FETCH_ASSOC);
   $statement->closeCursor;

@@ -14,7 +14,7 @@
     $password = $_POST['password'];
     // need to change table name to registered_user and add img_url col before push
     $sql = "SELECT username, password,
-            firstname, lastname, email
+            firstname, lastname, email, img_url
             FROM user
             WHERE email = :email";
 
@@ -25,20 +25,20 @@
     $record = $statement->fetch(PDO::FETCH_ASSOC);
 
     if (empty($record)){
-        //echo $namedParameter[':username'].' '. $namedParameter[':password'];
-        header('Content-type: application/json');
-        //echo json_encode($record);
-
+        // user not found, return home.
+          header("Location: ../index.php");
     } else {
-        // need to use password verification with
-        $out = password_hash($password, PASSWORD_DEFAULT);
-        die($record['password'] . ' ' . $out );
-        $_SESSION['email'] = $record['email'];
-        // $_SESSION['imageUrl'] = $record['img_url'];
-        $_SESSION['username'] = $record['username'];
-        $_SESSION['fullname'] = $record['firstname'] . " " . $record['lastname'];
-        header("Location: ../#!/user-profile");
-         /*header('Content-type: application/json');
-         echo json_encode($reply);*/
+        // if password matches with stored hash, continue
+        $hashed = $record['password'];
+        if(password_verify($password, $hashed)){
+          $_SESSION['email'] = $record['email'];
+          $_SESSION['imageUrl'] = $record['img_url'];
+          $_SESSION['username'] = $record['username'];
+          $_SESSION['fullname'] = $record['firstname'] . " " . $record['lastname'];
+          header("Location: ../#!/user-profile");
+        }
+        die('failed ' . $password . ' '. $record['password']);
+        // incorrect pw, return home
+        header("Location: ../index.php");
     }
   }

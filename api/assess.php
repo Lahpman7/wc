@@ -2,44 +2,34 @@
 session_start();
 include 'db.include.php';
 $conn = getDatabaseConnection();
-// For assessment table + Assessments 
+// For assessment table + Assessments
 // Generates unique id
 $time = time();
 $randomNum = rand();
 $uniqueAssessmnetId = md5($time . $randomNum);
 
-     
 // Timestamp
 $date = date("Y-m-d H:i:s", time());
 $phpdate = strtotime($date);
 
 if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
     if(isset($_POST['redAssessReturn'])){
-        //echo 'Red';
-        //var_dump($_POST);
         // For Red Assessment
         $primary_color = (int)$_POST['primary_color'];
-        //echo "Primary: " . $primary_color . "<br>";
+        $primary_color = $conn->quote($primary_color);
         $secondary_color =  (int)$_POST['secondary_color'];
-        //echo "Secondary: " . $secondary_color . "<br>";
-
+        $secondary_color = $conn->quote($secondary_color);
          //Red  Fruit Aromas
         $red_fruits_level = (int)$_POST['red_fruits_level'];
-        //echo "Fruit Level" . $red_fruits_level . "<br>";
+        $red_fruits_level = $conn->quote($red_fruits_level);
         $red_aroma = $_POST['red_aromas'];
-        //echo "Red Aroma: " . $red_aroma . "<br>";
+        $red_aroma = $conn->quote($red_aroma);
         $red_cherry = 0;
-        //echo "Red Cherry: " . $red_cherry . "<br>";
         $pomegranate = 0;
-        //echo "Pomegranate " . $pomegranate . "<br>";
         $cranberry = 0;
-        //echo "Cranberry " . $cranberry . "<br>";
         $raspberry = 0;
-        //echo "Raspberry " . $raspberry . "<br>";
         $red_currant = 0;
-        //echo "Red Currant " . $red_currant . "<br>";
         $red_fruit_other = "";
-        //echo "Red Fruit Other " . $red_fruit_other. "<br>";
 
         $red_aroma = trim($red_aroma);
         switch($red_aroma){
@@ -57,15 +47,12 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Black Fruit Aromas
         $black_fruit_level = (int)$_POST['black_fruit_level'];
-        //echo "black_fruit_level " . $black_fruit_level . "<br>";
+        $black_fruit_level = $conn->quote($black_fruit_level);
         $black_aroma = $_POST['black_aromas'];
-        //echo "black_aroma" . $black_aroma . "<br>";
+        $black_aroma = $conn->quote($black_aroma);
         $black_berry = 0;
-        //echo "black_berry " . $black_berry . "<br>";
         $black_currant = 0;
-        //echo "black currant " . $black_currant . "<br>";
         $raisin = 0;
-        //echo "raisin  " . $primary_color . "<br>";
 
         $date = 0;
         $fig = 0;
@@ -87,9 +74,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Blue Fruit Aromas
         $blue_fruit_level = (int)$_POST['blue_fruit_level'];
-        //echo "blue_fruit_level " . $blue_fruit_level . "<br>";
+        $blue_fruit_level = $conn->quote($blue_fruit_level);
+
         $blue_aroma = $_POST['blue_aromas'];
-        //echo "blue aroma " . $blue_aroma . "<br>";
+        $blue_aroma = $conn->quote($blue_aroma);
+
         $blueberry = 0;
         $dried_blueberry = 0;
         $plum = 0;
@@ -109,13 +98,15 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         }
 
         $fruit_type = (int)$_POST['fruit_type'];
-        //echo "fruit_type " . $fruit_type . "<br>";
+        $fruit_type = $conn->quote($fruit_type);
 
         // Flower Aromas
         $flowers_level = (int)$_POST['flowers_level'];
-        //echo "flower_level " . $flowers_level. "<br>";
+        $flowers_level = $conn->quote($flowers_level);
+
         $flower_aroma = $_POST['flowers_aromas'];
-        //echo "flower_aroma " . $flower_aroma. "<br>";
+        $flower_aroma = $conn->quote($flower_aroma);
+
         $rose = 0;
         $violet = 0;
         $lavender = 0;
@@ -139,9 +130,10 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Herb Aromas
         $herbs_level = (int)$_POST['herbs_level'];
-        //echo "herbs_level " . $herbs_level . "<br>";
+        $herbs_level = $conn->quote($herbs_level);
+
         $herb_aroma = $_POST['herbs_aromas'];
-        //echo "herb aroma " . $herb_aroma . "<br>";
+        $herb_aroma = $conn->quote($herb_aroma);
         $fresh_herbs = 0;
         $dried_herbs = 0;
         $tomatoe_leaf = 0;
@@ -166,9 +158,9 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Vegetal Aromas
         $vegetal_level = (int)$_POST['vegetal_level'];
-        //echo "vegetal_level" . $vegetal_level . "<br>";
+        $vegetal_level = $conn->quote($vegetal_level);
         $vegetal_aroma = $_POST['vegetal_aromas'];
-        //echo "veg_aroma " . $vegetal_aroma . "<br>";
+        $vegetal_aroma = $conn->quote($vegetal_aroma);
         $green_bell_pepper_capsicum = 0;
         $vegetal_fresh_herbs = 0;
         $vegetal_dried_herbs = 0;
@@ -189,9 +181,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Mint Aromas
         $mint_eucalyptus_level = (int)$_POST['mint_eucalyptus_level'];
-           // echo "mint_eucalyptus_level " . $mint_eucalyptus_level . "<br>";
+        $mint_eucalyptus_level = $conn->quote($mint_eucalyptus_level);
+
         $mint_eucalyptus_aroma = $_POST['mint_eucalyptus_aromas'];
-        //echo "mint_eucalyptus_aroma" . $mint_eucalyptus_aroma . "<br>";
+        $mint_eucalyptus_aroma = $conn->quote($mint_eucalyptus_aroma);
+
         $mint = 0;
         $eucalyptus = 0;
         $menthol = 0;
@@ -209,9 +203,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Spice Pepper Aromas
         $pepper_spice_level = (int)$_POST['pepper_spice_level'];
-           // echo "pepper_spice_level " . $pepper_spice_level . "<br>";
+        $pepper_spice_level = $conn->quote($pepper_spice_level);
+
         $pepper_spice_aroma = $_POST['pepper_spice_aromas'];
-        //echo "pepper_spice_aroma" . $pepper_spice_aroma . "<br>";
+        $pepper_spice_aroma = $conn->quote($pepper_spice_aroma);
+
         $black_peppercorn = 0;
         $green_peppercorn = 0;
         $cinnamon = 0;
@@ -238,9 +234,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Cocoa Coffee Aromas
         $cocoa_coffee_level = (int)$_POST['cocoa_coffee_level'];
-            //echo "cocoa_coffee_level" . $cocoa_coffee_level . "<br>";
+        $cocoa_coffee_level = $conn->quote($cocoa_coffee_level);
+
         $cocoa_coffee_aroma = $_POST['cocoa_coffee_aromas'];
-            //echo "cocoa_coffee_aroma " . $cocoa_coffee_aroma . "<br>";
+        $cocoa_coffee_aroma = $conn->quote($cocoa_coffee_aroma);
+
         $milk_chocolate = 0;
         $dark_chocolate = 0;
         $cocoa_powder = 0;
@@ -267,9 +265,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Meat Leather Aromas
         $meat_leather_level = (int)$_POST['meat_leather_level'];
-            //echo "meat_leather_level " . $meat_leather_level . "<br>";
+        $meat_leather_level = $conn->quote($meat_leather_level);
+
         $meat_leather_aroma = $_POST['meat_leather_aromas'];
-            //echo "meat_leather_aromas " . $meat_leather_aroma . "<br>";
+        $meat_leather_aroma = $conn->quote($meat_leather_aroma);
+
         $meat = 0;
         $grilled_meat = 0;
         $beef_jerkey = 0;
@@ -293,9 +293,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Tobacco Tar Aromas
         $tobacco_tar_level = (int)$_POST['tobacco_tar_level'];
-           // echo "tobacco_tar_level " . $tobacco_tar_level . "<br>";
+        $tobacco_tar_level = $conn->quote($tobacco_tar_level);
+
         $tobacco_tar_aroma = $_POST['tobacco_tar_aromas'];
-            //echo "tobacco_tar_aroma " . $tobacco_tar_aroma . "<br>";
+        $tobacco_tar_aroma = $conn->quote($tobacco_tar_aroma);
+
         $wet_tobacco = 0;
         $dried_tobacco = 0;
         $tar = 0;
@@ -316,9 +318,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Earth Aromas
         $earth_leaves_mushrooms_level = (int)$_POST['earth_leaves_mushrooms_level'];
-            //echo "earth_leaves_mushrooms_level " . $earth_leaves_mushrooms_level . "<br>";
+        $earth_leaves_mushrooms_level = $conn->quote($earth_leaves_mushrooms_level);
+
         $earth_leaves_mushrooms_aroma = $_POST['earth_leaves_mushrooms_aromas'];
-            //echo "earth_leaves_mushrooms_aroma " . $earth_leaves_mushrooms_aroma . "<br>";
+        $earth_leaves_mushrooms_aroma = $conn->quote($earth_leaves_mushrooms_aroma);
+
         $forest_floor = 0;
         $compost = 0;
         $mushrooms = 0;
@@ -348,9 +352,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Mineral Aromas
         $mineral_stone_sulfur_level = (int)$_POST['mineral_stone_sulfur_level'];
-            //echo "mineral_stone_sulfur_level " . $mineral_stone_sulfur_level . "<br>";
+        $mineral_stone_sulfur_level = $conn->quote($mineral_stone_sulfur_level);
+
         $mineral_stone_sulfur_aroma = $_POST['mineral_stone_sulfur_aromas'];
-            //echo "mineral_stone_sulfur_aroma " . $mineral_stone_sulfur_aroma . "<br>";
+        $mineral_stone_sulfur_aroma = $conn->quote($mineral_stone_sulfur_aroma);
+
         $sulfur = 0;
         $slate_petrol = 0;
         $metallic = 0;
@@ -363,7 +369,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $pencil_lead = 0;
         $mineral_stone_sulfur_other = "";
 
-        $mineral_stone_sulfur_aroma = trim($mineral_stone_sulfur_aroma);     
+        $mineral_stone_sulfur_aroma = trim($mineral_stone_sulfur_aroma);
         switch($mineral_stone_sulfur_aroma){
             case "Sulfur": $sulfur = 1;
                 break;
@@ -389,9 +395,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Oak Vanilla Aromas
         $oak_vanilla_smoke_coconut_level = (int)$_POST['oak_vanilla_smoke_coconut_level'];
-            //echo "oak_vanilla_smoke_coconut_level " . $oak_vanilla_smoke_coconut_level . "<br>";
+        $oak_vanilla_smoke_coconut_level = $conn->quote($oak_vanilla_smoke_coconut_level);
+
         $oak_vanilla_smoke_coconut_aroma = $_POST['oak_vanilla_smoke_coconut_aromas'];
-            //echo "oak_vanilla_smoke_coconut_aroma " . $oak_vanilla_smoke_coconut_aroma . "<br>";
+        $oak_vanilla_smoke_coconut_aroma = $conn->quote($oak_vanilla_smoke_coconut_aroma);
+
         $vanilla = 0;
         $maple = 0;
         $light_toast = 0;
@@ -401,7 +409,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $pencil_shavings = 0;
         $oak_vanilla_smoke_coconut_other = "";
 
-        $oak_vanilla_smoke_coconut_aroma = trim($oak_vanilla_smoke_coconut_aroma);     
+        $oak_vanilla_smoke_coconut_aroma = trim($oak_vanilla_smoke_coconut_aroma);
         switch($oak_vanilla_smoke_coconut_aroma){
             case "Vanilla": $vanilla = 1;
                 break;
@@ -421,29 +429,37 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Structure
         $sweetness = (int)$_POST['sweetness'];
-        //echo "sweetness " . $sweetness . "<br>";
+        $sweetness = $conn->quote($sweetness);
+
         $alcohol = (int)$_POST['alcohol'];
-        //echo "alcohol " . $alcohol . "<br>";
+        $alcohol = $conn->quote($alcohol);
+
         $tannin = (int)$_POST['tannin'];
-         //echo "tannin " . $tannin . "<br>";
+        $tannin = $conn->quote($tannin);
+
         $bitter = (int)$_POST['bitter'];
-         //echo "bitter " . $bitter. "<br>";
+        $bitter = $conn->quote($bitter);
+
         $balanced = (int)$_POST['balanced'];
-         //echo "balanced " . $balanced. "<br>";
+        $balanced = $conn->quote($balanced);
+
         $length = (int)$_POST['length'];
-         //echo "length " . $length . "<br>";
+        $length = $conn->quote($length);
+
         $complexity = (int)$_POST['complexity'];
-         //echo " complexity" . $complexity . "<br>";
+        $complexity = $conn->quote($complexity);
 
         // Rating
         $quality_for_price = (int)$_POST['quality_for_price'];
-        //echo "quality_for_price" . $quality_for_price . "<br>";
+        $quality_for_price = $conn->quote($quality_for_price);
+
         $quality_for_price_rate = (int)$_POST['quality_for_price_rate'];
-        //echo "quality_for_price_rate " . $quality_for_price_rate . "<br>";
+        $quality_for_price_rate = $conn->quote($quality_for_price_rate);
+
         $sql = "INSERT INTO red_taste_assessment
                 (taste_id, primary_color, secondary_color, red_fruits_level, red_cherry, pomegranate,
                 cranberry, raspberry, red_currant, red_fruit_other, black_fruit_level, black_berry,
-                black_currant, raisin,date, fig, black_fruit_other, blue_fruit_level, blueberry,
+                black_currant, raisin, date, fig, black_fruit_other, blue_fruit_level, blueberry,
                 dried_blueberry, plum, plum_skin, blue_fruit_other, fruit_type, flowers_level, rose,
                 violet, lavender, dried_flowers, potpourri, flowers_other, herbs_level, fresh_herbs,
                 dried_herbs, tomatoe_leaf, basil, oregeno, fennel, herbs_other, vegetal_level,
@@ -514,27 +530,30 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
             $statement = $conn->prepare($sql);
             $statement->execute();
-            $log = "(Red assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId; 
+            $log = "(Red assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId;
             error_log($log);
     }else{
         // White wine assessment
         $primary_color = (int)$_POST['primary_color'];
-        //echo "Primary: " . $primary_color . "<br>";
+        $primary_color = $conn->quote($primary_color);
+
         $secondary_color = (int)$_POST['secondary_color'];
-        //echo "Secondary: " . $secondary_color . "<br>";
+        $secondary_color = $conn->quote($secondary_color);
 
         // Apple Pear
         $apple_pear_level = (int)$_POST['apple_pear_level'];
-        //echo "Fruit Level" . $apple_pear_level . "<br>";
+        $apple_pear_level = $conn->quote($apple_pear_level);
+
         $apple_pear_aroma = $_POST['apple_pear_aromas'];
-        //echo "Fruit Level" . $apple_pear_aroma . "<br>";
+        $apple_pear_aroma = $conn->quote($apple_pear_aroma);
+
         $green_apple = 0;
         $yellow_apple = 0;
         $red_apple = 0;
         $baked_apple = 0;
         $apple_pear_other = "";
 
-        $apple_pear_aroma= trim($apple_pear_aroma);   
+        $apple_pear_aroma= trim($apple_pear_aroma);
         switch($apple_pear_aroma){
             case "Green Apple": $green_apple = 1;
                 break;
@@ -548,9 +567,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Citrus
         $citrus_level = (int)$_POST['citrus_level'];
-        //echo "Citrus Level" . $citrus_level . "<br>";
+        $citrus_level = $conn->quote($citrus_level);
+
         $citrus_aroma = $_POST['citrus_aromas'];
-        //echo "Cit Aroma" . $citrus_aroma . "<br>";
+        $citrus_aroma = $conn->quote($citrus_aroma);
+
         $lemon = 0;
         $myer_lemon = 0;
         $lime = 0;
@@ -559,7 +580,6 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $grapefruit = 0;
         $cirtus_other = "";
 
-        
         $citrus_aroma = trim($citrus_aroma);
         switch($citrus_aroma){
             case "Lemon" : $lemon = 1;
@@ -576,12 +596,13 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
                 break;
         }
 
-        
-        // Stone 
+        // Stone
         $stone_level = (int)$_POST['stone_level'];
-        //echo "Stone Level" . $stone_level . "<br>";
+        $stone_level = $conn->quote($stone_level);
+
         $stone_aroma = $_POST['stone_aromas'];
-        //echo "Fruit Level" . $stone_aroma . "<br>";
+        $stone_aroma = $conn->quote($stone_aroma);
+
         $white_peach = 0;
         $yellow_peach = 0;
         $apricot = 0;
@@ -589,7 +610,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $nectarine = 0;
         $stone_other = "";
 
-        $stone_aroma = trim($stone_aroma); 
+        $stone_aroma = trim($stone_aroma);
         switch($stone_aroma){
             case "White Peach": $white_peach = 1;
                 break;
@@ -603,11 +624,13 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
                 break;
         }
 
-        // Tropical 
+        // Tropical
         $tropical_melon_level = (int)$_POST['tropical_melon_level'];
-        //echo "Trop Level" . $tropical_melon_level . "<br>";
+        $tropical_melon_level = $conn->quote($tropical_melon_level);
+
         $tropical_melon_aroma = $_POST['tropical_melon_aromas'];
-        //echo "Fruit Level" . $tropical_melon_aroma . "<br>";
+        $tropical_melon_aroma = $conn->quote($tropical_melon_aroma);
+
         $passion_fruit = 0;
         $pineapple = 0;
         $kiwi = 0;
@@ -616,7 +639,7 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         $banana = 0;
         $tropical_melon_other = "";
 
-        $tropical_melon_aroma = trim($tropical_melon_aroma); 
+        $tropical_melon_aroma = trim($tropical_melon_aroma);
         switch($tropical_melon_aroma){
             case "Passion Fruit": $passion_fruit = 1;
                 break;
@@ -634,13 +657,15 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Fruit type
         $fruit_type = (int)$_POST['fruit_type'];
-        //echo "Fruit type" . $fruit_type . "<br>";
+        $fruit_type = $conn->quote($fruit_type);
 
         // Flower
         $flower_level = (int)$_POST['flower_level'];
-        //echo "Flower Level" . $flower_level . "<br>";
+        $flower_level = $conn->quote($flower_level);
+
         $flower_aroma = $_POST['flowers_aromas'];
-        //echo "Fruit Level" . $flower_aroma . "<br>";
+        $flower_aroma = $conn->quote($flower_aroma);
+
         $white_flowers = 0;
         $yellow_flowers = 0;
         $dried_flowers = 0;
@@ -664,9 +689,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Herb
         $herb_level = (int)$_POST['herbs_level'];
-        //echo "Herb Level" . $herb_level . "<br>";
+        $herb_level = $conn->quote($herb_level);
+
         $herb_aroma = $_POST['herbs_aromas'];
-        //echo "Fruit Level" . $herb_aroma . "<br>";
+        $herb_aroma = $conn->quote($herb_aroma);
+
         $dried_herbs = 0;
         $fresh_herbs = 0;
         $herbs_other = "";
@@ -675,14 +702,17 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         switch($herb_aroma){
             case "Dried Herbs": $dried_herbs = 1;
                 break;
-            case "Fresh Herbs": $fresh_herbs = 1;               
+            case "Fresh Herbs": $fresh_herbs = 1;
                 break;
         }
 
         // Vegetal
         $vegetal_level = (int)$_POST['vegetal_level'];
+        $vegetal_level = $conn->quote($vegetal_level);
+
         $vegetal_aroma = $_POST['vegetal_aromas'];
-        //echo "Veg level" . $vegetal_level . "<br>";
+        $vegetal_aroma = $conn->quote($vegetal_aroma);
+
         $radish = 0;
         $jalapeno = 0;
         $green_bell_pepper = 0;
@@ -703,9 +733,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Oxidative
         $oxidative_level = (int)$_POST['oxidative_level'];
-        //echo "Ox Level" . $oxidative_level . "<br>";
+        $oxidative_level = $conn->quote($oxidative_level);
+
         $oxidative_aroma = $_POST['oxidative_aromas'];
-        //echo "Ox aroma" . $oxidative_aroma . "<br>";
+        $oxidative_aroma = $conn->quote($oxidative_aroma);
+
         $baked_fruit = 0;
         $brown_fruit = 0;
         $leather = 0;
@@ -724,11 +756,13 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
                 break;
         }
 
-        // Yeast Bread Dough 
+        // Yeast Bread Dough
         $yeast_bread_dough_level = (int)$_POST['yeast_bread_dough_level'];
-        //echo "Ox Level" . $yeast_bread_dough_level . "<br>";
+        $yeast_bread_dough_level = $conn->quote($yeast_bread_dough_level);
+
         $yeast_bread_dough_aroma = $_POST['yeast_bread_dough_aromas'];
-        //echo "Ox Level" . $yeast_bread_dough_aroma . "<br>";
+        $yeast_bread_dough_aroma = $conn->quote($yeast_bread_dough_aroma);
+
         $brioche = 0;
         $almond = 0;
         $fresh_dough = 0;
@@ -752,12 +786,15 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Butter Cream
         $ml_butter_cream_level = (int)$_POST['ml_butter_cream_level'];
-        //echo "ml_butter_cream_level Level" . $ml_butter_cream_level . "<br>";
+        $ml_butter_cream_level = $conn->quote($ml_butter_cream_level);
 
         // Earth Leaves
         $earth_leaves_mushrooms_level = (int)$_POST['earth_leaves_mushrooms_level'];
+        $earth_leaves_mushrooms_level = $conn->quote($earth_leaves_mushrooms_level);
+
         $earth_leaves_mushrooms_aroma = $_POST['earth_leaves_mushrooms_aromas'];
-        //echo "Ox Level" . $earth_leaves_mushrooms_level . "<br>"; 
+        $earth_leaves_mushrooms_aroma = $conn->quote($earth_leaves_mushrooms_aroma);
+
         $straw_hay = 0;
         $earth_leaves_mushrooms_cut_grass = 0;
         $earth_leaves_mushrooms_other = "";
@@ -771,8 +808,11 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
         }
         // Stone
         $mineral_stone_sulfur_level = (int)$_POST['mineral_stone_sulfur_level'];
-        //echo "Min Level" . $mineral_stone_sulfur_level . "<br>"; 
+        $mineral_stone_sulfur_level = $conn->quote($mineral_stone_sulfur_level);
+
         $mineral_stone_sulfur_aroma = $_POST['mineral_stone_sulfur_aromas'];
+        $mineral_stone_sulfur_aroma = $conn->quote($mineral_stone_sulfur_aroma);
+
         $sulfur = 0;
         $state_petrol = 0;
         $metallic = 0;
@@ -808,9 +848,12 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Oak Vanilla Toast
         $oak_vanilla_toast_level = (int)$_POST['oak_vanilla_toast_level'];
-        //echo "Oak Level" . $oak_vanilla_toast_level . "<br>"; 
+        $oak_vanilla_toast_level = $conn->quote($oak_vanilla_toast_level);
+
         $oak_vanilla_toast_aroma = $_POST['oak_vanilla_smoke_coconut_aromas'];
-        $vanilla = 0; 
+        $oak_vanilla_toast_aroma = $conn->quote($oak_vanilla_toast_aroma);
+
+        $vanilla = 0;
         $maple = 0;
         $light_toast = 0;
         $heavy_toast = 0;
@@ -833,27 +876,34 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
 
         // Structure
         $sweetness = (int)$_POST['sweetness'];
-        //echo "sweet" . $sweetness . "<br>";
+        $sweetness = $conn->quote($sweetness);
+
         $acid = (int)$_POST['acid'];
-        //echo "sweet" . $acid . "<br>";
+        $acid = $conn->quote($acid);
+
         $alcohol = (int)$_POST['alcohol'];
-        //echo "sweet" . $alcohol . "<br>";
+        $alcohol = $conn->quote($alcohol);
+
         $bitter = (int)$_POST['bitter'];
-        //echo "sweet" . $bitter . "<br>";
+        $bitter = $conn->quote($bitter);
+
         $balanced = (int)$_POST['balanced'];
-        //echo "sweet" . $balanced . "<br>";
+        $balanced = $conn->quote($balanced);
+
         $length = (int)$_POST['length'];
-        //echo "sweet" . $length . "<br>";
+        $length = $conn->quote($length);
+
         $complexity = (int)$_POST['complexity'];
-        //echo "sweet" . $complexity . "<br>";
+        $complexity = $conn->quote($complexity);
 
         $quality_for_price = 0;
         $quality_for_price_rate = 0;
 
         $quality_for_price = (int)$_POST['quality_for_price'];
-        //echo "sweet" . $quality_for_price . "<br>";
+        $quality_for_price = $conn->quote($quality_for_price);
+
         $quality_for_price_rate = (int)$_POST['quality_for_price_rate'];
-        //echo "sweet" . $quality_for_price_rate . "<br>";
+        $quality_for_price_rate = $conn->quote($quality_for_price_rate);
 
         $sql = "INSERT INTO white_taste_assessment
             (taste_id, primary_color, secondary_color, apple_pear_level,
@@ -920,26 +970,41 @@ if(isset($_POST['redAssessReturn']) || isset($_POST['whiteAssessReturn']) ){
             '$complexity','$quality_for_price', '$quality_for_price_rate');";
         $statement = $conn->prepare($sql);
         $statement->execute();
-        $log = "(White assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId; 
+        $log = "(White assessment) Date: " . $date . " Assessment Id: " . $uniqueAssessmnetId;
         error_log($log);
     }
 
     // Gets data from wine that was searched for/ entered
+    // $conn->quote($string)
     $producer = $_POST['wine_producer'];
+    $producer = $conn->quote($producer);
+    //
     $wine_name = $_POST['wine_name'];
+    $wine_name = $conn->quote($wine_name);
+    //
     $vintage = $_POST['wine_vintage'];
-    $wine_style = $_POST['wine_style']; // red or white 
+    $vintage = $conn->quote($vintage);
+    //
+    $wine_style = $_POST['wine_style']; // red or white
+    $wine_style = $conn->quote($wine_style);
+    //
     $username = $_SESSION['username'];
+    $username = $conn->quote($username);
+    //
     $fullname = $_SESSION['fullname'];// Add to DB
+    $fullname = $conn->quote($fullname);
+    //
     $profileImg = $_SESSION['imageUrl']; // Add to DB
+    $profileImg = $conn->quote($profileImg);
+    //
 
-    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, wine_style, vintage, username, fullname, img_url, quality_for_price, quality_for_price_rate) VALUES 
+    $sql = "INSERT INTO assessment (assessment_id, date, producer, wine_name, wine_style, vintage, username, fullname, img_url, quality_for_price, quality_for_price_rate) VALUES
     ('$uniqueAssessmnetId', FROM_UNIXTIME($phpdate), '$producer', '$wine_name', '$wine_style','$vintage', '$username', '$fullname','$profileImg', '$quality_for_price', '$quality_for_price_rate');";
 
     $statement = $conn->prepare($sql);
     $statement->execute();
-     
-    $log = "(Assess.php) Date: " . $date  . " Assessment Id: " . $uniqueAssessmnetId . " Producer: " . $producer . " Wine Name: " . $wine_name . " Wine Style: " . $wine_style . " Vintage: " . $vintage  . " Username: " . $username . " Fullname" . $fullname . " Profile Image: " . $profileImg . " Quality For Price" . 
+
+    $log = "(Assess.php) Date: " . $date  . " Assessment Id: " . $uniqueAssessmnetId . " Producer: " . $producer . " Wine Name: " . $wine_name . " Wine Style: " . $wine_style . " Vintage: " . $vintage  . " Username: " . $username . " Fullname" . $fullname . " Profile Image: " . $profileImg . " Quality For Price" .
         $quality_for_price." Quality For Price Rate: " . $quality_for_price_rate;
     error_log($log);
 }// end of check

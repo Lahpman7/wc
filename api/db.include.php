@@ -1,10 +1,12 @@
 <?php
+    require '../vendor/autoload.php';
+    $dotenv = new Dotenv\Dotenv('../');
+    $dotenv->load();
     function getDatabaseConnection() {
-
-      $host = '127.0.0.1';
-      $dbname = "wc_db";
-      $username = "root";
-      $password = "";
+      $host = getenv('DB_HOST');
+      $dbname = getenv('DB_NAME');
+      $username = getenv('USER_NAME');
+      $password = getenv('PASS');
 
         try{
                 $dbConn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
